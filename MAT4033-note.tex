@@ -1,0 +1,651 @@
+%================================
+% note-setup-borderless.tex
+% fenglielie@qq.com 2025-07-10
+%================================
+\documentclass{article}
+\usepackage{amsmath,amsthm,amsfonts,amssymb}
+\usepackage{mathtools}
+\usepackage{mathrsfs}
+\usepackage{bm}
+\usepackage{extarrows}
+\usepackage[a4paper, margin=1in]{geometry}
+\usepackage{float}
+\usepackage{indentfirst}
+\usepackage{anyfontsize}
+\usepackage{booktabs,multirow,multicol}
+\usepackage[shortlabels,inline]{enumitem}
+\usepackage{appendix}
+
+\usepackage[dvipsnames]{xcolor}
+\usepackage{graphicx}
+\graphicspath{
+    {./figure/}{./figures/}{./image/}{./images/}{./graphic/}{./graphics/}{./picture/}{./pictures/}
+}
+\usepackage{subcaption}
+
+\usepackage[ruled,linesnumbered,noline]{algorithm2e}
+\usepackage{listings}
+\lstdefinestyle{simpleStyle}{
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    keywordstyle=\color{blue},
+    identifierstyle=\color{black},
+    stringstyle=\color{violet},
+    commentstyle=\color[RGB]{34,139,34},
+    showstringspaces=false,
+    numbers=left,
+    numbersep=2em,
+    numberstyle=\footnotesize,
+    frame=single,
+    framesep=1em,
+}
+\lstset{style=simpleStyle}
+
+\usepackage[colorlinks=true,linkcolor=,urlcolor=magenta,citecolor=violet]{hyperref}
+
+\renewcommand*{\proofname}{\normalfont\bfseries Proof}
+
+\usepackage{thmtools}
+
+%% define environments
+
+\declaretheorem[style=plain, name=Theorem, numbered=yes, numberwithin=section]{theorem}
+\declaretheorem[style=plain, name=Theorem, numbered=no]{theorem*}
+
+\declaretheorem[style=plain, name=Proposition, numbered=yes, sibling=theorem]{proposition}
+\declaretheorem[style=plain, name=Proposition, numbered=no]{proposition*}
+
+\declaretheorem[style=plain, name=Corollary, numbered=yes, sibling=theorem]{corollary}
+\declaretheorem[style=plain, name=Corollary, numbered=no]{corollary*}
+
+\declaretheorem[style=plain, name=Lemma, numbered=yes, sibling=theorem]{lemma}
+\declaretheorem[style=plain, name=Lemma, numbered=no]{lemma*}
+
+\declaretheorem[style=plain, name=Claim, numbered=yes, sibling=theorem]{claim}
+\declaretheorem[style=plain, name=Claim, numbered=no]{claim*}
+
+\declaretheorem[style=definition, name=Definition, numbered=yes, numberwithin=section]{definition}
+\declaretheorem[style=definition, name=Definition, numbered=no]{definition*}
+
+\declaretheorem[style=definition, name=Example, numbered=yes, numberwithin=section]{example}
+\declaretheorem[style=definition, name=Example, numbered=no]{example*}
+
+\declaretheorem[style=definition, name=Problem, numbered=yes, numberwithin=section]{problem}
+\declaretheorem[style=definition, name=Problem, numbered=no]{problem*}
+
+\declaretheorem[style=remark, name=Remark, numbered=yes, numberwithin=section]{remark}
+\declaretheorem[style=remark, name=Remark, numbered=no]{remark*}
+
+\declaretheorem[style=remark, name=Note, numbered=yes, numberwithin=section]{note}
+\declaretheorem[style=remark, name=Note, numbered=no]{note*}
+
+\declaretheoremstyle[headfont=\bfseries, bodyfont=\normalfont, spaceabove=3pt, spacebelow=3pt, qed=\ensuremath{\square}]{solutionstyle}
+
+\declaretheorem[style=solutionstyle, name=Solution, numbered=yes, numberwithin=section]{solution}
+\declaretheorem[style=solutionstyle, name=Solution, numbered=no]{solution*}
+
+\usepackage[most]{tcolorbox}
+
+\newcommand{\newtcbenvironment}[2]{
+    \tcolorboxenvironment{#1}{#2, enhanced, breakable, sharp corners, boxrule=0pt, colframe=white}
+    \tcolorboxenvironment{#1*}{#2, enhanced, breakable, rounded corners, boxrule=0pt, colframe=white}
+}
+
+%% define styles
+
+\newtcbenvironment{theorem}{colframe=RoyalPurple, colback=RoyalPurple!8}
+\newtcbenvironment{proposition}{colframe=RoyalPurple, colback=RoyalPurple!8}
+\newtcbenvironment{corollary}{colframe=NavyBlue, colback=SkyBlue!8}
+\newtcbenvironment{lemma}{colframe=NavyBlue, colback=SkyBlue!8}
+\newtcbenvironment{claim}{colframe=NavyBlue, colback=SkyBlue!8}
+
+\newtcbenvironment{definition}{colframe=ForestGreen, colback=ForestGreen!5}
+\newtcbenvironment{example}{colframe=RawSienna, colback=RawSienna!5}
+\newtcbenvironment{problem}{colframe=WildStrawberry!30, colback=WildStrawberry!5}
+
+
+
+\title{MAT4033 Differential Geometry}
+\author{Zihan Ke}
+
+\begin{document}
+\maketitle
+\newpage
+\tableofcontents
+\newpage
+\section*{Afterward}
+
+\newpage
+\section*{Introduction}
+\noindent In this course we study curves and surfaces in $\mathbb{R^3}$
+
+What are we interested in?
+\begin{itemize}
+    \item How we decribe a curve?
+    \\ use the parametrization: $\alpha:I \to \mathbb{R}^3 $
+    \item How much information can we get from $\alpha$?
+    \\ length, curvature, torsion
+    \item If we know the curvature of a curve of evrey point, can we describe the curve?
+    \item Some "global" problems: Suppose we have a closed curve in $\mathbb{R}^3$ of a given length, what is the largest possible area bounded by the curve?
+    \item How do we describe a surface? More precisely, what kind of surface should we study?
+    \item For a regular surface, how can we study the area and curvature of them?
+    \item What is the "shortest" between two points of a surface?
+    \item What is the relationship between geometry and topology on surfaces? (Gauss-Bonnet Theorem)
+\end{itemize}
+\newpage
+\section{Local Theory of Curves}
+\begin{definition}[regular curve]
+    $\alpha: [c,d]\to \mathbb{R}^3$ is called a regular curve if $|\alpha'|\neq0$, ($\alpha$ is taken to be differentiable (smooth))
+\end{definition}
+
+\begin{proposition}
+    Let $\alpha:[c,d]\to \mathbb{R}^3$ be a given curve with partition $P=\{c=t_0<t_1<\cdots <t_n=b\}$. Let $l(\alpha,P):=\sum |\alpha(t_{i+1})-\alpha(t_{i})|$, then we can have \[\int_c^d |\frac{d\alpha}{dt}|dt=\operatorname{sup}\{l(\alpha,P)| \text{P any partition}\}\]
+\end{proposition}
+\begin{proof}
+The proof is straight forward.
+\end{proof}
+
+\begin{proposition}[length is invariant under reparametriazation]
+   Given a differntiable curve $\alpha:[a,b]\to \mathbb{R}^3$ and a $g:[c,d] \to [a,b] $ with $\beta=\alpha\circ g$, then \[\int_a^b |\frac{d\alpha}{dt}|dt=\int_c^d|\frac{d\beta}{ds}|ds\] 
+\end{proposition}
+\begin{proof}
+    also straight forward, by simple chain rule.
+\end{proof}
+There are many ways to parametrize the curves. But we always want to pick one such that the \textit{pointers} is unit.
+\begin{remark}
+    The cusp is not a regular curve since $\alpha'(0)=0$, but we allow self-intersections, in which case a regular curve may have different tangent at the same point.    
+\end{remark}
+
+\subsection{Reparametrization}
+Consider $\alpha_1(t)=(\cos t,\sin t), \alpha_2(t)=(\cos(2t),\sin(2t))$, both give the same trace with different parameters.
+\begin{definition}
+    A reparametrizastion of a curve $\alpha:(a,b)\to \mathbb{R}^3 $ is a bijective function $g:(c,d)\to (a,b)$ such that $g$ is $C^{\infty}$ and $g^{-1}$ is $C^1$. Given a raparametrization $g$, one can define a new "curve" $\beta:(c,d)\to \mathbb{R}^3$ by $\beta=\alpha\circ g$
+\end{definition}
+
+\begin{example}[nonexample]
+    $g(s)=s^3$, we can check that $g^{-1}$ is not continuously differentiable in any interval contain 0.
+\end{example}
+
+\begin{proposition}
+    If $\alpha $ is a regular curve and g is a reparametrization, then $\beta(s)=\alpha(g(s))$ is also regular.
+\end{proposition}
+\begin{proof}
+    left as an exercise.
+\end{proof}
+\begin{remark}
+    To check whether the given smooth g is a reparametrization or not, one only needs to check if g' is nonzero or not by Implicit Function Theorem(IVT).
+\end{remark}
+\begin{proposition}
+    The tangent vector of a regular curve is invariant (possibly reverse its direction) under any parametrization.
+\end{proposition}
+\begin{proof}
+    left as an exercise.
+\end{proof}
+\subsection{Arc-length}
+\begin{definition}
+    The length of the curve segment $[c,d]\subseteq I$ for $\alpha:I\to \mathbb{R}^3  $ regular is iven by \[\int_{\alpha} ds = \int_c^d |\alpha'(t)|dt\]
+\end{definition}
+\begin{proposition}
+    Reparametrization does not affect the arc-length
+\end{proposition}
+\begin{proof}
+    left as an exercise
+\end{proof}
+
+To develop the theory of curves, we always want our curves to be parametrized by arc-length(p.a.l), or in other words, it is more convenient to work with curves with unit "pointers". The following discussion shows that we can always assumed the curve to be a p.a.l curve.
+
+\begin{lemma}
+    Let $\alpha:[a,b]\to \mathbb{R}^3$ regular and $t_0\in [a,b]$ consider $h(t)=\int_{t_0}^t |\alpha'(t)|dt$.Then h is a reparametrizaton.
+\end{lemma}
+\begin{proof}
+    left as an exercise
+\end{proof}
+
+\begin{definition}[arc-length parametrization]
+Let $\alpha:[a,b]\to \mathbb{R}^3 $ be regular curve and $t_0\in I$ with $g=h^{-1}$ with h is given in the lemma above. Then $\beta=\alpha\circ g :[c,d]\to \mathbb{R^3}$ is parametrization by arc-length    
+\end{definition}
+
+\begin{proposition}
+    $\beta $ the curve defined as above, then $\beta'(s)$ is of unit length.
+\end{proposition}
+
+\begin{remark}
+    In theory, there is a reparametrization by arc length for a regualr curves. However, it can be hard to explicitly find such a parameter.
+    \begin{itemize}
+        \item The formula s=h(t) may not have a closed formula
+        \item Even we have a closed formula for h(t) in some cases, the inverse of g is hard to find.
+    \end{itemize}
+\end{remark}
+\subsection{Frenet Frames of Plane curves}
+In this section, we assume $\alpha$ to be p.a.l, and alpha is a plane curve mapped from an interval to $\mathbb{R}^2$. Recall we have $\alpha'(s)=t(s)$
+\begin{definition}
+    The normal vector $n(s)$ of a plane curve at t=s is the vector $n(s):=J(t(s))$, where J is the 90 degree counterclockwise rotation. The set \{t(s),n(s)\} forms an ordered, oriented basis of $\mathbb{R^2}$ which is orthonormal. It is called the Frenet Frame of $\alpha$.
+\end{definition}
+\begin{remark}
+    We will have a slightly different definition of normal vector for general space curve.
+\end{remark}
+Note that $\langle t(s),t(s)\rangle=1 \Rightarrow\langle t'(s),t(s)\rangle$, which implies $t'(s)=k(s)n(s)$ for some scalar $k(s)$
+
+\begin{definition}
+    The curvature of $\alpha$ at s is the value k(s)
+\end{definition}
+\begin{remark}
+    \begin{itemize}
+        \item $k(s)$ records the change of t(s)
+        \item $k(s)>0$, $t(s)$ is turning towards n(s)
+        \item $k(s)<0$, $t(s)$ is turning away form n(s)
+    \end{itemize}
+    For space curves, it is not natural to define the ordered basis in this manner.
+\end{remark}
+\begin{example}[circle]
+    $\alpha(s)=u+r(\cos(\frac{s}{r}),\sin(\frac{s}{r}))$, do the computation we will see the curvature of $\alpha(s)$ is $\frac{1}{r}$
+
+    Note that if we raparametrize the curve with -t then the curvature will change its sign.
+\end{example}
+The following Proposition provides us a formula to compute the curvature when our curve is not parametrized by arc length initially. (Also, one can show that curvature is independent of choice (up to a sign) of parameter using the formula)
+\begin{proposition}[Formula to compute the curvature]
+    Let $\alpha: I\to \mathbb{R}^3$ regular plane curve with $\beta=\alpha\circ g$ p.a.l, then the curvature of $\alpha$ (whcih is defined to be the curvature of $\beta$ is \[k_{\alpha}(t)=\frac{det|\alpha'(t),\alpha''(t)|}{|\alpha'(t)|^3}\]
+\end{proposition}
+
+\begin{proof}
+    left as an exercise (Hint: by direct computation and chain rule, it takes about 20-30 minutes work)
+\end{proof}
+
+It seems that for a regular plane curve, the configuration of the curve is uniquely determined by its curvature. In fact we have the following theorem
+
+\begin{theorem}[Fundamental theorem of Plane curve]
+\begin{itemize}
+    \item For any $C^{\infty}$ function $k: I\to \mathbb{R}^3 $, there exists a p.a.l curve $\alpha: I\to \mathbb{R}^3 $ such that 
+    $k_{\alpha}(s)=k(s)$ and $\alpha(0)=x_0$
+    \item The curve satisfy the $k_{\alpha}(s)=k(s)$ is unique up to a \textit{rigid motion}.
+\end{itemize}
+\end{theorem}
+You may wonder what is a rigid motion, We have the following definition
+\begin{definition}[rigid motion]
+We say a map $\mathbb{R}^n\to \mathbb{R}^n$ is a rigid motion if it is of the form $x \to Ax+b$ with $A\in O(n)$. If A is in the special orthogonal group, we called the rigid motion orientation preserving.
+    \end{definition}
+In fact, one can show that the isometry in the Euclidean space is exactly all the rigid motion.
+
+\begin{proof}
+    
+\end{proof}
+
+\subsection{Space Curve}
+
+\begin{definition}[curvature]
+    
+\end{definition}
+\begin{remark}
+    n(s) is simply along the same direction of $t'$ unlike the case of plane curves.
+\end{remark}
+The Frenet-Serret Frames of a space curve is the orthonormal basis $\{t,n,b\}$, where $b$ is the derivative of n.
+
+As in the plane curve, we want to study the derivatives of $\{t,n,b\}$ where b is defined to be the cross product of t and n.
+\begin{itemize}
+    \item $\langle n',n\rangle=0 \Rightarrow n'=at+kb$
+    \item $\langle b',b\rangle=0 \Rightarrow b'=ct+dn$
+    \item and then note that $b=t \times n \Rightarrow b'\perp b, b'\perp t$
+    \item hence we have $b'(s)=\tau(s)n(s)$
+\end{itemize}
+\begin{definition}[torsion]
+    Let $\alpha$ regular p.a.l curve, with $k(s)\neq0$, the torsion of $\alpha $ is given by the above discussion.
+\end{definition}
+\begin{remark}
+    $\tau(s)$ tells us how far the curve is away from a plane curve.
+\end{remark}
+\begin{proposition}[Frenet Serret Frame]
+Like the plane curve case, we have a formula to connect $t,n,b$ and the derivative $t',n',b'$
+\[
+\frac{d}{ds}
+\begin{bmatrix}
+T \\[6pt]
+N \\[6pt]
+B
+\end{bmatrix}
+=
+\begin{bmatrix}
+0 & \kappa & 0 \\[6pt]
+-\kappa & 0 & -\tau \\[6pt]
+0 & \tau & 0
+\end{bmatrix}
+\begin{bmatrix}
+T \\[6pt]
+N \\[6pt]
+B
+\end{bmatrix},
+\]
+where $\kappa(s)$ is the curvature of the curve,$\tau(s)$ is the torsion of the curve.  
+\end{proposition}
+\begin{remark}
+    Note that there is two conventions on the sign of the torsion $\tau$
+\end{remark}
+\begin{definition}
+    If $\alpha$ is any regular cuve, then the Frennet-Serret Frame is obtained by that of $\beta=\alpha \circ s$( (the arc-length reparamatrization)
+\end{definition}
+
+\begin{theorem}
+    Let $\alpha$ be regular curve p.a.l with $\kappa(s)\neq 0$ then the following are equivalent
+    \begin{enumerate}
+        \item $\alpha$ is a plane curve 
+        \item $b$ is a constant
+        \item $\tau(s)=0$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+    \begin{itemize}
+        \item $(2) \Leftrightarrow (3)$ follows from the frenet serret equation.
+        \item $(1)\Leftrightarrow (2)$ Suppose $\alpha$ be a plane curve, then b(s) is clearly a constant. Conversely, if b is a constant, then $b'=0$, consider $\langle \alpha(s)-\alpha(0),b\rangle '=0$ now since b is a constant, then $\alpha$ is indeed a plane curve.
+    \end{itemize}
+\end{proof}
+We end by applying the Frenet Serret Equation.
+\begin{example}
+    $\alpha$ is a straight line if and only if $\exists x_0\in \mathbb{R}^3$, such that every tangent line to $\alpha $ passes through $x_o$
+\end{example}
+\begin{proof}
+    left as homework
+\end{proof}
+\begin{example}
+    Let the normal plane of $\alpha(s)$ be the plane perpendicular to $t(s)$. Let $\alpha$ be a regular curve p..a.l such that every normal plane of $\alpha(s)$ passes through a fixed point of $x_0$. Then $\alpha(s)$ lie s on a sphere.
+\end{example}
+\begin{proof}
+    The normal plane of $\alpha(s)$ has the equation $\langle t(s), x-\alpha(s)\rangle =0$, since the $x_0$ lies on the plane and hence we have  $\langle t(s), x_0-\alpha(s)\rangle =0$ Consider taking the derivative of $\langle x_0-\alpha(s),x_0-\alpha(s)\rangle$, eh derivative is zero andhence this is a constatn, andthen we are done.
+\end{proof}
+
+\subsection{Fundamental Theorem of Curves}
+Recall that all plane curves are determined by its curvature up to orientation preserving its rigid motion. The same goes for regular space curves $\alpha (s)$ with $\kappa(s)>0$
+
+\begin{theorem}
+    Given two functions $\kappa(s), \tau(s)$ defined on an interval, with $\kappa(s)>0$, $x_0\in \mathbb{R}^3$ fixed.$\{D,E,F\}$ be an orthonormal basis of $\mathbb{R}^3$, then there exists a p.a.l curve such that the curvature and torsion of $\alpha$ is exactly the given function $\kappa(s)$  $\tau(s)$. What's more, $\alpha$ is completely determined by its curvature and torsion, in the sense that any curve with the same curvature and torsion differs only be a rigid motion.
+\end{theorem}
+\begin{proof}
+    For detailed proof, see Do carmo's appendix. Here we sketch the proof.
+    \begin{itemize}
+        \item Existence:\begin{enumerate}
+            \item First construct the differential equation according to the Frenet Serret Formula, and get a candidate for the tangent vector, normal vector, and the binormal vector.
+            \item Now check that the $t,n,b$ we get from the above equation is orthonormal for all s. This is equivalent to $\langle t,t\rangle,\langle t,n\rangle,\langle t,b\rangle,\langle n,n\rangle, \langle n, b\rangle,\langle b,b\rangle$ is equal to 1,0,0,1,0,1. To  conclude this, we consider another differential equation and use the uniqueness of the ode.
+            \item Then we consider the curve $\alpha(s)=x_0+\int t(s)ds$, and check it indeed have the two given function as curvature and torsion.
+        \end{enumerate}
+        \item Uniqueness: we move one of the curve $\alpha'$ by rigid motion to $\alpha$ with the same starting point and the same initial tangent vector, and then we are done by the uniqueness of ode.
+    \end{itemize}
+\end{proof}
+\newpage
+\section{Global Theory of Curves}
+In this section we would like to study the theory of plane curves globally. 
+
+An important question in geometry is the following. Suppose we know the local property of a curve, can we say some thing about the global properties of it?
+
+\begin{definition}
+    The rotation index of $\alpha:I\to \mathbb{R}^3$ with period is given by \[\frac{\theta(a)-\theta(0)}{2\pi}=\frac{1}{2\pi}\int_0^a\theta'(s)ds\]. where $\theta(s)$ is defined by $t(s)=(\cos(\theta(s)),\sin(\theta(s)))$.
+\end{definition}
+
+\begin{theorem}[Hopf theorem]
+Suppose $\alpha$ is a simple closed curve, then its rotation index must be equal to $\pm 1$. Moreover, since we have $\theta'(s)=\kappa(s)$, we have $\int\kappa(s)ds=\pm2\pi$.    
+\end{theorem}
+\begin{proof}
+    We only skecth the idea of the proof, for detailed proof please refer to Kritopher Knapp's book.
+
+     It is hard to trace the angle function $\theta(s)$ of the tangent vector. The tangent vector starts and end at the same direction, but it is hard to say whether the integral is $2\pi $ or $0$ or $4\pi$ since it is hard to trace the tangent vector. The idea is that reduce our problems to some other vectors that is easy to trace its trajactory, and hence its angle function.
+
+     Consider the secant vector field \[\sigma(u,v)\], this is a smooth vector unit vector field, and consider its angle function. And then by Green's theorem we can reduce our problems to two integral of angle functions whose vector field is easy to trace.
+\end{proof}
+
+\begin{remark}
+    The theorem can be viewed as a 1-dimensional version of Gauss-Bonnet Formula.
+\end{remark}
+
+\begin{theorem}[Isoperimetric Inequality]
+    Let $\alpha$ be a simple closed plane curve. Let A be the area bounded by curves, then $L^2\geq 4\pi A$
+\end{theorem}
+\begin{proof}
+    See Do carmo's book.
+\end{proof}
+\newpage
+\section{Local Theory of Surfaces}
+\subsection{Introduction}
+\begin{definition}
+A \textbf{parameterized surface} is a function $X: U \subseteq \mathbb{R}^2 \rightarrow \mathbb{R}^3$ where $Z$ is differentiable. We say $Z$ is \textbf{regular} if the Jacobian matrix
+\[
+dX= \begin{pmatrix}
+\frac{\partial x}{\partial u} & \frac{\partial x}{\partial v} \\
+\frac{\partial y}{\partial u} &\frac{\partial y}{\partial v} \\
+\frac{\partial z}{\partial u} &\frac{\partial z}{\partial v}
+\end{pmatrix}
+\]
+has rank 2 for all points in $U$. In coordinates:
+\[
+X(u,v) = (x(u,v), y(u,v), z(u,v))
+\]
+Equivalently, $Z: U \subseteq \mathbb{R}^2 \rightarrow \mathbb{R}^3$ is an embedding. The image $Z(U)$ is called the \textbf{trace} of $Z$.
+\end{definition}
+
+\begin{remark}
+For regular curves $\alpha: I \rightarrow \mathbb{R}^3$, we require $\alpha' \neq 0$. For surfaces, the analogous condition is that the differential has full rank.
+\end{remark}
+
+\begin{example}
+    Consider the parameterization:
+\[
+X: (0,2\pi) \times (0,\pi) \rightarrow \mathbb{R}^3
+\]
+\[
+X(\theta, \varphi) = (r\cos\theta\sin\varphi, r\sin\theta\sin\varphi, r\cos\varphi)
+\]
+
+
+This parameterization $Z$ is regular because
+\[
+\frac{\partial X}{\partial \theta} \times \frac{\partial X}{\partial \varphi} \neq 0
+\]
+and the Jacobian matrix has rank 2.
+
+\end{example}
+As in the case of curves. We wish to parametrize a surface to do Calculus on surfaces. Of course we need two variables rather than 1 variable in the curve case.
+\begin{remark}[Problem of the parametrized surface]
+The above example of ${S}^2$ reveals that in order to develop a unified theory for studying surfaces, it is necessary to use more than one coordinate patch. Now we would like to introduce the concept of regular surface.  
+\end{remark}
+\begin{definition}
+A subset $S \subset \mathbb{R}^3$ is a \textbf{regular surface} if for every point $p \in S$, there exists a neighborhood $V \subset \mathbb{R}^3$ of $p$ (which can be taken as an open ball centered at $p$ with radius $r > 0$) and a map $X: U \rightarrow V \cap S$ where $U \subset \mathbb{R}^2$ is open and connected, such that:
+
+\begin{enumerate}
+    \item $X$ is differentiable: 
+    \[
+    X(u,v) = (x(u,v), y(u,v), z(u,v)), \quad (u,v) \in U
+    \]
+    has partial derivatives of all orders.
+    
+    \item $X$ is bijective with continuous inverse $X^{-1}$, i.e., $X$ is a homeomorphism.
+    
+    \item (Regularity) For $q \in U$ with $X(q) = p$, the Jacobian matrix
+    \[
+    dX_q = \begin{pmatrix}
+    \frac{\partial x}{\partial u} & \frac{\partial x}{\partial v} \\
+    \frac{\partial y}{\partial u} & \frac{\partial y}{\partial v} \\
+    \frac{\partial z}{\partial u} & \frac{\partial z}{\partial v}
+    \end{pmatrix}
+    \]
+    has rank 2 for all $q \in U$.
+\end{enumerate}
+\end{definition}
+
+\begin{remark}
+    Conditions (2) and (3) together guarantee that $X$ is an embedding from $U$ to $S$, ensuring the existence of a tangent plane at each point of $S$. This is analogous to the requirement $\alpha' \neq 0$ for regular curves.
+\end{remark}
+
+\begin{example}
+Let $S^2 = \{(x,y,z) \in \mathbb{R}^3 \mid x^2 + y^2 + z^2 = 1\}$ be the unit sphere. We can cover $S^2$ using 6 coordinate patches. For example, let
+\[
+U = \{(x,y) \in \mathbb{R}^2 \mid x^2 + y^2 < 1\}
+\]
+and define the coordinate patch for the upper hemisphere:
+\[
+X(x,y) = \left(x, y, \sqrt{1 - x^2 - y^2}\right), \quad (x,y) \in U
+\]
+And then we can do the same for other coordinates.
+\end{example}
+
+\begin{example}
+    Suppose $f: U \subseteq \mathbb{R}^2 \rightarrow \mathbb{R}$ is a smooth map. Then the graph of $f$ defined as
+\[
+S = \operatorname{graph}(f) = \{(x, y, z) \in \mathbb{R}^3 \mid (x, y) \in U, z = f(x, y)\}
+\]
+is a regular surface.\newline
+\noindent \underline{Homework}: Check the graph is indeed a regular surface.
+\end{example}
+
+The above example shows that graph is a regular surface, and indeed the converse is in some sense true. Every regular surface is Locally a graph.
+
+\begin{proposition}
+Any regular surface $S$ is locally a graph.
+\end{proposition}
+
+\begin{proof}
+Let $p \in S$ be any point and let $X: U \rightarrow V \cap S$ be the coordinate patch given in the definition of regular surfaces, with $X(q) = p$. By the regularity condition, the differential
+\[
+dX_q = \begin{pmatrix}
+\frac{\partial X}{\partial u} & \frac{\partial X}{\partial v}
+\end{pmatrix}
+\]
+has rank 2. This means that among the three possible $2 \times 2$ Jacobian matrices:
+\[
+\begin{pmatrix}
+\frac{\partial x}{\partial u} & \frac{\partial x}{\partial v} \\
+\frac{\partial y}{\partial u} & \frac{\partial y}{\partial v}
+\end{pmatrix}, \quad
+\begin{pmatrix}
+\frac{\partial x}{\partial u} & \frac{\partial x}{\partial v} \\
+\frac{\partial z}{\partial u} & \frac{\partial z}{\partial v}
+\end{pmatrix}, \quad
+\begin{pmatrix}
+\frac{\partial y}{\partial u} & \frac{\partial y}{\partial v} \\
+\frac{\partial z}{\partial u} & \frac{\partial z}{\partial v}
+\end{pmatrix}
+\]
+at least one has nonzero determinant.
+
+Without loss of generality, assume the first Jacobian matrix has nonzero determinant. Then by the inverse function theorem, the projection
+\[
+\pi \circ X: (u,v) \mapsto (x(u,v), y(u,v))
+\]
+has a differentiable inverse in some neighborhood of $q$.
+
+Let $g = (\pi \circ X)^{-1}$ be this inverse mapping, which sends $(x,y) \mapsto (u(x,y), v(x,y))$. Then we have
+\[(x,y)\to (u,v)\to (x,y,z(x(u,v),y(u,v)))\]
+By the formulas we see that indeed it is locally a graph.
+\end{proof}
+\begin{remark}
+    The above proof is a routine technique to apply the inverse function/implicit function theorem in geometry.
+\end{remark}
+
+\begin{example}
+Let $f: \mathbb{R}^3 \rightarrow \mathbb{R}$ be a smooth map and $a \in \mathbb{R}$ be such that for all $p \in f^{-1}(a)$, the differential $(df)_p \neq 0$ (i.e., $a$ is a regular value of $f$). Then $f^{-1}(a) \subset \mathbb{R}^3$ is a regular surface.
+\begin{proof}
+For any $p \in f^{-1}(a)$, suppose without loss of generality that $\left(\frac{\partial f}{\partial z}\right)_p \neq 0$.
+
+Define the function $F: \mathbb{R}^3 \rightarrow \mathbb{R}$ by:
+\[
+F(x) = f(x) - a
+\]
+Then $F(p) = 0$.
+
+Since $\left(\frac{\partial F}{\partial z}\right)_p = \left(\frac{\partial f}{\partial z}\right)_p \neq 0$, by the implicit function theorem, there exists a smooth function $g: U \subset \mathbb{R}^2 \rightarrow \mathbb{R}$ such that:
+\[
+F(u, g(u)) = 0 \quad \forall u \in U
+\]
+where $U$ is an open neighborhood in $\mathbb{R}^2$.
+
+This means we can express a neighborhood of $p \in f^{-1}(a)$ as:
+\[
+W = \{(u, g(u)) \mid u \in U\}, \quad \text{with } p = (u_0, g(u_0))
+\]
+
+Therefore, there exists a neighborhood $V$ such that:
+\[
+V \cap f^{-1}(a) = \{(x, y, z) \mid (x, y) \in U, z = g(x, y)\}
+\]
+
+This shows that every point $p \in f^{-1}(a)$ is locally a graph, hence by the previous proposition about graphs of functions being regular surfaces, $f^{-1}(a)$ is a regular surface.
+\end{proof}
+\end{example}
+
+\begin{example}
+Consider the ellipsoid defined by the equation:
+\[
+\frac{x^2}{a^2} + \frac{y^2}{b^2} + \frac{z^2}{c^2} = 1
+\]
+where $a, b, c > 0$ are constants.
+\begin{proof}
+Define the function $F: \mathbb{R}^3 \rightarrow \mathbb{R}$ by:
+\[
+F(x, y, z) = \frac{x^2}{a^2} + \frac{y^2}{b^2} + \frac{z^2}{c^2} - 1
+\]
+
+Then:
+\begin{enumerate}
+    \item $F$ is obviously differentiable (in fact, smooth) on $\mathbb{R}^3$
+    
+    \item The differential of $F$ is given by:
+    \[
+    dF = \left( \frac{\partial F}{\partial x}, \frac{\partial F}{\partial y}, \frac{\partial F}{\partial z} \right) = \left( \frac{2x}{a^2}, \frac{2y}{b^2}, \frac{2z}{c^2} \right)
+    \]
+    
+    \item For any point $w = (w_1, w_2, w_3) \in F^{-1}(0)$ (i.e., on the ellipsoid), we have:
+    \[
+    dF(w) = \left( \frac{2w_1}{a^2}, \frac{2w_2}{b^2}, \frac{2w_3}{c^2} \right)
+    \]
+    
+    Since $w$ lies on the ellipsoid, at least one coordinate must be nonzero, hence $dF(w) \neq 0$. Therefore, 0 is a regular value of $F$.
+\end{enumerate}
+
+By the regular value theorem, $F^{-1}(0)$ is a regular surface.
+\end{proof}
+\end{example}
+
+\begin{remark}
+    For the sphere $S^2$,it is possible to cover the surface using only 2 coordinate patches. See Streographic Peojection.
+\end{remark}
+\begin{example}[Stereographic Projection]
+    See Homework.
+\end{example}
+\subsection{Change of Coordinates}
+Recall that for curves, we may have different parametrizations. The same holds for regular surfaces. We say that two parametrizations describe the same surface even if they use different coordinate systems.
+
+\begin{proposition}
+Let $p \in S$ be a point in the image of two parametrizations:
+\[
+X: U \rightarrow S \quad \text{and} \quad Y: V \rightarrow S
+\]
+Let $W = X(U) \cap Y(V)$ be the overlapping region. Then the transition map
+\[
+\varphi = X^{-1} \circ Y: Y^{-1}(W) \rightarrow X^{-1}(W)
+\]
+defined by $(u,v) \mapsto (u',v')$ is a diffeomorphism.
+\end{proposition}
+
+\begin{proof}
+Since both $X$ and $Y$ are regular parametrizations, they are homeomorphisms onto their images and their differentials have full rank. Therefore:
+
+1. $\varphi$ is well-defined as a map between open subsets of $\mathbb{R}^2$
+
+2. $\varphi$ is a homeomorphism because it is the composition of homeomorphisms
+
+3. $\varphi$ is differentiable because both $X$ and $Y$ are differentiable and regular
+
+4. The inverse $\varphi^{-1} = Y^{-1} \circ X$ is similarly differentiable
+
+The Jacobian matrix of the transition map is given by:
+\[
+d\varphi = \begin{pmatrix}
+\frac{\partial u'}{\partial u} & \frac{\partial u'}{\partial v} \\
+\frac{\partial v'}{\partial u} & \frac{\partial v'}{\partial v}
+\end{pmatrix}
+\]
+This matrix is invertible everywhere because $\varphi$ is a diffeomorphism.
+\end{proof}
+\begin{remark}
+This property is fundamental in manifold theory. It ensures that geometric properties defined using different coordinate systems are consistent. The transition maps allow us to define a smooth structure on the surface $S$ by specifying how different coordinate patches relate to each other.
+This is exactly the property we aim to generalize in the theory of smooth manifolds, where we use charts and transition maps to define the smooth structure.
+\end{remark}
+\end{document}
+
+
+
