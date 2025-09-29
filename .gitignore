@@ -7,3 +7,10 @@
 /*.fls        # File list
 /*.fdb_latexmk # latexmk database file
 /*.fmt        # Format file
+/MAT4033-note.fdb_latexmk
+/MAT4033-note.aux
+/MAT4033-note.log
+/MAT4033-note.synctex.gz
+/MAT4033-note.toc
+/MAT4033-note.out
+/MAT4033-note.fls
