@@ -1,1 +1,0 @@
-This is the typed note for MAT4033 in The Chinese University of HongKong. Professor Hou has a woderful and well-stuctured note but his handwriting is hard to read. Hopefully the typed note provides a reference for those who are now sufferinhg.
