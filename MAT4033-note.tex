@@ -645,6 +645,218 @@ This matrix is invertible everywhere because $\varphi$ is a diffeomorphism.
 This property is fundamental in manifold theory. It ensures that geometric properties defined using different coordinate systems are consistent. The transition maps allow us to define a smooth structure on the surface $S$ by specifying how different coordinate patches relate to each other.
 This is exactly the property we aim to generalize in the theory of smooth manifolds, where we use charts and transition maps to define the smooth structure.
 \end{remark}
+
+\subsection{Tangent plane}
+\begin{definition}
+Let $\mathbf{x}: U \to \text{VAS}$ be a coordinate patch of a regular surface at a $\text{pt } \mathbf{x}(p) = p \in S$. Then the tangent plane at $p \in S$ is defined as
+\[
+T_p S = \text{Im} \left( (\mathrm{d}\mathbf{x})_p \right) = \text{span} \left\{ \frac{\partial \mathbf{x}}{\partial u} (p), \frac{\partial \mathbf{x}}{\partial v} (p) \right\}.
+\]
+\end{definition}
+
+\begin{definition}
+The normal vector of a $\text{pt } p$ on a coordinate patch $\mathbf{x}: U \to \text{VAS}$ is defined as
+\[
+N(p) = \frac{\frac{\partial \mathbf{x}}{\partial u} \times \frac{\partial \mathbf{x}}{\partial v}}{\left\| \frac{\partial \mathbf{x}}{\partial u} \times \frac{\partial \mathbf{x}}{\partial v} \right\|} \quad (p)
+\]
+\end{definition}
+
+\noindent \underline{Problem:} 
+although the tangent plane is well-defined, but $N(p)$ may be affected by our choice of coordinates. (the sign).
+
+\begin{definition}
+A tangent vector at $p \in S$ is the tangent vector $\alpha'(0)$ of a regular curve $\alpha: (-\varepsilon, \varepsilon) \to S \subseteq \mathbb{R}^3$ with $\alpha(0) = p$.
+\end{definition}
+
+\begin{proposition}
+The set of tangent vectors at $p \in S$ is precisely equal to $T_p S$.
+\end{proposition}
+
+\begin{proof}
+Let $\alpha: (-\varepsilon, \varepsilon) \to S$ be regular with $\alpha(0)=p$.
+Recall that $\exists \ V$ of $p \in S$ such that by restricting $\text{VAS}$ to $V \cap S$, we have $\mathbf{y}: U' \to V \cap S$
+such that $\mathbf{y}(u', v') = (u', v', f(u', v'))$
+or $(u', g(u', v'), v')$ (locally a graph).
+
+we look at the first case. w.l.o.g. by making $\varepsilon$ small enough.
+assume $\alpha(-\varepsilon, \varepsilon) \subseteq V \cap S$.
+
+Let $\beta$ be given by $\beta: (-\varepsilon, \varepsilon) \to U' \subseteq \mathbb{R}^2$
+where $\mathbf{y}^{-1}$ is differentiable. ($\mathbf{y}^{-1}$ is just the projection map)
+Then $\alpha = \mathbf{y} \circ \beta = \mathbf{x} \circ (\mathbf{x}^{-1} \circ \mathbf{y} \circ \beta)$
+
+we've seen in prop that $\mathbf{x}^{-1} \circ \mathbf{y}$ is differentiable
+so $\alpha'(0) = (\mathrm{d}\mathbf{x})_q \cdot (\mathrm{d}(\mathbf{x}^{-1} \circ \mathbf{y} \circ \beta)) (0)$
+\[
+= \left( \frac{\partial \mathbf{x}}{\partial u}, \frac{\partial \mathbf{x}}{\partial v} \right)_q \begin{pmatrix} a \\ b \end{pmatrix}
+\]
+$\Rightarrow \alpha'(0) \in T_p S$.
+We've just seen that $\alpha'(0) \in T_p S$.
+
+Now we must to see $\mathbf{w} \in T_p S \Rightarrow \mathbf{w} = \alpha'(0)$ for some $\alpha$.
+Suppose $\mathbf{w} = \left( \frac{\partial \mathbf{x}}{\partial u} (p), \frac{\partial \mathbf{x}}{\partial v} (p) \right) \begin{pmatrix} a \\ b \end{pmatrix} \in T_p S$.
+Then let $\beta: (-\varepsilon, \varepsilon) \to U$ by $\beta(t) = p + t \begin{pmatrix} a \\ b \end{pmatrix}$.
+and $\alpha = \mathbf{x} \circ \beta$. Then $\alpha(0) = \mathbf{x}(\beta(0)) = \mathbf{x}(p) = p$.
+$\alpha'(0) = (\mathrm{d}\mathbf{x})_p \cdot \mathrm{d}\beta_0 = \left( \frac{\partial \mathbf{x}}{\partial u}, \frac{\partial \mathbf{x}}{\partial v} \right) \begin{pmatrix} a \\ b \end{pmatrix} \in T_p S$.
+\end{proof}
+\begin{example}
+    Suppose $f: \mathbb{R}^3 \to \mathbb{R}$ smooth. $S = f^{-1}(a)$.
+Let $\alpha: (-\varepsilon, \varepsilon) \to S$ with $\alpha(0)=p$. Then
+\[
+f(\alpha(t)) = f(x(t), y(t), z(t)) = a.
+\]
+Differentiating with respect to $t$:
+\[
+\Rightarrow (\mathrm{d}f)_p \cdot (\mathrm{d}\alpha)_0 = 0.
+\]
+\[
+\Rightarrow (\mathrm{d}f)_p \cdot \alpha'(0) = 0.
+\]
+$\Rightarrow (\mathrm{d}f)_p$ is always normal to $T_p S$.
+\end{example}
+
+\noindent \underline{Question:} we define $N(p)$ on a coordinate patch. can we choose coordinates patch appropriately so that $N: S \to \mathbb{R}^3$ is a smooth function?
+
+\begin{remark}
+    When we move from local to global, it is always determined by the "topology" property.
+\end{remark}
+
+\subsection{First Fundamental Form }
+After defining the tangent plane, we wil study the inner product structure so that we can compute the area of the surface.
+
+\begin{definition}
+    Let $V$ be a vector space. We study $\langle \cdot, \cdot \rangle : V \times V \to \mathbb{R}$ an inner product if it satisfies the following:
+\begin{enumerate}
+    \item $\langle \mathbf{v}, \mathbf{w} \rangle = \langle \mathbf{w}, \mathbf{v} \rangle$ (symmetric).
+    \item $\langle a\mathbf{v}_1 + b\mathbf{v}_2, \mathbf{w} \rangle = a \langle \mathbf{v}_1, \mathbf{w} \rangle + b \langle \mathbf{v}_2, \mathbf{w} \rangle$ (linearity).
+    \item $\langle \mathbf{v}, \mathbf{v} \rangle \ge 0 \quad \forall \mathbf{v} \in V$. equality holds if and only if $\mathbf{v}=\mathbf{0}$.
+\end{enumerate}
+\end{definition}
+
+\begin{definition}
+The quadratic form corresponding to an inner product is a map $q: V \to \mathbb{R}$ defined by
+\[
+\mathbf{v} \to \langle \mathbf{v}, \mathbf{v} \rangle.
+\]
+\end{definition}
+
+\begin{definition}
+The \textbf{First Fundamental Form} of $S$ is given by the quadratic form $I_p(\mathbf{v}) = \langle \mathbf{v}, \mathbf{v} \rangle$ for $\mathbf{v} \in T_p S$.
+\end{definition}
+In order to understand $I_p$ better, we need to choose a basis of $T_p S$ and express $I_p$ using matrices and vectors.
+
+Let $\mathbf{x}: U \to \text{VAS}$ be a coordinate patch with $\mathbf{x}(p)=p$.
+Then $\mathcal{B} = \left\{ \mathbf{x}_u = \frac{\partial \mathbf{x}}{\partial u} (p), \mathbf{x}_v = \frac{\partial \mathbf{x}}{\partial v} (p) \right\}$
+\begin{align*}
+\text{with } E_p &= \langle \mathbf{x}_u, \mathbf{x}_u \rangle_p \\
+F_p &= \langle \mathbf{x}_u, \mathbf{x}_v \rangle_p \\
+G_p &= \langle \mathbf{x}_v, \mathbf{x}_v \rangle_p
+\end{align*}
+(We drop the subscript $p$ if it does not cause confusion)
+
+Then for all $\mathbf{v}$, $I_p(\mathbf{v}) = (a, b) \begin{pmatrix} E & F \\ F & G \end{pmatrix} \begin{pmatrix} a \\ b \end{pmatrix}$.
+
+More precisely, $\langle \mathbf{v}, \mathbf{w} \rangle_p = (a, b) \begin{pmatrix} E & F \\ F & G \end{pmatrix} \begin{pmatrix} c \\ d \end{pmatrix}$, where $\mathbf{v} = a \mathbf{x}_u + b \mathbf{x}_v$ and $\mathbf{w} = c \mathbf{x}_u + d \mathbf{x}_v$.
+
+Therefore, in a coordinate patch $\text{IFF}$ refers to $\begin{pmatrix} E & F \\ F & G \end{pmatrix}$.
+
+\begin{example}
+\begin{enumerate}
+    \item \textbf{Cylinder:}
+    \[
+    \mathbf{x}(u, v) = (\cos u, \sin u, v)
+    \]
+    \[
+    \mathbf{x}_u = (-\sin u, \cos u, 0)
+    \]
+    \[
+    \mathbf{x}_v = (0, 0, 1)
+    \]
+    $E = \langle \mathbf{x}_u, \mathbf{x}_u \rangle = 1. \quad F = 0. \quad G = 1.$
+    \[
+    \Rightarrow I_p = \begin{pmatrix} E & F \\ F & G \end{pmatrix} = \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix}
+    \]
+
+    \item \textbf{Plane:}
+    \[
+    \mathbf{x}(u, v) = \mathbf{x}_0 + u \mathbf{w}_1 + v \mathbf{w}_2
+    \]
+    (Assuming $\mathbf{w}_1$ and $\mathbf{w}_2$ are orthonormal, $\langle \mathbf{w}_i, \mathbf{w}_j \rangle = \delta_{ij}$)
+    \[
+    I_p = \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix}
+    \]
+
+    \item
+    \[
+    \mathbf{x}(u, v) = (u, v, \sqrt{1-u^2-v^2})
+    \]
+    \[
+    \mathbf{x}_u = \left( 1, 0, \frac{-u}{\sqrt{1-u^2-v^2}} \right), \quad \mathbf{x}_v = \left( 0, 1, \frac{-v}{\sqrt{1-u^2-v^2}} \right)
+    \]
+    \[
+    I_p = \begin{pmatrix}
+        \frac{1-v^2}{1-u^2-v^2} & \frac{uv}{1-u^2-v^2} \\
+        \frac{uv}{1-u^2-v^2} & \frac{1-u^2}{1-u^2-v^2}
+    \end{pmatrix}
+    \]
+    (Note: This is the IFF for the upper hemisphere in Cartesian coordinates.)
+    $\mathbf{\tilde{x}}_\varphi = (-\sin \phi \sin \varphi, \sin \phi \cos \varphi, 0)$.
+% IFF for the sphere in spherical coordinates, assuming u=\phi, v=\varphi
+\[
+I_p = \begin{pmatrix} 1 & 0 \\ 0 & \sin^2 \phi \end{pmatrix} \quad \text{different expression of } I_p \text{ for the same surface } S
+\]
+\end{enumerate}
+\end{example}
+
+\noindent \underline{Question:}
+Suppose we have 2 parameterizations
+\[
+\mathbf{x}: U \to V \cap S, \quad \mathbf{\tilde{x}}: \tilde{U} \to V \cap S.
+\]
+Note that
+\[
+\begin{pmatrix} \tilde{E} & \tilde{F} \\ \tilde{F} & \tilde{G} \end{pmatrix} = \left( \frac{\partial \mathbf{\tilde{x}}}{\partial \tilde{u}}, \frac{\partial \mathbf{\tilde{x}}}{\partial \tilde{v}} \right)^T \begin{pmatrix} \frac{\partial \mathbf{\tilde{x}}}{\partial \tilde{u}} \\ \frac{\partial \mathbf{\tilde{x}}}{\partial \tilde{v}} \end{pmatrix}
+= (\mathrm{d}\mathbf{\tilde{x}})^T \mathrm{d}\mathbf{\tilde{x}}.
+\]
+Suppose $\Psi = \mathbf{x}^{-1} \circ \mathbf{\tilde{x}}$ is the transition function
+\[
+\Psi(\tilde{u}, \tilde{v}) = (u(\tilde{u}, \tilde{v}), v(\tilde{u}, \tilde{v})).
+\]
+\[
+\Rightarrow \mathbf{\tilde{x}} = \mathbf{x} \circ \Psi. \quad \text{so}
+\]
+\[
+\mathrm{d}\mathbf{\tilde{x}} = \mathrm{d}\mathbf{x} \mathrm{d}\Psi, \quad \text{and hence}
+\]
+\begin{align*}
+\begin{pmatrix} \tilde{E} & \tilde{F} \\ \tilde{F} & \tilde{G} \end{pmatrix} &= (\mathrm{d}\mathbf{x} \mathrm{d}\Psi)^T (\mathrm{d}\mathbf{x} \mathrm{d}\Psi) \\
+&= (\mathrm{d}\Psi)^T (\mathrm{d}\mathbf{x})^T (\mathrm{d}\mathbf{x}) (\mathrm{d}\Psi) \\
+&= (\mathrm{d}\Psi)^T \begin{pmatrix} E & F \\ F & G \end{pmatrix} (\mathrm{d}\Psi)
+\end{align*}
+composition by \textbf{Jacobian matrix}.
+
+\begin{example} Back to the sphere example.
+\[
+\Psi(\phi, \varphi) = (\sin \phi \cos \varphi, \sin \phi \sin \varphi)
+\]
+$\mathrm{d}\Psi = \begin{pmatrix}
+\cos\phi \cos\varphi & -\sin\phi \sin\varphi \\
+\cos\phi \sin\varphi & \sin\phi \cos\varphi
+\end{pmatrix}$
+and
+\[
+(\mathrm{d}\Psi)^T \begin{pmatrix} E & F \\ F & G \end{pmatrix} \mathrm{d}\Psi = \begin{pmatrix} 1 & \mathbf{0} \\ \mathbf{0} & \sin^2 \phi \end{pmatrix}
+\]
+\end{example}
+
+\begin{corollary}
+\[
+\sqrt{\tilde{E}\tilde{G}-\tilde{F}^2} = \sqrt{EG-F^2} \ \det \left( \frac{\partial (u, v)}{\partial (\tilde{u}, \tilde{v})} \right)
+\]
+\begin{remark}
+    We are always working in the orientable cases.
+\end{remark}
+\end{corollary}
 \end{document}
 
 
