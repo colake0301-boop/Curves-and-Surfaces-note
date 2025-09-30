@@ -1,0 +1,106 @@
+\documentclass[12pt, a4paper, oneside]{article}
+\usepackage{amsmath, amsthm, amssymb, bm, color, framed, graphicx, hyperref, mathrsfs}
+\usepackage{tikz-cd}
+
+\title{\textbf{Homework}}
+\author{Cola}
+\date{\today}
+\linespread{1.5}
+\definecolor{shadecolor}{RGB}{241, 241, 255}
+\newcounter{problemname}
+
+% Problem environment
+\newenvironment{problems}
+  {\begin{shaded}\stepcounter{problemname}\par\noindent\textbf{Problem \arabic{problemname}. }\newline}
+  {\end{shaded}\par}
+
+% Solution environment
+\newenvironment{solution}
+  {\par\noindent\textbf{Solution. }\newline}
+  {\par}
+
+
+% Note environment
+\newenvironment{note}
+  {\par\noindent\textbf{Note for Problem \arabic{problemname}. }\newline}
+  {\par}
+
+%Definition environment
+\newtheorem*{definition}{Definition}
+\newtheorem{proposition}{Proposition}
+
+\begin{document}
+\maketitle
+\begin{problems}
+Let $P=\{(x,y,z)\in \mathbb{R}^{3}|x=y\}$ and $X: U\subset \mathbb{R}^{2}\rightarrow \mathbb{R}^{3}$ be given by
+$$X(u,v)=(u+v, u+v, u+v, uv)$$
+where $U=\{(u,v)\in \mathbb{R}^{2}|u>v\}.$ Is $X$ a coordinate patch of $P$? Does it cover the whole $P$?
+\end{problems}
+
+\begin{problems}
+Consider a one-to-one, regular curve $\alpha(t)=(r(t),z(t)),$ $t\in I$ and $r(t)>0$. If we rotate the curve $\alpha$ about the $z$-axis, we obtain the surface of revolution $S$.
+\begin{enumerate}
+    \item[(a)] Let $X: U \rightarrow S$ be given by
+    $$X(\theta,t)=(r(t)\cos\theta, r(t)\sin\theta, z(t)),$$
+    where $U=(-\pi,\pi)\times I.$ Show that $X$ is a coordinate patch, but it does NOT cover the whole surface $S$.
+
+    \item[(b)] By parameterizing $S$ using two coordinate patches, show that $S$ is a regular surface.
+
+    \item[(c)] Hence or otherwise, show that the torus is a regular surface. Write down a coordinate patch of the torus.
+\end{enumerate}
+\end{problems}
+
+\begin{problems}
+Let $a = \begin{pmatrix} a \\ b \\ c \end{pmatrix}$ be a unit vector, $r>0$ and
+$$S:=\left\{x=\begin{pmatrix} x \\ y \\ z \end{pmatrix} \in \mathbb{R}^3 \;\middle|\; \langle x,a\rangle^{2}+r^{2}=|x|^{2}\right\}$$
+\begin{enumerate}
+    \item[(a)] Show that $S$ is a cylinder with radius $r$, and the axis of revolution is along the direction of $a$. (Hint: use Pythagoras Theorem)
+
+    \item[(b)] Let $F(x)=\langle x,a\rangle^{2}+r^{2}-\langle x,x\rangle$, show that
+    $$dF(x)=2\langle x,a\rangle(a,b,c)-2(x,y,z)$$
+
+    \item[(c)] Using (b), show that $S$ is a regular surface.
+
+    \item[(d)] Let $w$ be a vector satisfying $\langle w,a\rangle=0$ and $\langle w,w\rangle=r^{-2}$. Show that the line $\alpha(t):=w+ta$ lies on the surface $S$.
+
+    \item[(e)] For any unit vector $v$, show that the line $\gamma(t):=w+tv$ lies on the surface $S$ if and only if $v=\pm a$.
+\end{enumerate}
+\end{problems}
+
+\begin{problems}
+Show that the two-sheeted cone $S=\{(x,y,z)\in\mathbb{R}^{3}:x^{2}+y^{2}=z^{2}\}$ is not a surface.
+\end{problems}
+
+\begin{problems}
+Let $\alpha:(-3,0)\longrightarrow \mathbb{R}^{2}$ be defined by
+$$ \alpha(t) = \begin{cases} 
+      (0, -(t+2)) & t\in(-3,-1) \\
+      \text{a regular curve joining } p=(0,-1) \text{ to } q=(1/\pi,0) & t\in[-1,-1/\pi] \\
+      (-t,-\sin\frac{1}{t}) & t\in(-1/\pi,0)
+   \end{cases}
+$$
+It is possible to define the curve joining $p$ to $q$ so that all the derivatives of $\alpha$ are continuous at the corresponding points and $\alpha$ has no self-intersections. Let $C$ be the trace of $\alpha$.
+\begin{enumerate}
+    \item[(a)] Is $C$ a regular curve?
+    \item[(b)] Let a normal line to the plane $\mathbb{R}^{2}$ run through $C$ so that it describes a "cylinder" $S$. Is $S$ a regular surface?
+\end{enumerate}
+\end{problems}
+
+\begin{problems}
+Let $w$ be a tangent vector to a regular surface $S$ at a point $p\in S$ and let $x(u,v)$ and $\bar{x}(\bar{u},\bar{v})$ be two parametrizations at $p$. Suppose that the expressions of $w$ in the bases associated to $x(u,v)$ and $\bar{x}(\bar{u},\bar{v})$ are
+$$w=\alpha_{1}x_{u}+\alpha_{2}x_{v}$$
+and
+$$w=\beta_{1}\bar{x}_{\bar{u}}+\beta_{2}\bar{x}_{\bar{v}}.$$
+Show that the coordinates of $w$ are related by
+\begin{align*}
+    \beta_{1} &= \alpha_{1}\frac{\partial\bar{u}}{\partial u}+\alpha_{2}\frac{\partial\bar{u}}{\partial v} \\
+    \beta_{2} &= \alpha_{1}\frac{\partial\bar{v}}{\partial u}+\alpha_{2}\frac{\partial\bar{v}}{\partial v},
+\end{align*}
+where $\bar{u}=\bar{u}(u,v)$ and $\bar{v}=\bar{v}(u,v)$ are the expressions of the change of coordinates.
+\end{problems}
+
+\begin{problems}
+Recall the isoperemetric inequality, show that the equality holds if and only if the our curve is a circle.
+\end{problems}
+
+\end{document}
