@@ -1,4 +1,12 @@
-
+*.aux        # Auxiliary file
+*.log        # Log file (compilation details)
+*.out        # Output file (section/page data)
+*.toc        # Table of Contents
+*.lof        # List of Figures
+*.lot        # List of Tables
+*.fls        # File list
+*.fdb_latexmk # latexmk database file
+*.fmt        # Format file
 /MAT4033-note.fdb_latexmk
 /MAT4033-note.aux
 /MAT4033-note.log
