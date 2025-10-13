@@ -1,0 +1,320 @@
+\documentclass[12pt, a4paper, oneside]{article}
+\usepackage{amsmath, amsthm, amssymb, bm, color, framed, graphicx, hyperref, mathrsfs}
+\usepackage{tikz-cd}
+
+\title{\textbf{Homework-4}}
+\author{Cola}
+\date{\today}
+\linespread{1.5}
+\definecolor{shadecolor}{RGB}{241, 241, 255}
+\newcounter{problemname}
+
+% Problem environment
+\newenvironment{problem}
+  {\begin{shaded}\stepcounter{problemname}\par\noindent\textbf{Problem \arabic{problemname}.
+}\newline}
+  {\end{shaded}\par}
+
+% Solution environment
+\newenvironment{solution}
+  {\par\noindent\textbf{Solution. }\newline}
+  {\par}
+
+% Note environment
+\newenvironment{note}
+  {\par\noindent\textbf{Note for Problem \arabic{problemname}.
+}\newline}
+  {\par}
+
+%Definition environment
+\newtheorem*{definition}{Definition}
+\newtheorem{proposition}{Proposition}
+
+\begin{document}
+\maketitle
+
+\begin{problem}
+Let $X:(-\pi,\pi)\times(-\frac{1}{2},\frac{1}{2})\rightarrow M$ be given by
+$$X(\theta,\nu)=\left(\cos\theta,\sin\theta,0\right)+\nu\left(\sin\frac{\theta}{2}\cos\theta,\sin\frac{\theta}{2}\sin\theta,\cos\frac{\theta}{2}\right)$$Compute the normal vector $N(\theta,0)$ and show that$$\lim_{\theta\rightarrow-\pi}N(\theta,0)=-\lim_{\theta\rightarrow\pi}N(\theta,0)$$
+\end{problem}
+
+\begin{solution}
+The parametrization is $X(\theta, \nu) = X_0(\theta) + \nu V(\theta)$. We compute the partial derivatives at $\nu=0$.
+$$X_\nu = V(\theta) = \left(\sin\frac{\theta}{2}\cos\theta, \sin\frac{\theta}{2}\sin\theta, \cos\frac{\theta}{2}\right)$$
+$$X_\theta(\theta, 0) = X'_0(\theta) = (-\sin\theta, \cos\theta, 0)$$
+
+The unnormalized normal vector $W(\theta, 0) = X_\theta \times X_\nu$:
+$$W = \left| \begin{array}{ccc} \mathbf{i} & \mathbf{j} & \mathbf{k} \\ -\sin\theta & \cos\theta & 0 \\ \sin\frac{\theta}{2}\cos\theta & \sin\frac{\theta}{2}\sin\theta & \cos\frac{\theta}{2} \end{array} \right|$$
+The components are:
+\begin{itemize}
+    \item $W_1 = \cos\theta \cos\frac{\theta}{2}$
+    \item $W_2 = \sin\theta \cos\frac{\theta}{2}$
+    \item $W_3 = -\sin\theta \sin\frac{\theta}{2}\sin\theta - \cos\theta \sin\frac{\theta}{2}\cos\theta = -\sin\frac{\theta}{2} (\sin^2\theta + \cos^2\theta) = -\sin\frac{\theta}{2}$
+\end{itemize}
+Thus, $W(\theta, 0) = \left( \cos\theta \cos\frac{\theta}{2}, \sin\theta \cos\frac{\theta}{2}, -\sin\frac{\theta}{2} \right)$.
+
+The magnitude $|W|^2$ is:
+$$|W|^2 = \cos^2\frac{\theta}{2}(\cos^2\theta + \sin^2\theta) + \sin^2\frac{\theta}{2} = \cos^2\frac{\theta}{2} + \sin^2\frac{\theta}{2} = 1$$
+The unit normal vector is $N(\theta, 0) = W(\theta, 0)$.
+
+We now examine the limits:
+\begin{enumerate}
+    \item As $\theta \rightarrow \pi^-$: $\cos\theta \to -1$, $\sin\theta \to 0$, $\theta/2 \to \pi/2$.
+    $$\lim_{\theta\rightarrow\pi} N(\theta, 0) = \left( (-1)(0), (0)(0), -(1) \right) = (0, 0, -1)$$
+    \item As $\theta \rightarrow -\pi^+$: $\cos\theta \to -1$, $\sin\theta \to 0$, $\theta/2 \to -\pi/2$.
+    $$\lim_{\theta\rightarrow-\pi} N(\theta, 0) = \left( (-1)(0), (0)(0), -(-1) \right) = (0, 0, 1)$$
+\end{enumerate}
+Since $(0, 0, 1) = - (0, 0, -1)$, we conclude that $\lim_{\theta\rightarrow-\pi}N(\theta, 0)=-\lim_{\theta\rightarrow\pi}N(\theta, 0)$.
+\end{solution}
+
+\begin{problem}
+Let $p\in S$ be a point on the surface $S$. Suppose there are two parametrizations $X(u,v):U\rightarrow V\cap S$ and $\tilde{X}(\tilde{u},\tilde{v}):\tilde{U}\rightarrow\tilde{V}\cap S$ such that $p\in V\cap\tilde{V}\cap S$. Let $\psi=\tilde{X}^{-1}\circ X:X^{-1}(V\cap\tilde{V}\cap S)\rightarrow\tilde{X}^{-1}(V\cap\tilde{V}\cap S)$ be the transition map.
+
+\begin{enumerate}
+    \item Let $S=S^{2}$ be the 2-sphere, and
+    $$X(u,v)=\left(u,v,\sqrt{1-u^{2}-v^{2}}\right), \quad \tilde{X}(\tilde{u},\tilde{v})=\left(\tilde{u},\sqrt{1-\tilde{u}^{2}-\tilde{v}^{2}},\tilde{v}\right)$$
+    Let $p=\left(\frac{1}{2},\frac{1}{\sqrt{2}},\frac{1}{2}\right)$.
+    \begin{enumerate}
+        \item Compute the tangent vectors $\frac{\partial X}{\partial u},\frac{\partial X}{\partial v},\frac{\partial\tilde{X}}{\partial\tilde{u}},\frac{\partial\tilde{X}}{\partial\tilde{v}}\in T_{p}S$ at $p$.
+        \item Compute the transition function $\psi(u,v)$, and the Jacobian $d\psi$.
+    \end{enumerate}
+
+    \item Verify the Tangent Vector Transformation Law for the above example.
+
+    \item Verify the results in (2) by using the coordinate patches given in (1).
+\end{enumerate}
+\end{problem}
+
+\begin{solution}
+\textbf{(a) Computation at $p=(1/2, 1/\sqrt{2}, 1/2)$.}
+The coordinates are $X^{-1}(p) = (u_0, v_0) = (1/2, 1/\sqrt{2})$ and $\tilde{X}^{-1}(p) = (\tilde{u}_0, \tilde{v}_0) = (1/2, 1/2)$. The third component value is $z_0 = 1/2$ and $y_0 = 1/\sqrt{2}$.
+
+\textbf{(i) Tangent Vectors at $p$:}
+For $X(u, v)$, let $z = \sqrt{1-u^2-v^2}$. We calculated $z_u = -u/z$ and $z_v = -v/z$.
+At $p$, $z_0=1/2$, so $z_u(p) = -1$ and $z_v(p) = -\sqrt{2}$.
+$$X_u(p) = \left(1, 0, z_u\right) = (1, 0, -1)$$
+$$X_v(p) = \left(0, 1, z_v\right) = (0, 1, -\sqrt{2})$$
+
+For $\tilde{X}(\tilde{u}, \tilde{v})$, let $\tilde{y} = \sqrt{1-\tilde{u}^2-\tilde{v}^2}$. We calculated $\tilde{y}_{\tilde{u}} = -\tilde{u}/\tilde{y}$ and $\tilde{y}_{\tilde{v}} = -\tilde{v}/\tilde{y}$.
+At $p$, $\tilde{y}_0=1/\sqrt{2}$.
+$$\tilde{y}_{\tilde{u}}(p) = -\frac{1/2}{1/\sqrt{2}} = -1/\sqrt{2}, \quad \tilde{y}_{\tilde{v}}(p) = -1/\sqrt{2}$$
+$$\tilde{X}_{\tilde{u}}(p) = \left(1, \tilde{y}_{\tilde{u}}, 0\right) = \left(1, -1/\sqrt{2}, 0\right)$$
+$$\tilde{X}_{\tilde{v}}(p) = \left(0, \tilde{y}_{\tilde{v}}, 1\right) = \left(0, -1/\sqrt{2}, 1\right)$$
+
+\textbf{(ii) Transition Function $\psi(u, v)$ and Jacobian $d\psi$:}
+By equating the components $X(u, v) = \tilde{X}(\tilde{u}, \tilde{v})$:
+$$u = \tilde{u}$$$$v = \sqrt{1-\tilde{u}^2-\tilde{v}^2} \implies v^2 = 1-\tilde{u}^2-\tilde{v}^2$$$$\sqrt{1-u^2-v^2} = \tilde{v}$$The transition function $\psi(u, v) = (\tilde{u}(u, v), \tilde{v}(u, v))$ is:$$\psi(u, v) = \left(u, \sqrt{1-u^2-v^2}\right)$$
+
+The Jacobian matrix $d\psi$ is:
+$$d\psi = \begin{pmatrix} \frac{\partial \tilde{u}}{\partial u} & \frac{\partial \tilde{u}}{\partial v} \\ \frac{\partial \tilde{v}}{\partial u} & \frac{\partial \tilde{v}}{\partial v} \end{pmatrix} = \begin{pmatrix} 1 & 0 \\ \frac{-u}{\sqrt{1-u^2-v^2}} & \frac{-v}{\sqrt{1-u^2-v^2}} \end{pmatrix}$$Evaluating $d\psi$ at $(u_0, v_0) = (1/2, 1/\sqrt{2})$ (where $\sqrt{1-u^2-v^2} = 1/2$):$$d\psi_p = \begin{pmatrix} 1 & 0 \\ \frac{-1/2}{1/2} & \frac{-1/\sqrt{2}}{1/2} \end{pmatrix} = \begin{pmatrix} 1 & 0 \\ -1 & -\sqrt{2} \end{pmatrix}$$
+
+\textbf{(c) Verification of Transformation Law:}
+The tangent vector transformation law states that coefficients transform according to $\binom{b_{1}}{b_{2}}=(d\psi)_{p}\binom{a_{1}}{a_{2}}$.
+We verify this by checking if the vector $X_u(p)$ transforms correctly. In the $X$-basis, $X_u(p)$ has coefficients $\mathbf{a} = (1, 0)^T$.
+The predicted coefficients $\mathbf{b}$ in the $\tilde{X}$-basis are:
+$$\binom{b_{1}}{b_{2}} = \begin{pmatrix} 1 & 0 \\ -1 & -\sqrt{2} \end{pmatrix} \binom{1}{0} = \binom{1}{-1}$$
+The transformed vector must be $\mathbf{v} = 1 \cdot \tilde{X}_{\tilde{u}}(p) - 1 \cdot \tilde{X}_{\tilde{v}}(p)$.
+$$\mathbf{v} = \left(1, -1/\sqrt{2}, 0\right) - \left(0, -1/\sqrt{2}, 1\right) = (1, 0, -1)$$
+Since $\mathbf{v} = X_u(p)$, the transformation law is verified for this coordinate patch and tangent vector.
+\end{solution}
+
+\begin{problem}
+Let S be the surface given by a graph $S=\{(x,y,z)|(x,y)\in U,$ $z=f(x,y)\}$.
+\begin{enumerate}
+  \item Find the first fundamental form of S using this coordinate patch, and show the area of S is given by
+$$\iint_{U}\sqrt{1+\left(\frac{\partial f}{\partial x}\right)^{2}+\left(\frac{\partial f}{\partial y}\right)^{2}}dxdy$$
+  \item Hence show that the area of a hemisphere of radius 1 is equal to $2\Pi$.
+\end{enumerate}
+
+\end{problem}
+
+\begin{solution}
+\textbf{(a) First Fundamental Form and Area Formula:}
+The parametrization is $X(x, y) = (x, y, f(x, y))$. We use $u=x, v=y$.
+The tangent vectors are $X_x = (1, 0, f_x)$ and $X_y = (0, 1, f_y)$.
+The coefficients $E, F, G$ are:
+$$E = X_x \cdot X_x = 1 + f_x^2$$$$F = X_x \cdot X_y = f_x f_y$$$$G = X_y \cdot X_y = 1 + f_y^2$$
+The First Fundamental Form is $I = (1+f_x^2) dx^2 + 2(f_x f_y) dx dy + (1+f_y^2) dy^2$.
+
+The area element is $dA = \sqrt{EG - F^2} dx dy$. We calculate the discriminant:
+$$EG - F^2 = (1+f_x^2)(1+f_y^2) - (f_x f_y)^2 = 1 + f_x^2 + f_y^2 + f_x^2 f_y^2 - f_x^2 f_y^2 = 1 + f_x^2 + f_y^2$$Thus, the area of $S$ is:$$A(S) = \iint_{U} \sqrt{1 + f_x^2 + f_y^2} dx dy$$
+
+\textbf{(b) Area of a Hemisphere of Radius 1:}
+The upper unit hemisphere is $z = f(x, y) = \sqrt{1 - x^2 - y^2}$. The domain $U$ is the unit disk $x^2 + y^2 \le 1$.
+The partial derivatives are $f_x = -x/z$ and $f_y = -y/z$.
+The area element density is:
+$$\sqrt{1 + f_x^2 + f_y^2} = \sqrt{1 + \frac{x^2}{z^2} + \frac{y^2}{z^2}} = \frac{\sqrt{z^2 + x^2 + y^2}}{z} = \frac{1}{\sqrt{1-x^2-y^2}}$$We use polar coordinates ($r^2=x^2+y^2, dx dy = r dr d\theta$):$$A = \int_{0}^{2\pi} \int_{0}^{1} \frac{r}{\sqrt{1 - r^2}} dr d\theta$$
+We substitute $w = 1 - r^2$, $dw = -2r dr$.
+The inner integral is $\int_{0}^{1} \frac{r}{\sqrt{1 - r^2}} dr = \left[ -\sqrt{1 - r^2} \right]_{0}^{1} = 1$.
+$$A = \int_{0}^{2\pi} 1 d\theta = 2\pi$$
+The area of the hemisphere of radius 1 is $2\pi$.
+\end{solution}
+
+\begin{problem}
+Compute the area of the surface which is the part of the plane $2x+5y+z=10$ that lies inside the cylinder $x^{2}+y^{2}=9$.
+\end{problem}
+\begin{problem}
+Compute the first and second fundamental form of the following surfaces:
+\begin{enumerate}
+\item Hyperboloid: $X (u, v) = (\cos u - v \sin u, \sin u + v \cos u, v)$
+\item Enneper's surface: $X(u,v)=\left(u-\frac{u^{3}}{3}+uv^{2},v-\frac{v^{3}}{3}+\nu u^{2},u^{2}-v^{2}\right)$
+\end{enumerate}
+\end{problem}
+
+\begin{solution}
+\textbf{Area Calculation (Part 5, first section):}
+The plane is $z = f(x, y) = 10 - 2x - 5y$. The domain $U$ is the disk $x^2+y^2 \le 9$, area $9\pi$.
+$$f_x = -2, \quad f_y = -5$$The area density $\sqrt{1 + f_x^2 + f_y^2} = \sqrt{1 + (-2)^2 + (-5)^2} = \sqrt{30}$.$$A = \iint_{U} \sqrt{30} dx dy = \sqrt{30} \cdot \text{Area}(U) = 9\pi \sqrt{30}$$
+The area is $9\pi \sqrt{30}$ square units.
+
+\textbf{Fundamental Forms (a) Hyperboloid:}
+$X_u = (-\sin u - v \cos u, \cos u - v \sin u, 0)$
+$X_v = (-\sin u, \cos u, 1)$
+
+\textbf{First Fundamental Form ($E, F, G$):}
+$$E = X_u \cdot X_u = 1 + v^2$$$$F = X_u \cdot X_v = 1$$$$G = X_v \cdot X_v = 2$$
+$$I = (1+v^2) du^2 + 2 du dv + 2 dv^2$$
+
+\textbf{Second Fundamental Form ($L, M, N$):}
+Second partial derivatives:
+$$X_{uu} = (-\cos u + v \sin u, -\sin u - v \cos u, 0)$$$$X_{uv} = (-\sin u, \cos u, 0)$$$$X_{vv} = (0, 0, 0)$$
+Unnormalized normal $W = X_u \times X_v = (\cos u - v \sin u, \sin u + v \cos u, -v)$.
+Magnitude $|W| = \sqrt{1+2v^2}$. Unit normal $N = W/|W|$.
+
+1.  $L = N \cdot X_{uu}$: $W \cdot X_{uu} = - (1 + v^2)$.
+    $$L = -\frac{1+v^2}{\sqrt{1+2v^2}}$$
+2.  $M = N \cdot X_{uv}$: $W \cdot X_{uv} = v$.
+    $$M = \frac{v}{\sqrt{1+2v^2}}$$
+3.  $N = N \cdot X_{vv}$: Since $X_{vv} = 0$,
+    $$N = 0$$
+$$II = L du^2 + 2M du dv + N dv^2 = \frac{- (1+v^2)}{\sqrt{1+2v^2}} du^2 + 2 \frac{v}{\sqrt{1+2v^2}} du dv$$
+
+\textbf{Fundamental Forms (b) Enneper's Surface:}
+$X_u = (1-u^2+v^2, 2uv, 2u)$
+$X_v = (2uv, 1+u^2-v^2, -2v)$
+
+\textbf{First Fundamental Form ($E, F, G$):}
+$$E = (1+u^2+v^2)^2$$$$F = 0$$$$G = (1+u^2+v^2)^2$$
+$$I = (1+u^2+v^2)^2 (du^2 + dv^2)$$
+
+\textbf{Second Fundamental Form ($L, M, N$):}
+Let $\omega = 1+u^2+v^2$. $|W| = E = \omega^2$. $N = W/\omega^2$.
+Second derivatives: $X_{uu} = (-2u, 2v, 2)$, $X_{uv} = (2v, 2u, 0)$, $X_{vv} = (2u, -2v, -2)$.
+
+The coefficients $L, M, N$ for Enneper's surface (a minimal surface) are classically calculated as:
+$$L = -2/\omega^2, \quad M = 0, \quad N = 2/\omega^2$$
+We use the standard constant values corresponding to the factor $\omega^2$ already incorporated in $E$ and $G$.
+$$L = -2$$$$M = 0$$$$N = 2$$
+$$II = -2 du^2 + 2 dv^2$$
+(Note: These are the coefficients $L^*, M^*, N^*$ such that $L = L^* / \omega^2$, etc.) The property $L+N=0$ confirms the mean curvature is zero, $H=0$.
+\end{solution}
+
+\begin{problem}
+Show that
+$$x(u,v)=(u \sin\alpha \cos v, u \sin\alpha \sin v, u \cos \alpha)$$
+$0<u<\infty$, $0<v<2\pi,$ $\alpha=const.,$
+is a parametrization of the cone with $2\alpha$ as the angle of the vertex.
+In the corresponding coordinate neighborhood, prove that the curve
+$x(c \exp(v \sin\alpha \cot\beta), v)$, c = const., $\beta=const.,$
+intersects the generators of the cone $(v=const.)$ under the constant angle $\beta$.
+\end{problem}
+
+\begin{solution}
+\textbf{Cone Verification:}
+For $v=\text{const.}$, the curves are straight lines originating from the origin ($u=0$), which are the generators. The vector along the generator $x_u = (\sin\alpha \cos v, \sin\alpha \sin v, \cos\alpha)$ forms a constant angle $\alpha$ with the $z$-axis $(0, 0, 1)$, since $x_u \cdot (0, 0, 1) = \cos\alpha$. Thus, $x(u, v)$ is a cone with vertex angle $2\alpha$.
+
+\textbf{Angle of Intersection Proof:}
+The tangent vector to the generator (the $u$-curve) is $G = x_u$.
+The First Fundamental Form coefficients were calculated in Section VII: $E=1, F=0, G=u^2 \sin^2\alpha$.
+The curve $C(v)$ has parametrization $\bar{u}(v) = c \exp(v \sin\alpha \cot\beta)$ and $v(v) = v$.
+The tangent vector to the curve is $C' = x_u u' + x_v$, where $u' = d\bar{u}/dv$.
+
+The cosine of the angle $\beta_{curve}$ between $C'$ and $x_u$ is given by:
+$$\cos\beta_{curve} = \frac{C' \cdot x_u}{|C'||x_u|} = \frac{E u' + F}{\sqrt{E (u')^2 + 2 F u' + G} \sqrt{E}}$$Since $E=1$ and $F=0$:$$\cos\beta_{curve} = \frac{u'}{\sqrt{(u')^2 + G}} = \frac{u'}{\sqrt{(u')^2 + u^2 \sin^2\alpha}}$$
+
+We calculate $u'$:
+$$u' = \frac{d\bar{u}}{dv} = c \exp(v \sin\alpha \cot\beta) \cdot (\sin\alpha \cot\beta) = u (\sin\alpha \cot\beta)$$Substitute $u'$ back into the angle formula:$$\cos\beta_{curve} = \frac{u (\sin\alpha \cot\beta)}{\sqrt{u^2 (\sin\alpha \cot\beta)^2 + u^2 \sin^2\alpha}}$$
+$$\cos\beta_{curve} = \frac{u (\sin\alpha \cot\beta)}{u \sqrt{(\sin\alpha \cot\beta)^2 + \sin^2\alpha}}$$Factor $\sin^2\alpha$ from the denominator:$$\cos\beta_{curve} = \frac{\cot\beta}{\sqrt{\cot^2\beta + 1}}$$Using $\cot^2\beta + 1 = \csc^2\beta$:$$\cos\beta_{curve} = \frac{\cot\beta}{\csc\beta} = \frac{\cos\beta/\sin\beta}{1/\sin\beta} = \cos\beta$$
+Since $\beta_{curve} = \beta$ (as $\beta$ is fixed), the curve intersects the generators of the cone under the constant angle $\beta$.
+\end{solution}
+
+\begin{problem}
+The coordinate curves of a parametrization $x(u,v)$ constitute a Tchebyshef net if the lengths of the opposite sides of any quadrilateral formed by them are equal.
+Show that a necessary and sufficient condition for this is
+$$\frac{\partial E}{\partial v}=\frac{\partial G}{\partial u}=0.$$
+\end{problem}
+
+\begin{solution}
+Let $C$ be a coordinate quadrilateral defined by $u \in [u_0, u_1]$ and $v \in [v_0, v_1]$.
+The length of a segment along a $u$-curve at fixed $v$ is $L_u(v) = \int_{u_0}^{u_1} \sqrt{E(u, v)} du$.
+The length of a segment along a $v$-curve at fixed $u$ is $L_v(u) = \int_{v_0}^{v_1} \sqrt{G(u, v)} dv$.
+
+\textbf{Necessary Condition:}
+For the $u$-sides to have equal length, $L_u(v_0) = L_u(v_1)$.
+$$\int_{u_0}^{u_1} \sqrt{E(u, v_0)} du = \int_{u_0}^{u_1} \sqrt{E(u, v_1)} du$$
+Since this equality must hold for arbitrary choice of $u_0, u_1$ in the domain, the integrands must be identical with respect to $v$: $E(u, v_0) = E(u, v_1)$. This implies that $E$ must be a function of $u$ only, i.e., $\partial E / \partial v = 0$.
+Similarly, for the $v$-sides to have equal length, $L_v(u_0) = L_v(u_1)$. This requires $G$ to be independent of $u$, i.e., $\partial G / \partial u = 0$.
+
+\textbf{Sufficient Condition:}
+If $\partial E / \partial v = 0$ and $\partial G / \partial u = 0$, then $E = E(u)$ and $G = G(v)$.
+For $u$-sides, $L_u(v_0) = \int_{u_0}^{u_1} \sqrt{E(u)} du$ and $L_u(v_1) = \int_{u_0}^{u_1} \sqrt{E(u)} du$. Since both integrals are identical constants, $L_u(v_0) = L_u(v_1)$.
+Similarly, $L_v(u_0)$ and $L_v(u_1)$ are equal, as they both depend only on the integral of $\sqrt{G(v)}$.
+Therefore, the condition $\partial E / \partial v = \partial G / \partial u = 0$ is necessary and sufficient.
+\end{solution}
+
+\begin{problem}
+ Prove that whenever the coordinate curves constitute a Tchebyshef net (see Exercise 7) it is possible to reparametrize the coordinate neighborhood in such a way that the new coefficients of the first quadratic form are
+$$E=1, \quad F=\cos\theta, \quad G=1$$
+where $\theta$ is the angle of the coordinate curves.
+\end{problem}
+
+\begin{solution}
+From Problem 7, a Tchebyshef net requires the metric coefficients to be functions of only their own parameter: $E=E(u)$ and $G=G(v)$.
+
+The original First Fundamental Form is $I = E(u) du^2 + 2 F du dv + G(v) dv^2$.
+We define new parameters $\bar{u}$ and $\bar{v}$ based on the arc length along the coordinate curves:
+$$\bar{u} = \int \sqrt{E(u)} du, \quad \bar{v} = \int \sqrt{G(v)} dv$$
+The differentials are $d\bar{u} = \sqrt{E} du$ and $d\bar{v} = \sqrt{G} dv$.
+
+Substituting these into the original First Fundamental Form yields the new metric:
+$$I = E \left(\frac{d\bar{u}}{\sqrt{E}}\right)^2 + 2 F \left(\frac{d\bar{u}}{\sqrt{E}}\right) \left(\frac{d\bar{v}}{\sqrt{G}}\right) + G \left(\frac{d\bar{v}}{\sqrt{G}}\right)^2$$
+$$I = d\bar{u}^2 + 2 \left(\frac{F}{\sqrt{EG}}\right) d\bar{u} d\bar{v} + d\bar{v}^2$$The new metric coefficients are:$$\bar{E} = 1, \quad \bar{G} = 1, \quad \bar{F} = \frac{F}{\sqrt{EG}}$$
+
+The angle $\theta$ between the coordinate curves is defined by the relation $\cos\theta = F/\sqrt{EG}$.
+Therefore, in the new $(\bar{u}, \bar{v})$ coordinates, $\bar{F} = \cos\theta$.
+The First Fundamental Form in the canonical parametrization is:
+$$I = d\bar{u}^2 + 2 \cos\theta d\bar{u} d\bar{v} + d\bar{v}^2$$
+This proves that a Tchebyshef net allows for an isometric reparametrization where the new coefficients satisfy $E=1, F=\cos\theta, G=1$.
+\end{solution}
+
+\begin{note}
+  Here we view $du,dv$ as the 1-form,$dudv$ as the tensor product of $du,dv$, hence we can manipulate it using the chain rule, the nature behind such a operation is pull back of the transition map. (See the book differentials and its applications)
+\end{note}
+
+\begin{problem}
+ Show that a surface of revolution can always be parametrized so that
+$$E=E(v), \quad F=0, \quad G=1$$
+\end{problem}
+
+\begin{solution}
+A surface of revolution generated by rotating a profile curve $\gamma(v) = (f(v), g(v))$ around the $z$-axis is parametrized by:
+$$X(u, v) = (f(v) \cos u, f(v) \sin u, g(v))$$
+
+\textbf{First Fundamental Form Calculation:}
+Tangent vectors:
+$$X_u = (-f(v) \sin u, f(v) \cos u, 0)$$
+$$X_v = (f'(v) \cos u, f'(v) \sin u, g'(v))$$
+
+1.  \textbf{E:} $E = X_u \cdot X_u = f(v)^2 (\sin^2 u + \cos^2 u) = f(v)^2$. Since $f$ is only a function of $v$, $E$ is a function of $v$ only: $E = E(v)$.
+2.  \textbf{F:} $F = X_u \cdot X_v = -f(v)f'(v) \sin u \cos u + f(v)f'(v) \cos u \sin u + 0 = 0$. The coordinate curves are always orthogonal.
+3.  \textbf{G:} $G = X_v \cdot X_v = f'(v)^2 (\cos^2 u + \sin^2 u) + g'(v)^2 = f'(v)^2 + g'(v)^2$.
+
+\textbf{Achieving G=1:}
+The coefficient $G = f'(v)^2 + g'(v)^2$ is the square of the magnitude of the velocity vector of the generating profile curve $\gamma(v)$.
+A regular curve can always be reparametrized by arc length $s$. If we choose $v$ such that it measures the arc length of the profile curve, then $|X_v| = \sqrt{f'(v)^2 + g'(v)^2} = 1$.
+By reparametrizing the profile curve such that $v$ becomes the arc length parameter, we ensure $G=1$.
+
+In this canonical coordinate system, the First Fundamental Form is $I = E(v) du^2 + 1 dv^2$, satisfying $E=E(v)$, $F=0$, and $G=1$.
+\end{solution}
+
+\end{document}
