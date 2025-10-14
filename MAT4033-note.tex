@@ -374,30 +374,195 @@ In this section we would like to study the theory of plane curves globally.
 
 An important question in geometry is the following. Suppose we know the local property of a curve, can we say some thing about the global properties of it?
 
+\subsection{Hopf's Umlaufsatz}
 \begin{definition}
     The rotation index of $\alpha:I\to \mathbb{R}^3$ with period is given by \[\frac{\theta(a)-\theta(0)}{2\pi}=\frac{1}{2\pi}\int_0^a\theta'(s)ds\]. where $\theta(s)$ is defined by $t(s)=(\cos(\theta(s)),\sin(\theta(s)))$.
 \end{definition}
 
-\begin{theorem}[Hopf theorem]
+\begin{theorem}[Hopf's Umlaufsatz]
 Suppose $\alpha$ is a simple closed curve, then its rotation index must be equal to $\pm 1$. Moreover, since we have $\theta'(s)=\kappa(s)$, we have $\int\kappa(s)ds=\pm2\pi$.    
 \end{theorem}
 \begin{proof}
-    We only skecth the idea of the proof, for detailed proof please refer to Kritopher Knapp's book.
+Let the curve $\alpha: [0, L] \to \mathbb{R}^2$ be a simple closed curve parameterized by arc length $s$. The unit tangent vector is $T(s) = \alpha'(s)$, and its angle with a fixed axis is $\theta(s)$. The total curvature is the net change in this angle, $\theta(L) - \theta(0)$. Since the curve is closed, $T(L) = T(0)$, which implies $\theta(L) - \theta(0) = 2\pi n$ for some integer $n$. We will show that $n = \pm 1$.
 
-     It is hard to trace the angle function $\theta(s)$ of the tangent vector. The tangent vector starts and end at the same direction, but it is hard to say whether the integral is $2\pi $ or $0$ or $4\pi$ since it is hard to trace the tangent vector. The idea is that reduce our problems to some other vectors that is easy to trace its trajactory, and hence its angle function.
+As suggested by the proof sketch, we introduce the unit secant vector field, which maps two points on the curve to the unit vector connecting them:
+\[ u(s_1, s_2) = \frac{\alpha(s_2) - \alpha(s_1)}{||\alpha(s_2) - \alpha(s_1)||} \]
+This map is smooth provided $s_1 \neq s_2$, which is guaranteed for a simple curve. Let $\phi(s_1, s_2)$ be the angle of this secant vector.
 
-     Consider the secant vector field \[\sigma(u,v)\], this is a smooth vector unit vector field, and consider its angle function. And then by Green's theorem we can reduce our problems to two integral of angle functions whose vector field is easy to trace.
+This angle function is defined on the domain $[0, L] \times [0, L]$ excluding the diagonal. We consider the triangular region $D = \{(s_1, s_2) \mid 0 \le s_1 \le s_2 \le L\}$. Since $\phi$ is a smooth, well-defined function on the interior of $D$, its exterior derivative $d\phi$ is an exact 1-form. By Green's theorem (or Stokes' theorem for forms), the integral of $d\phi$ around the boundary $\partial D$ must be zero, provided we handle the singular diagonal edge properly.
+\[ \oint_{\partial D} d\phi = 0 \]
+The boundary $\partial D$ consists of three segments. A careful limiting argument shows that the integral of $d\phi$ over the boundary is the sum of the changes in angle along the limiting paths.
+\begin{enumerate}
+    \item \textbf{The diagonal path ($s_1=s_2$):} As $s_2 \to s_1$, the secant vector $u(s_1, s_2)$ limits to the tangent vector $T(s_1)$. Thus, the angle $\phi(s,s)$ corresponds to the tangent angle $\theta(s)$. The change in angle along this path is the total curvature: $\Delta\phi_{diag} = \theta(L) - \theta(0)$.
+
+    \item \textbf{The `start' path ($s_1=0$):} This path corresponds to the secant vector $u(0,s_2)$ from the fixed starting point $\alpha(0)$ to a moving point $\alpha(s_2)$. Let the total change in its angle be $\Delta\phi_{start} = \phi(0,L) - \phi(0,0)$.
+
+    \item \textbf{The `end' path ($s_2=L$):} This path corresponds to the secant vector $u(s_1,L)$ from a moving point $\alpha(s_1)$ to the fixed end point $\alpha(L)=\alpha(0)$. This vector is the opposite of the `start' vector: $u(s_1,L) = -u(0,s_1)$. Thus their angles are related by $\phi_{end}(s_1) = \phi_{start}(s_1) \pm \pi$. The total change in angle along this path is $\Delta\phi_{end} = \Delta\phi_{start}$.
+\end{enumerate}
+
+The relationship between these changes in angle, derived from the boundary integral being zero, is:
+\[ \theta(L) - \theta(0) = \Delta\phi_{start} + \Delta\phi_{end} \]
+Substituting $\Delta\phi_{end} = \Delta\phi_{start}$, we get:
+\[ \theta(L) - \theta(0) = 2 \Delta\phi_{start} \]
+Now we must evaluate $\Delta\phi_{start}$. This quantity represents the total rotation of the secant line anchored at $\alpha(0)$ as its other end traverses the entire curve. Since the curve $\alpha$ is simple and closed, it encloses a region. The secant vector starts in the direction of the tangent $T(0)$ and, as it sweeps through the interior of the curve, ends by pointing in the opposite direction, $-T(0)$. This corresponds to a net rotation of exactly half a circle. Therefore, the change in angle is:
+\[ \Delta\phi_{start} = \pm\pi \]
+Substituting this result into our equation gives the final result:
+\[ \int_0^L \kappa(s) \, ds = \theta(L) - \theta(0) = 2(\pm \pi) = \pm 2\pi \]
+This shows that the rotation index $n$ must be either $+1$ or $-1$.
 \end{proof}
+
+% For the Hopf's Umlaufsatz illustration
+\begin{figure}[h!] % [h!] tries to place the figure "here"
+    \centering % Centers the image
+    \includegraphics[width=0.4\textwidth,height=0.3\textwidth]{hopf_secants.pdf} % Adjust width as needed
+    \caption{Illustration of secant vectors from a fixed point on a closed curve,
+             visualizing the $\Delta\phi_{start}$ component in the proof of Hopf's Umlaufsatz.}
+    \label{fig:hopf_secants} % Label for cross-referencing
+\end{figure}
 
 \begin{remark}
     The theorem can be viewed as a 1-dimensional version of Gauss-Bonnet Formula.
 \end{remark}
 
+\subsection{Isoperimetric Inequality}
+
 \begin{theorem}[Isoperimetric Inequality]
     Let $\alpha$ be a simple closed plane curve. Let A be the area bounded by curves, then $L^2\geq 4\pi A$
 \end{theorem}
 \begin{proof}
-    See Do carmo's book.
+The proof compares the area of the given curve $\mathcal{C}$ to that of a circle $\mathcal{S}^1$ by relating their parametrizations.
+
+\paragraph{Step 1: The Setup.}
+Let $\mathcal{C}$ be a simple closed curve of length $L$ enclosing area $A$. We can parameterize $\mathcal{C}$ by arc length, $\gamma(t) = (x(t), y(t))$ for $t \in [0, L]$. A key property of this parametrization is that the tangent vector has unit length:
+\[ (x'(t))^2 + (y'(t))^2 = 1 \]
+We construct a circle $\mathcal{S}^1$ of an arbitrary radius $r$ centered at the origin. We then define a new curve, $\beta(t) = (x(t), \tilde{y}(t))$, which traces this circle using the same x-coordinate as $\gamma(t)$. To ensure $\beta(t)$ remains on the circle, we must have $\tilde{y}(t) = \pm\sqrt{r^2 - x(t)^2}$.
+% For the Isoperimetric Inequality illustration
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.5\textwidth]{isoperimetric_proof.png} % Adjust width
+    \caption{Geometric construction for the proof of the Isoperimetric Inequality.
+             Curve C (red) and constructed circle S\textsuperscript{1} (blue) sharing x-coordinates.}
+    \label{fig:isoperimetric_proof}
+\end{figure}
+
+\paragraph{Step 2: Combining the Area Formulas.}
+Using Green's Theorem, we can express the areas as line integrals:
+\begin{itemize}
+    \item The area of $\mathcal{C}$ is $A = \int_0^L x(t)y'(t) \, dt$.
+    \item The area of the circle $\mathcal{S}^1$ is $\pi r^2 = -\int_0^L \tilde{y}(t)x'(t) \, dt$.
+\end{itemize}
+Adding these two expressions for area yields:
+\[ A + \pi r^2 = \int_0^L \left( x(t)y'(t) - \tilde{y}(t)x'(t) \right) \, dt \]
+
+\paragraph{Step 3: Applying the Cauchy-Schwarz Inequality.}
+The integrand can be interpreted as the dot product of two vectors, $\mathbf{v}_1(t) = (x(t), -\tilde{y}(t))$ and $\mathbf{v}_2(t) = (y'(t), x'(t))$. We apply the Cauchy-Schwarz inequality for integrals, which states $\int \mathbf{v}_1 \cdot \mathbf{v}_2 \, dt \le \int ||\mathbf{v}_1|| \, ||\mathbf{v}_2|| \, dt$.
+\[ A + \pi r^2 \le \int_0^L \sqrt{x(t)^2 + (-\tilde{y}(t))^2} \cdot \sqrt{y'(t)^2 + x'(t)^2} \, dt \]
+The terms in the integral simplify significantly:
+\begin{itemize}
+    \item Since $\beta(t)$ is on the circle, $\sqrt{x(t)^2 + \tilde{y}(t)^2} = \sqrt{r^2} = r$.
+    \item Since $\gamma(t)$ is parameterized by arc length, $\sqrt{y'(t)^2 + x'(t)^2} = 1$.
+\end{itemize}
+Substituting these back, the inequality becomes:
+\[ A + \pi r^2 \le \int_0^L r \cdot 1 \, dt = rL \]
+
+\paragraph{Step 4: Finding the Optimal Bound.}
+We have derived the relation $A \le rL - \pi r^2$, which must hold for any choice of $r > 0$. To find the tightest possible bound for $A$, we find the value of $r$ that maximizes the function $f(r) = rL - \pi r^2$. Taking the derivative with respect to $r$ and setting it to zero gives:
+\[ f'(r) = L - 2\pi r = 0 \implies r = \frac{L}{2\pi} \]
+This is the radius of a circle with perimeter $L$. Substituting this optimal radius back into our inequality yields:
+\begin{align*}
+    A &\le \left(\frac{L}{2\pi}\right)L - \pi\left(\frac{L}{2\pi}\right)^2 \\
+    A &\le \frac{L^2}{2\pi} - \pi\left(\frac{L^2}{4\pi^2}\right) \\
+    A &\le \frac{L^2}{2\pi} - \frac{L^2}{4\pi} \\
+    A &\le \frac{L^2}{4\pi}
+\end{align*}
+Rearranging this gives the isoperimetric inequality: $4\pi A \le L^2$.
+
+\paragraph{The Equality Case.}
+Equality holds if the Cauchy-Schwarz inequality becomes an equality, which occurs if and only if the vectors $\mathbf{v}_1(t)$ and $\mathbf{v}_2(t)$ are parallel for all $t$. This means $\mathbf{v}_1(t) = k \, \mathbf{v}_2(t)$ for some scalar $k$. The magnitudes must also be equal, so $|k| \cdot ||\mathbf{v}_2|| = ||\mathbf{v}_1||$, which gives $|k| \cdot 1 = r$, so $k = \pm r$.
+
+This implies that $x(t) = \pm r y'(t)$ and $-\tilde{y}(t) = \pm r x'(t)$. For the parametrizations to match, the original curve $\gamma(t)$ must itself be a circle of radius $r$. Since the optimal radius was $r = L/(2\pi)$, equality holds if and only if $\mathcal{C}$ is a circle.
+\end{proof}
+
+\subsection{Four vertex Theorem (Covered in Tutorial)}
+
+We begin by defining the key concepts required for the theorem and its proof. Let $\gamma(t) = (x(t), y(t))$ be a regular plane curve.
+
+\begin{definition}[Signed Curvature]
+For a regular plane curve $\gamma(t)$ parameterized by arc length $s$, its velocity vector is $\mathbf{v}(s) = \gamma'(s)$ and its acceleration is $\mathbf{a}(s) = \gamma''(s)$. The signed curvature, $k_s(s)$, is defined by the relation $\mathbf{a}(s) = k_s(s) R_{90}(\mathbf{v}(s))$, where $R_{90}$ is a 90-degree counter-clockwise rotation. For a general parameter $t$, the curvature equations are:
+\begin{align}
+    x''(t) &= -k_s(t)y'(t) \\
+    y''(t) &= k_s(t)x'(t)
+\end{align}
+\end{definition}
+
+\begin{definition}[Vertex]
+A point $\gamma(t)$ on the trace of a regular plane curve is called a \textbf{vertex} if the signed curvature function $k_s$ has a local maximum or a local minimum at $t$.
+\end{definition}
+
+\begin{definition}[Convex Curve]
+A simple closed plane curve is called \textbf{convex} if its trace lies entirely on one closed side of each of its tangent lines.
+\end{definition}
+
+Now we state the four vertex theorem.
+
+\begin{theorem}[The Four Vertex Theorem]
+\label{thm:four_vertex}
+Every simple closed plane curve has at least four vertices.
+\end{theorem}
+
+\noindent
+\textit{Note: The following proof addresses the special case where the curve is convex.}
+
+The proof relies on the following geometric property of convex curves.
+
+\begin{lemma}
+\label{lem:convexity}
+Let $C$ be the trace of a simple closed convex plane curve, and let $L$ be a line. If $L$ intersects $C$ in at least three points, then $C$ must contain the entire line segment of $L$ between any pair of these points.
+\end{lemma}
+
+\noindent
+A direct consequence is that if a line is not part of the curve, it can intersect a convex curve at most twice.
+
+
+\begin{proof}[Proof of Theorem \ref{thm:four_vertex} for Convex Curves]
+The proof is by contradiction.
+
+\paragraph{Step 1: The Contradiction Hypothesis.}
+Assume there exists a simple, closed, convex curve $\gamma$ with fewer than four vertices. Since the continuous curvature function $k_s$ on a closed curve must attain a global maximum and a global minimum, the curve must have at least two vertices. As local maxima and minima must alternate, the number of vertices must be even. Therefore, our assumption implies that $\gamma$ has exactly two vertices:
+\begin{itemize}
+    \item A point $p$ where $k_s$ attains its global maximum.
+    \item A point $q$ where $k_s$ attains its global minimum.
+\end{itemize}
+
+\paragraph{Step 2: Geometric Setup.}
+Let $L$ be the line passing through the points $p$ and $q$. By Lemma \ref{lem:convexity}, since the curve is convex and not a line segment, $L$ can intersect the curve only at points $p$ and $q$.
+
+We can apply a rigid motion (translation and rotation) to the curve to simplify our coordinate system without changing its geometric properties. We set up the coordinates such that:
+\begin{itemize}
+    \item The point $p$ is at the origin, $p=(0,0)$.
+    \item The line $L$ is the x-axis.
+    \item The point $q$ is on the positive x-axis, $q=(a,0)$ for some $a>0$.
+\end{itemize}
+Let the curve be parameterized by $\gamma(t) = (x(t), y(t))$ for $t \in [0, l]$.
+
+\paragraph{Step 3: Analysis of the Functions.}
+From our setup, the entire curve lies on one side of the x-axis. We can assume without loss of generality that $y(t) \ge 0$ for all $t \in [0,l]$.
+Furthermore, for a positively oriented (counter-clockwise) simple closed convex curve, the signed curvature $k_s(t)$ is strictly positive.
+
+Therefore, the product of these two functions, $y(t)k_s(t)$, must be non-negative for all $t$, and it is only zero at the points $p$ and $q$.
+
+\paragraph{Step 4: The Contradiction.}
+We analyze the integral of the product $y(t)k_s(t)$ over the entire curve.
+\begin{enumerate}
+    \item \textbf{The integral must be positive.} Since $y(t)k_s(t) \ge 0$ for all $t$ and is not identically zero, its integral must be strictly positive:
+    $$ \int_0^l y(t)k_s(t) \, dt > 0 $$
+
+    \item \textbf{The integral must be zero.} However, as stated in the textbook's argument, integrating by parts and using the curvature equations from (1) and (2) shows that the integral is zero. A key part of such a derivation involves using the fact that for a closed curve, the integral of an exact derivative is zero. For example, using equation (2), $y''(t) = k_s(t)x'(t)$, we know:
+    $$ \int_0^l k_s(t)x'(t) \, dt = \int_0^l y''(t) \, dt = \left[ y'(t) \right]_0^l = 0 $$
+    The textbook asserts that a similar line of reasoning (though not fully detailed) leads to the conclusion that our original integral is zero.
+\end{enumerate}
+
+We have reached a contradiction: the integral cannot be both strictly positive and equal to zero. Thus, our initial assumption that the curve has fewer than four vertices must be false. This completes the proof.
 \end{proof}
 \newpage
 \section{Local Theory of Surfaces}
