@@ -103,7 +103,8 @@
 \newtcbenvironment{example}{colframe=RawSienna, colback=RawSienna!5}
 \newtcbenvironment{problem}{colframe=WildStrawberry!30, colback=WildStrawberry!5}
 
-
+%Exercise Environment
+\newtheorem*{exercise}{Exercise}
 
 \title{MAT4033 Differential Geometry}
 \author{Zihan Ke}
@@ -113,7 +114,7 @@
 \newpage
 \tableofcontents
 \newpage
-\section*{Afterward}
+\section*{Foreward}
 
 \newpage
 \section*{Introduction}
@@ -1022,6 +1023,578 @@ and
     We are always working in the orientable cases.
 \end{remark}
 \end{corollary}
+
+With the first fundamental form, we can compute arc-length, area, etc.
+
+\begin{enumerate}
+    \item Arc-length.
+    $$L(\gamma) = \int_I |\gamma'(t)| \, dt$$
+    $$\gamma'(t) = X_u(u, v) u'(t) + X_v(u, v) v'(t)$$
+    $$= \int_I \sqrt{|X_u u'(t) + X_v v'(t)|^2} \, dt$$
+    $$= \int_I \sqrt{E |u'(t)|^2 + 2F u'(t) v'(t) + G |v'(t)|^2} \, dt.$$
+    (If we consider $\gamma$ a curve on $S$ then first fundamental form gives us \textbf{Advantage}: a way to determine the arc-length \textbf{intrinsically}.)
+
+    We just need to know $\alpha(t) = (x(t), y(t))$ to compute the arc-length of $\alpha$.
+
+    \item Area of Surface
+    \begin{definition}
+        Let $Z: U \to S \cap V$ be a coordinate patch of $S$, and $R \in S$ be such that $Z(U) = R$ for $U \subset \mathbb{R}^2$. Then the area of $R$ is given by
+        $$\int_A |X_u \times X_v| \, du \, dv.$$
+    \end{definition}
+    Note that $|u \times w|^2 = |u|^2 |w|^2 - (u \cdot w)^2$.
+    That is $|X_u \times X_v| = \sqrt{EG - F^2}$.
+
+    What happens if we have $\tilde{Z}: \tilde{U} \to S \cap \tilde{V}$ and $Z(U) = \tilde{Z}(\tilde{U}) = R$?
+    Note that
+    $$\Psi = Z^{-1} \circ \tilde{Z}: \tilde{U} \to U$$
+    $$\int_{\tilde{R}} \sqrt{\tilde{E} \tilde{G} - \tilde{F}^2} \, d\tilde{u} \, d\tilde{v} = \int_R \sqrt{E G - F^2} \left|\frac{\partial(u, v)}{\partial(\tilde{u}, \tilde{v})}\right| \, d\tilde{u} \, d\tilde{v}$$
+\end{enumerate}
+
+$$= \int_R \sqrt{EG - F^2} \, du \, dv.$$
+$$ \implies \text{Area of } R \text{ is independent of the choice of coordinate patch.}$$
+
+\begin{remark}
+    \textbf{Recall}:
+    \begin{itemize}
+        \item First fundamental form ($\text{f.f.f}$): $I_p(w) = \langle w, w \rangle, w \in T_p S$.
+        \item If $X: U \to V \cap S$, $w = a X_u + b X_v$, then $I_p(w) = (a \ b) \begin{pmatrix} E & F \\ F & G \end{pmatrix} \begin{pmatrix} a \\ b \end{pmatrix}$.
+    \end{itemize}
+\end{remark}
+
+\section{Gauss Map and the Second Fundamental Form}
+
+\textbf{Main Goal}: Define curvature of a surface.
+
+Recall that in the case of curves:
+$$\vec{T}'(t) = \kappa(t) \vec{N}(t) \quad \text{in the case of plane curve.}$$
+$$\vec{N}'(t) = -\kappa(t) \vec{T}(t)$$
+
+So curvature of a plane curve can be measured by the changes of tangent/normal vector.
+
+If we want to do this on surface, one would like to study the change of normal vector.
+
+\textbf{Difficulty 1:}\\
+The normal vector $N_p = \frac{X_u \times X_v}{\|X_u \times X_v\|}(q)$ is defined only up to a sign.
+
+On each parametrization, one has a "smooth" choice of $N(p)$.
+So we have:
+$$N: V \cap S \to S^2$$
+$$p \mapsto N(p) = \frac{X_u \times X_v}{\|X_u \times X_v\|}(q)$$
+
+\begin{remark}
+    \textbf{However}
+    The map may not be able to be extended to whole $S$.
+    For example, we have a problem defining $N: S \to S^2$ on a M\"obius band.
+    The problem is the \textbf{orientability of $S$}.
+\end{remark}
+
+\begin{definition}
+    Let $f: S_1 \to S_2$ be a map between two regular surfaces.
+    We say $f$ is \textbf{smooth} if $Z_2^{-1} \circ f \circ Z_1$ is smooth.
+    The surface $S$ is \textbf{orientable} if there is a smooth map
+    $$N: S \to S^2$$
+    such that $N(p) \perp T_p S$ for all $p \in S$.
+\end{definition}
+
+\begin{example}
+    \begin{enumerate}
+        \item Suppose $S$ is covered by one coordinate patch $Z: U \to S$.
+        For example, $(S \text{ is the graph of a function } f)$.
+        Then $N_{(p)} = \frac{X_u \times X_v}{\|X_u \times X_v\|}(q)$.
+        \item Suppose $S = f^{-1}(0)$ is defined by an equation, then we can take
+        $$N_{(p)} = \frac{D f(p)}{\|D f(p)\|} = \frac{(\frac{\partial f}{\partial x}, \frac{\partial f}{\partial y}, \frac{\partial f}{\partial z})}{|(\frac{\partial f}{\partial x}, \frac{\partial f}{\partial y}, \frac{\partial f}{\partial z})|} (p)$$
+    \end{enumerate}
+\end{example}
+
+\textbf{Difficulty 2:} \\
+For curves, we have $n' = -\kappa t$. For surfaces, we have two degrees of freedom on $S$.
+\subsection{Gauss Map}
+\begin{definition}
+    The map $N$ is called \textbf{Gauss Map} of $S$. $N$ is well-defined up to a sign.
+\end{definition}
+
+\begin{definition}
+    (Differential)
+    Let $f: S_1 \to S_2$ be a map. The \textbf{differential} of $f$ at $p$, $d f_p$, is a map from $T_p S_1$ to $T_{f(p)} S_2$, defined by
+    $$d f_p (v) := (f \circ \alpha)'(0),$$
+    where $\alpha: (-\varepsilon, \varepsilon) \to S_1$ such that $\alpha(0) = p$, $\alpha'(0) = v$.
+\end{definition}
+
+\begin{remark}
+    One needs to check this definition is well-defined.
+    \textbf{Hint}: Instead of using the definition that $f$ is smooth if $\psi \circ f \circ \varphi^{-1}$ is smooth, one may use the definition that $f$ is smooth on $S_1 \subset \mathbb{R}^3$, if $f = F|_{S_1}$, where $F: \mathbb{R}^3 \to \mathbb{R}^3$ is smooth. It's much easier and intuitive in our cases.
+\end{remark}
+
+Now we study $d N_p: T_p S_1 \to T_{N(p)} S^2 \simeq T_p S$.
+Geometrically, $d N_p$ measures how $N(p)$ changes along any direction of $T_p S$.
+
+\begin{remark}
+    One way to compute $d N_p: T_p S \to T_{N(p)} S^2$ is the following. Let $Z(u, v)$ coordinate patch of $S$.
+
+    \begin{center}
+        \begin{tikzpicture}[scale=0.8]
+        \draw[thick] (0, 0) -- (3, 0) -- (3, 1.5) -- (0, 1.5) -- cycle;
+        \node at (1.5, 1.7) {$S_1$};
+        \draw (1.5, 0.75) circle (0.1);
+
+        \draw[->] (3.5, 0.75) -- node[above] {$f$} (5.5, 0.75);
+
+        \draw[thick] (6.5, 0.75) ellipse (1.5cm and 0.75cm);
+        \node at (6.5, 1.7) {$S_2$};
+        \draw (6.5, 0.75) circle (0.1);
+
+        \node at (1.5, -0.5) {$\tilde{U}$};
+        \node at (1.5, -1.0) {\tiny (dashed)};
+        \draw[dashed] (1.5, -0.5) circle (1.0);
+        \draw[->] (1.5, -0.2) -- node[left] {$Z$} (1.5, 0.3);
+
+        \node at (6.5, -0.5) {$\tilde{V}$};
+        \node at (6.5, -1.0) {\tiny (dashed)};
+        \draw[dashed] (6.5, -0.5) circle (1.0);
+        \draw[->] (6.5, -0.2) -- node[right] {$\tilde{Z}$} (6.5, 0.3);
+
+        \draw[->] (2.8, -0.5) -- node[above] {$F = \tilde{Z}^{-1} \circ f \circ Z$} (5.2, -0.5);
+
+        \end{tikzpicture}
+    \end{center}
+
+    If $w = a X_u + b X_v$,
+    $$\begin{pmatrix} c \\ d \end{pmatrix} = \begin{pmatrix} \frac{\partial F_1}{\partial u} & \frac{\partial F_1}{\partial v} \\ \frac{\partial F_2}{\partial u} & \frac{\partial F_2}{\partial v} \end{pmatrix} \begin{pmatrix} a \\ b \end{pmatrix}$$
+    $$(d f_p)(w) = c \tilde{Z}_{\tilde{u}} + d \tilde{Z}_{\tilde{v}}$$
+
+    Consider $N \circ Z: U \to S^2$, by abuse of notation.
+    Write this map as $N(u, v)$. ($\text{No } Z \text{ in that}$).
+
+    To compute $d N_p$, take the "principal curve".
+    $\beta(t) = (t, v_0)$. $\alpha = Z \circ \beta$. Has $\alpha'(0)=X_u$.
+    Then $d N_p (X_u)$ is given by
+    $$(N \circ \alpha)'(0) = (N \circ Z \circ \beta)'(0)$$
+    $$= \frac{d}{d t} N(t, v_0)|_{t=0} = \frac{\partial N}{\partial u} = N_u.$$
+
+    Similarly, $d N_p (X_v) = N_v = \frac{\partial N}{\partial v}$.
+
+    Since $d N_p: T_p S \to T_{N(p)} S^2$ is a linear transformation
+\end{remark}
+% Uncertainty: The diagram illustrates $f: S_1 \to S_2$ and $F$ being the map between the parameter domains $\tilde{U}$ and $\tilde{V}$. However, the text immediately following the diagram relates to the differential $d f_p$, while the rest of the text focuses on the Gauss Map $N$. The first part of the remark seems to set up the general differential of a map $f$ (which is $d f_p$), while the second part is calculating $d N_p$ specifically. I've transcribed the content faithfully, including the diagram setup for the general differential.
+
+And $\{X_u, X_v\}$ forms a basis of $T_p S$, one can get from
+$$\begin{cases} d N_p (X_u) = N_u \\ d N_p (X_v) = N_v \end{cases}$$
+Moreover, $\langle N, N \rangle = 1$, so differentiating yields $\langle d N, N \rangle = 0$.
+$$\implies \langle N_u, N \rangle = 0 \implies N_u \in T_p S.$$
+$$\implies \langle N_v, N \rangle = 0 \implies N_v \in T_p S.$$
+
+$$\implies d N_p: T_p S \to T_p S.$$
+
+\begin{example}
+    Here are some concrete examples.
+    \begin{enumerate}
+        \item $S$ is a plane, i.e. $Z(u, v) = X_0 + u W_1 + v W_2$.
+        $$X_u = W_1, \quad X_v = W_2$$
+        $$\implies N(u, v) = \frac{X_u \times X_v}{\|X_u \times X_v\|} = \text{ constant.}$$
+        $$\implies N_u = N_v = 0. \quad \text{i.e. } d N_p \text{ is the zero map.}$$
+
+        \item Sphere $S^2$: $Z(u, v) = (u, v, \sqrt{1-u^2-v^2})$.
+        $$X_u = \left(1, 0, \frac{-u}{\sqrt{1-u^2-v^2}}\right)$$
+        $$X_v = \left(0, 1, \frac{-v}{\sqrt{1-u^2-v^2}}\right)$$
+        $$N(u, v) = (u, v, \sqrt{1-u^2-v^2})$$
+        $$N_u = X_u, \quad N_v = X_v$$
+        $$\text{i.e. } d N_p (X_u) = X_u$$
+        $$\text{i.e. } d N_p (X_v) = X_v$$
+        Hence $d N_p$ is the \textbf{identity map}.
+    \item $Z(u, v) = (u, v, u^2 - v^2)$.
+    $$X_u = (1, 0, 2u), \quad X_v = (0, 1, -2v).$$
+    $$N(u, v) = \left( \frac{-2u}{\sqrt{1 + 4u^2 + 4v^2}}, \frac{2v}{\sqrt{1 + 4u^2 + 4v^2}}, \frac{1}{\sqrt{1 + 4u^2 + 4v^2}} \right).$$
+
+    Let $p = (0, 0, 0)$. ($u=0, v=0$).
+    $$X_u|_p = (1, 0, 0), \quad X_v|_p = (0, 1, 0).$$
+    $$N_u|_p = (-2, 0, 0), \quad N_v|_p = (0, 2, 0).$$
+    $$d N_p (X_u) = N_u|_p = -2 X_u|_p, \quad d N_p (X_v) = N_v|_p = 2 X_v|_p.$$
+    \end{enumerate}
+\end{example}
+
+\begin{proposition}
+    The linear operator $d N_p$ is a \textbf{self-adjoint operator} with respect to the inner-product.
+\end{proposition}
+
+\begin{remark}
+    In the finite-dimensional case, $A^* = A$. $\text{ker} \, A = (\text{Im} \, A^*)^\perp$. $\text{ker} \, A^* = (\text{Im} \, A)^\perp$.
+\end{remark}
+
+\begin{proof}
+    We need to show for all $w_1, w_2 \in T_p S$,
+    $$\langle d N_p w_1, w_2 \rangle = \langle w_1, d N_p w_2 \rangle$$
+
+    Let $w_1 = \begin{pmatrix} a \\ b \end{pmatrix}_{\mathcal{B}} = a X_u + b X_v$
+    $$w_2 = \begin{pmatrix} c \\ d \end{pmatrix}_{\mathcal{B}} = c X_u + d X_v$$
+\end{proof}
+
+$$\text{LHS} = \langle a X_u + b X_v, c N_u + d N_v \rangle$$
+$$\text{RHS} = \langle a N_u + b N_v, c X_u + d X_v \rangle$$
+
+In fact, since we have
+$$\langle X_u, N_v \rangle = \langle N_v, X_u \rangle$$
+$$\langle X_v, N_u \rangle = \langle N_u, X_v \rangle$$
+then we're done.
+
+\begin{definition}
+    The self-adjoint operator
+    $$-\textbf{d} N_p: T_p S \to T_p S \quad \text{is called the \textbf{Weingarten Operator}}$$
+    (\textbf{Shape Operator})
+\end{definition}
+
+\begin{corollary}
+    For real vector spaces, a self-adjoint operator is equivalent to a real symmetric matrix.
+    One knows symmetric matrices have an orthonormal basis of real eigenvectors.
+    It's frequently used and the proof is simple and interesting.
+    We would like to include the proof below.
+\end{corollary}
+
+\begin{proof}
+    
+    Let $A$ be a real symmetric $n \times n$ matrix, so $A = A^T$. We must show that all eigenvalues are real and that there exists an orthonormal basis of eigenvectors for $\mathbb{R}^n$.
+
+    \noindent \textbf{Step 1: All Eigenvalues are Real}
+    We temporarily consider $A$ as an operator on $\mathbb{C}^n$. Let $\lambda$ be an eigenvalue and $v \in \mathbb{C}^n$ be the corresponding eigenvector.
+    $$ A v = \lambda v $$
+    Taking the conjugate transpose ($\dagger$):
+    $$ (A v)^\dagger = (\lambda v)^\dagger \implies v^\dagger A^\dagger = \bar{\lambda} v^\dagger $$
+    Since $A$ is real symmetric, $A^\dagger = A^T = A$.
+    $$ v^\dagger A = \bar{\lambda} v^\dagger $$
+    Now, consider the scalar quantity $v^\dagger A v$:
+    $$ v^\dagger (A v) = v^\dagger (\lambda v) = \lambda (v^\dagger v) \quad \text{(Equation 1)} $$
+    $$ (v^\dagger A) v = (\bar{\lambda} v^\dagger) v = \bar{\lambda} (v^\dagger v) \quad \text{(Equation 2)} $$
+    Since $v^\dagger A v$ is a scalar, its two expressions must be equal:
+    $$ \lambda (v^\dagger v) = \bar{\lambda} (v^\dagger v) $$
+    Since $v$ is an eigenvector, $v \ne 0$, so $v^\dagger v = \|v\|^2 > 0$. We can divide by $v^\dagger v$, which gives:
+    $$ \lambda = \bar{\lambda} $$
+    Thus, $\lambda$ is real.
+
+    \noindent \textbf{Step 2: Eigenvectors corresponding to distinct eigenvalues are orthogonal}
+    Let $A v_1 = \lambda_1 v_1$ and $A v_2 = \lambda_2 v_2$, with $\lambda_1 \ne \lambda_2$.
+    Consider $v_1^T A v_2$:
+    $$ v_1^T (A v_2) = v_1^T (\lambda_2 v_2) = \lambda_2 (v_1^T v_2) \quad \text{(Equation 3)} $$
+    Using the symmetry $A = A^T$:
+    $$ v_1^T A v_2 = v_1^T A^T v_2 = (A v_1)^T v_2 = (\lambda_1 v_1)^T v_2 = \lambda_1 (v_1^T v_2) \quad \text{(Equation 4)} $$
+    Equating (3) and (4):
+    $$ \lambda_2 (v_1^T v_2) = \lambda_1 (v_1^T v_2) $$
+    $$ (\lambda_2 - \lambda_1) (v_1^T v_2) = 0 $$
+    Since $\lambda_1 \ne \lambda_2$ (by assumption), we must have $v_1^T v_2 = 0$.
+    Thus, $v_1$ and $v_2$ are orthogonal.
+
+    \noindent \textbf{Step 3: Existence of an Orthonormal Basis (Inductive Step)}
+    Since all roots of the characteristic polynomial are real (from Step 1), $A$ has at least one real eigenvector $v_1$ with eigenvalue $\lambda_1$.
+    Let $W = \operatorname{span}\{v_1\}^{\perp}$. If $w \in W$, then $v_1^T w = 0$.
+    We show that $W$ is an invariant subspace under $A$. If $w \in W$, we check $A w$:
+    $$ v_1^T (A w) = (v_1^T A) w = (A^T v_1)^T w = (A v_1)^T w $$
+    $$ = (\lambda_1 v_1)^T w = \lambda_1 (v_1^T w) = \lambda_1 (0) = 0 $$
+    Thus, $A w \in W$. Since $A$ restricted to $W$ is still self-adjoint (symmetric), we can repeat the process on the $(n-1)$-dimensional space $W$.
+    By induction, we obtain an orthonormal basis $\{v_1, v_2, \dots, v_n\}$ of eigenvectors for $\mathbb{R}^n$.
+\end{proof}
+
+Therefore, so does $-d N_p$, has an orthonormal basis of real eigenvector.
+
+\begin{definition}
+    The real eigenvalues $\lambda_1 \leq \lambda_2$ of $-d N_p$ are called the \textbf{principal curvatures} of $p \in S$.
+    (If $\lambda_1 = \lambda_2 = \lambda$, i.e., $-d N_p = \lambda I$, then all directions are principal.)
+
+    The unit eigenvectors $e_1, e_2 \in T_p S$ corresponding to $\lambda_1, \lambda_2$ are called the \textbf{principal directions} of $p \in S$.
+\end{definition}
+
+The \textbf{Mean Curvature} of $p \in S$ is $H = \frac{1}{2}(\lambda_1 + \lambda_2)$:
+$$H = \frac{1}{2}(\lambda_1 + \lambda_2) = \frac{1}{2} \text{tr}(-d N_p)$$
+
+\begin{remark}
+    One may observe that mean curvature depends on $-d N_p$. In fact, it depends on the way the surface is embedded in $\mathbb{R}^3$.
+    We will introduce the \textbf{Gaussian Curvature} which we will show it is an \textbf{intrinsic curvature}, i.e., independent of the way we embed it. We will be more precise in the following discussion.
+\end{remark}
+
+\begin{definition}
+    The \textbf{Gaussian Curvature}
+    $$K = \lambda_1 \lambda_2 = \det(-d N_p)$$
+\end{definition}
+
+\begin{example}
+    Sphere of radius $r$. $\implies -d N_p = \left( \frac{1}{r} \begin{array}{cc} 1 & 0 \\ 0 & 1 \end{array} \right)$
+    $$\implies \text{principal directions are all directions on } T_p S$$
+\end{example}
+
+\begin{example}
+    \textbf{Cylinder}
+    $$Z(u, v) = (a \cos u, a \sin u, v)$$
+    $$Z_u = (-a \sin u, a \cos u, 0)$$
+    $$Z_v = (0, 0, 1)$$
+    The unit normal vector is $N = (-\cos u, -\sin u, 0)$.
+    $$N_u = (\sin u, -\cos u, 0), \quad N_v = 0$$
+
+    The Weingarten Operator is $\mathbf{S}_p = -d N_p$. Using the basis $\{Z_u, Z_v\}$,
+    $$d N_p (Z_u) = N_u = \frac{1}{a} (-a \sin u, a \cos u, 0) = \frac{1}{a} Z_u$$
+    $$d N_p (Z_v) = N_v = 0 Z_v$$
+    So, $d N_p$ is represented by the matrix $\begin{pmatrix} 1/a & 0 \\ 0 & 0 \end{pmatrix}$.
+    Therefore, the Weingarten operator is represented by $\mathbf{S}_p = -d N_p = \begin{pmatrix} -1/a & 0 \\ 0 & 0 \end{pmatrix}$.
+
+    Principal curvatures are the eigenvalues of $\mathbf{S}_p$:
+    $$\lambda_1 = -\frac{1}{a}, \quad \lambda_2 = 0.$$
+    Principal directions are $Z_u, Z_v$.
+
+    $$H = \frac{1}{2}(\lambda_1 + \lambda_2) = -\frac{1}{2a}, \quad K = \lambda_1 \lambda_2 = 0.$$
+
+    \textbf{Saddle} (Hyperbolic Paraboloid)
+    $$Z(u, v) = (u, v, v^2 - u^2)$$
+    Let $p = (0, 0, 0)$. (Here $Z_u|_p=(1,0,0)$ and $Z_v|_p=(0,1,0)$).
+    $N_u|_p = (-2, 0, 0)$, $N_v|_p = (0, 2, 0)$ (from previous calculation).
+    $$d N_p (Z_u) = N_u|_p = -2 Z_u|_p$$
+    $$d N_p (Z_v) = N_v|_p = 2 Z_v|_p$$
+
+    The Weingarten Operator $\mathbf{S}_p = -d N_p$ is represented by the matrix:
+    $$\mathbf{S}_p = \begin{pmatrix} 2 & 0 \\ 0 & -2 \end{pmatrix}$$
+    The matrix for $d N_p$ is $\begin{pmatrix} -2 & 0 \\ 0 & 2 \end{pmatrix}$, so $-d N_p = \begin{pmatrix} 2 & 0 \\ 0 & -2 \end{pmatrix}$.
+    
+    Principal curvatures (eigenvalues of $\mathbf{S}_p$) are:
+    $$\lambda_1 = -2, \quad \lambda_2 = 2$$
+    $$H = \frac{1}{2}(\lambda_1 + \lambda_2) = 0, \quad K = \lambda_1 \lambda_2 = -4.$$
+\end{example}
+
+\begin{definition}
+A point $p \in S$ is called
+\begin{enumerate}
+    \item \textbf{Elliptic} if $\det(-dN_p) > 0$.
+    \item \textbf{Hyperbolic} if $\det(-dN_p) < 0$.
+    \item \textbf{Parabolic} if $\det(-dN_p) = 0$. $dN_p \ne 0$.
+    \item \textbf{Planar} if $dN_p = 0$.
+\end{enumerate}
+This tells the local behavior of $p \in S$.
+\end{definition}
+
+\subsection{Second Fundamental Form}
+\begin{remark}
+Recall: $\langle -dN_p V, W \rangle = \langle V, -dN_p W \rangle$. Self-adjoint.
+\end{remark}
+
+\begin{definition}
+Let $\langle\langle \cdot, \cdot \rangle\rangle : T_p S \times T_p S \to \mathbb{R}$ be given by
+$$ \langle\langle V, W \rangle\rangle = \langle -dN_p V, W \rangle $$
+Then $\langle\langle \cdot, \cdot \rangle\rangle$ is a \textbf{bilinear form} i.e.
+\begin{enumerate}
+    \item $\langle\langle V, W \rangle\rangle = \langle\langle W, V \rangle\rangle$.
+    \item \textbf{Linearity}.
+\end{enumerate}
+But $\langle\langle V, W \rangle\rangle$ can be $\le 0$ for non-zero $V, W$.
+i.e. it may not be an inner product.
+\end{definition}
+
+\begin{definition}[The Second Fundamental Form]
+$$ \mathrm{II}_p: T_p S \times T_p S \to \mathbb{R} \text{ is defined as} $$
+$$ \mathrm{II}_p(W) = \langle\langle W, W \rangle\rangle = \langle -dN_p W, W \rangle $$
+\end{definition}
+
+\textbf{Question: why $\mathrm{II}_p$? How do we understand $\mathrm{II}_p(w)$?}
+
+\begin{remark}
+Suppose $\alpha: (-\varepsilon, \varepsilon) \to S$  (p.a.l.) with $\alpha(0) = p$, $\alpha'(0) = w = t(0)$.
+Then we have $\alpha''(0) = \kappa \mathbf{n}(0)$
+(assuming $\mathbf{n}(0)$ normal on $\alpha$; $N(\alpha(t))$ normal on $S$)
+
+Since $\langle t'(0), t(0) \rangle = 0$, we have
+$$ \kappa \mathbf{n} = \alpha''(0) = t'(0) \in \text{span} \left\{ N(\alpha(0)), N(\alpha(0)) \times t(0) \right\} $$
+$$ \kappa \mathbf{n} = k_n N + k_g T $$
+$$ k_n = \langle \kappa \mathbf{n}, N \rangle = \langle t'(0), N \rangle = \langle \alpha''(0), N \rangle $$
+$$ k_g = \langle \kappa \mathbf{n}, T \rangle = \langle t'(0), T \rangle = \langle \alpha''(0), T \rangle $$
+where we denote $N,T$ as $\left\{ N(\alpha(0)), N(\alpha(0)) \times t(0) \right\}$
+\end{remark}
+
+\begin{definition}
+\begin{itemize}
+    \item $k_n$ is called the \textbf{normal curvature}.
+    \item $k_g$ is called the \textbf{geodesic curvature}.
+\end{itemize}
+\end{definition}
+
+\begin{example}
+Let $w \in T_p S$ of unit length, define the \textbf{normal section} of $w$ as the plane spanned by $N_p$ and $w$.Then its intersection with $S$ gives a regular curve $\beta$ p.a,l with $\beta(0) = p$, $\beta'(0) = w$.\\
+$(\beta \text{ is called sectional curve of } w)$.
+\end{example}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.5\linewidth]{Normal-section.png} % Replace 'normal_section.png' with your filename
+    \caption{The normal section $\beta$ formed by the intersection of the surface $S$ and the plane spanned by the normal vector $N$ and the tangent vector $w$.}
+    \label{fig:normal_section}
+\end{figure}
+
+
+\begin{remark}
+$$ \beta''(0) = t'(0) = \kappa \mathbf{n} = k_n N + k_g T. $$
+But $\beta$ obviously must lie on $\Sigma$, so $k_g = 0$.
+$$ \Rightarrow k_g = \begin{cases} +\kappa & \text{if } \mathbf{n} \text{ is along the direction of } N. \\ -\kappa & \text{if } \mathbf{n} \text{ is opposite the direction of } N. \end{cases} $$
+\end{remark}
+
+\begin{proposition}
+Let $\alpha: (-\varepsilon, \varepsilon) \to S$ piecewise unit speed curve (p.u.c.) with $\alpha(0) = p$ and $\alpha'(0) = w$.
+Then the normal curvature of $\alpha$ on $S$ is equal to $\mathrm{II}_p(w)$.
+\end{proposition}
+
+\begin{proof}
+$$ \mathrm{II}_p(w) = \langle -dN_p w, w \rangle = \langle -dN_p (\alpha'(0)), \alpha'(0) \rangle $$
+$$ = - \langle (N \circ \alpha)'(0), \alpha'(0) \rangle = k_n. $$
+\end{proof}
+
+\begin{corollary}
+\begin{enumerate}
+    \item The normal curvature of any $\alpha: (-\varepsilon, \varepsilon) \to S$ with $\alpha'(0) = w$ are the same $\mathrm{II}_p(w)$.
+    \item $\mathrm{II}_p(w)$ measures the (normal) curvature of the sectional curve of $w$.
+\end{enumerate}
+This gives a geometric interpretation of $\mathrm{II}_p(w)$.
+\end{corollary}
+
+\begin{corollary}
+Let $w \in T_p S$ be of norm $1$. Then the curvature of the sectional curve of $w$ must lie within $\lambda_1$ and $\lambda_2$. i.e:
+$$ \lambda_1 \le \mathrm{II}_p(w) \le \lambda_2 \quad \forall w \in T_p S, \quad \|w\| = 1. $$
+\end{corollary}
+
+\begin{proof}
+Without loss of generality (WLOG), write $w = \cos\theta e_1 + \sin\theta e_2$, where $e_1, e_2$ principal directions of $-dN_p$ and orthogonal basis of $T_p S$.
+Then:
+\begin{align*}
+\mathrm{II}_p(w) &= \langle\langle w, w \rangle\rangle = \langle -dN_p w, w \rangle \\
+&= \langle -dN_p (\cos\theta e_1 + \sin\theta e_2), \cos\theta e_1 + \sin\theta e_2 \rangle \\
+&= \lambda_1 \cos^2\theta + \lambda_2 \sin^2\theta
+\end{align*}
+Then we're done.
+\end{proof}
+
+\begin{remark}
+Finally we can give a better geometric picture of understanding $\mathrm{II}_p$.
+\end{remark}
+
+\begin{example}
+
+Local behavior for parabolic point $p \in S$.
+$$ -\lambda \le \mathrm{II}_p(w) \le 0 \quad \text{or} \quad 0 \le \mathrm{II}_p(w) \le \lambda $$
+\end{example}
+
+\begin{remark}
+\textbf{Elliptic pt:}
+$$ \lambda_1 \le \mathrm{II}_p(w) \le \lambda_2. \quad \lambda_1 \lambda_2 > 0. $$
+\textbf{Hyperbolic pt:}
+$$ \lambda_1 \le \mathrm{II}_p(w) \le \lambda_2. \quad \lambda_1 < 0 < \lambda_2. $$
+\end{remark}
+
+\subsection{Second Fundamental Form in Local Coordinates}
+
+\begin{remark}
+\textbf{Our goal:} Find an easy way to compute $\mathrm{II}_p$ and $dN_p$.
+\end{remark}
+
+\begin{definition}
+Let $N: U \to \mathbb{S}^2$ be the \textbf{normal map}.
+(Recall this is actually $N \circ X$).
+\end{definition}
+
+\begin{definition}
+\begin{align*}
+e &= \langle -N_u, X_u \rangle. \\
+f &= \langle -N_u, X_v \rangle = \langle -N_v, X_u \rangle. \\
+g &= \langle -N_v, X_v \rangle.
+\end{align*}
+\end{definition}
+
+\begin{proposition}
+If
+\begin{align*}
+w_1 &= a X_u + b X_v \\
+w_2 &= c X_u + d X_v
+\end{align*}
+then
+$$ \langle\langle w_1, w_2 \rangle\rangle = \begin{pmatrix} a & b \end{pmatrix} \begin{pmatrix} e & f \\ f & g \end{pmatrix} \begin{pmatrix} c \\ d \end{pmatrix} $$
+\end{proposition}
+
+\begin{remark}
+As before, we call
+$$ \begin{pmatrix} e & f \\ f & g \end{pmatrix} $$
+the \textbf{second fundamental form} (matrix).
+\end{remark}
+
+\begin{proof}
+By straightforward calculations.
+\end{proof}
+
+\begin{remark}
+$N_u, N_v$ are hard to compute, but we have $\langle N, X_u \rangle = 0$.
+$$ \Rightarrow \langle N_u, X_u \rangle + \langle N, X_{uu} \rangle = 0. $$
+$$ \Rightarrow \begin{cases} e = \langle N, X_{uu} \rangle \\ f = \langle N, X_{uv} \rangle \\ g = \langle N, X_{vv} \rangle \end{cases} $$
+\end{remark}
+
+\begin{example}
+$$ X(u, v) = (v \cos u, v \sin u, u) \quad \text{Helicoid} $$
+$$ \Rightarrow \text{f.f.f} = \mathrm{I}_p = \begin{pmatrix} E & F \\ F & G \end{pmatrix} = \begin{pmatrix} v^2+1 & 0 \\ 0 & 1 \end{pmatrix} $$
+$$ N = \frac{X_u \times X_v}{\| X_u \times X_v \|} $$
+Then we compute $X_{uu}, X_{uv}, X_{vv}$.
+Then
+\begin{align*}
+e &= \langle N, X_{uu} \rangle \\
+f &= \langle N, X_{uv} \rangle \\
+g &= \langle N, X_{vv} \rangle
+\end{align*}
+$$ \Rightarrow \text{s.f.f.} = \mathrm{II}_p = \begin{pmatrix} 0 & \frac{1}{\sqrt{v^2+1}} \\ \frac{1}{\sqrt{v^2+1}} & 0 \end{pmatrix} $$
+\end{example}
+
+\begin{remark}
+After understanding the second fundamental form, one can express:
+$$ -dN_p: T_p S \to T_p S $$
+in coordinates with $\mathcal{B} = \{ X_u, X_v \}$.
+
+Suppose $(-dN_p)_{\mathcal{B}} = \begin{pmatrix} a_{11} & a_{12} \\ a_{21} & a_{22} \end{pmatrix}$, i.e.:
+\begin{align*}
+-dN_p (X_u) &= a_{11} X_u + a_{21} X_v. \\
+\Rightarrow -N_u &= a_{11} X_u + a_{21} X_v. \\
+-dN_p (X_v) &= a_{12} X_u + a_{22} X_v = -N_v.
+\end{align*}
+\begin{align*}
+\Rightarrow \langle -N_u, X_u \rangle = e &= a_{11} E + a_{21} F. \\
+\Rightarrow \langle -N_u, X_v \rangle = f &= a_{11} F + a_{21} G. \\
+\langle -N_v, X_u \rangle = f &= a_{12} E + a_{22} F. \\
+\langle -N_v, X_v \rangle = g &= a_{12} F + a_{22} G.
+\end{align*}
+$$ \Rightarrow \begin{pmatrix} e & f \\ f & g \end{pmatrix} = \begin{pmatrix} E & F \\ F & G \end{pmatrix} \begin{pmatrix} a_{11} & a_{12} \\ a_{21} & a_{22} \end{pmatrix} $$
+$$ \Rightarrow (-dN_p)_{\mathcal{B}} = \begin{pmatrix} a_{11} & a_{12} \\ a_{21} & a_{22} \end{pmatrix} = \begin{pmatrix} E & F \\ F & G \end{pmatrix}^{-1} \begin{pmatrix} e & f \\ f & g \end{pmatrix} $$
+$$ = \mathrm{I}_p^{-1} \mathrm{II}_p. $$
+\end{remark}
+
+\begin{corollary}
+The Gaussian curvature $K = \frac{\det (\mathrm{II}_p)}{\det (\mathrm{I}_p)} = \frac{eg - f^2}{EG - F^2}$.
+Which gives a neat formula for calculating the Gaussian curvature.
+\end{corollary}
+
+\begin{example}
+Back to the previous Helicoid example.
+We have $K = \det(-dN_p) = (1+v^2)^{-2}$.
+$H = 0 = \frac{1}{2} \operatorname{tr}(-dN_p)$. (Example of \textbf{minimum surface}).
+From here, one can easily compute the principal directions and principal curvature.
+\end{example}
+
+\begin{example}
+Compute $(-dN_p)_{\mathcal{B}}$, $K$, $H$. See that $H=0$.
+\end{example}
+
+\begin{example}[Torus]
+$$ X(u, v) = ((a + r \cos u) \cos v, (a + r \cos u) \sin v, r \sin u) $$
+$\mathrm{I}_p$.
+$\mathrm{II}_p$.
+$K$.
+$$ \Rightarrow K > 0 \quad \text{when} \quad -\frac{\pi}{2} < u < \frac{\pi}{2}. $$
+$$ K = 0 \quad \text{when} \quad u = \frac{\pi}{2}, \frac{3\pi}{2}. $$
+$$ K < 0 \quad \text{when} \quad \frac{\pi}{2} < u < \frac{3\pi}{2}. $$
+\end{example}
+
+\begin{remark}
+$$ \int K dA = 0. $$
+We can check this by direct calculation.
+\end{remark}
+
+\begin{exercise}
+Check $H = \frac{1}{2} \cdot \frac{e G - 2 f F + g E}{E G - F^2}$.
+\end{exercise}
+
 \end{document}
 
 

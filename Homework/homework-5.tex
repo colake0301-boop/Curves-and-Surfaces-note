@@ -1,0 +1,335 @@
+\documentclass[12pt, a4paper, oneside]{article}
+\usepackage{amsmath, amsthm, amssymb, bm, color, framed, graphicx, hyperref, mathrsfs}
+\usepackage{tikz-cd}
+
+\title{\textbf{Homework-5 -- Answer Sheet}}
+\author{Cola}
+\date{\today}
+\linespread{1.5}
+\definecolor{shadecolor}{RGB}{241, 241, 255}
+\newcounter{problemname}
+
+% Problem environment
+\newenvironment{problem}
+  {\begin{shaded}\stepcounter{problemname}\par\noindent\textbf{Problem \arabic{problemname}.
+}\newline}
+  {\end{shaded}\par}
+
+% Solution environment
+\newenvironment{solution}
+  {\par\noindent\textbf{Solution. }\newline}
+  {\par}
+
+% Note environment
+\newenvironment{note}
+  {\par\noindent\textbf{Note for Problem \arabic{problemname}.
+}\newline}
+  {\par}
+
+%Definition environment
+\newtheorem*{definition}{Definition}
+\newtheorem{proposition}{Proposition}
+
+\begin{document}
+\maketitle
+
+\begin{problem}[Gauss Map Image]
+Describe the region of the unit sphere covered by the image of the Gauss map $N:S\rightarrow S^{2}$ of the following surfaces:
+\begin{enumerate}
+\item Paraboloid: $z=x^{2}+y^{2}$
+\item Hyperboloid: $x^{2}+y^{2}-z^{2}=1$
+\item Catenoid: $x^{2} + y^{2} = \cosh^{2} z$ ($\cosh z = \frac{e^{z} + e^{-z}}{2}$).
+\end{enumerate}
+(You do not have to compute the Gauss map. Just describe the image of $N$ in terms of the picture of $S$).
+\end{problem}
+\begin{solution}
+The image of the Gauss map consists of all unit normal vectors to the surface, translated to the origin.
+\begin{enumerate}
+\item \textbf{Paraboloid:} The surface $z=x^2+y^2$ is a bowl opening upwards. The normal vector at the origin $(0,0,0)$ is $(0,0,1)$, pointing to the North Pole of $S^2$. As we move away from the origin, the surface becomes steeper, and the normal vector tilts outwards, becoming more horizontal. The $z$-component of the normal is always positive. As $(x,y) \to \infty$, the normal vector approaches the equatorial plane ($z=0$) but never reaches it. Therefore, the image of the Gauss map is the \textbf{open northern hemisphere} ($z>0$).
+
+\item \textbf{Hyperboloid of one sheet:} The surface $x^2+y^2-z^2=1$ is narrowest at the ``neck'' circle $x^2+y^2=1$ in the $z=0$ plane. At this neck, the normal vectors are horizontal and point outwards from the $z$-axis, so their image covers the equator of $S^2$. As $|z|$ increases, the surface approaches the cone $x^2+y^2=z^2$. The normal vectors tilt away from the horizontal plane, pointing upwards in the upper half ($z>0$) and downwards in the lower half ($z<0$). As $|z| \to \infty$, the normal vectors approach (but never reach) the vertical directions. The limit angle of the cone is $45^\circ$, so the normal vectors are confined to a band around the equator. The image is an \textbf{open band around the equator}, specifically the region $-\frac{1}{\sqrt{2}} < z < \frac{1}{\sqrt{2}}$ on the sphere.
+
+\item \textbf{Catenoid:} The catenoid has a neck at $z=0$, where the tangent plane is vertical, so the normal vectors are horizontal, mapping to the equator of $S^2$. As $|z|$ increases, the surface flares out and becomes more horizontal. The normal vectors tilt towards the poles. As $|z| \to \infty$, the surface becomes almost horizontal, and the normal vectors approach the North and South Poles but never reach them. Thus, the image of the Gauss map is the \textbf{entire sphere except for the North and South Poles}.
+\end{enumerate}
+\end{solution}
+
+\begin{problem}[Area of Torus]
+Find the area of the torus of revolution $S$ defined by
+$$S=\{(x,y,z)\in\mathbb{R}^{3}:(\sqrt{x^{2}+y^{2}}-a)^{2}+z^{2}=r^{2}\},$$
+where $a>r>0$ are given positive constants.
+\end{problem}
+\begin{solution}
+We can parametrize the torus by
+$$ X(u,v) = ((a+r\cos v)\cos u, (a+r\cos v)\sin u, r\sin v), \quad u,v \in [0, 2\pi]. $$
+The partial derivatives are:
+\begin{align*}
+X_u &= (-(a+r\cos v)\sin u, (a+r\cos v)\cos u, 0) \\
+X_v &= (-r\sin v \cos u, -r\sin v \sin u, r\cos v)
+\end{align*}
+The coefficients of the first fundamental form are:
+\begin{align*}
+E &= \langle X_u, X_u \rangle = (a+r\cos v)^2\sin^2 u + (a+r\cos v)^2\cos^2 u = (a+r\cos v)^2 \\
+F &= \langle X_u, X_v \rangle = 0 \\
+G &= \langle X_v, X_v \rangle = r^2\sin^2 v \cos^2 u + r^2\sin^2 v \sin^2 u + r^2\cos^2 v = r^2
+\end{align*}
+The area element is $dA = \sqrt{EG-F^2} \,du\,dv$.
+$$ \sqrt{EG-F^2} = \sqrt{(a+r\cos v)^2 r^2} = r(a+r\cos v) \quad (\text{since } a>r>0). $$
+The area $A$ is the integral of the area element over the domain of parametrization:
+\begin{align*}
+A &= \int_0^{2\pi} \int_0^{2\pi} r(a+r\cos v) \,dv\,du \\
+&= \int_0^{2\pi} \left[ r(av+r\sin v) \right]_0^{2\pi} \,du \\
+&= \int_0^{2\pi} r(a(2\pi)+r\sin(2\pi) - 0) \,du \\
+&= \int_0^{2\pi} 2\pi ar \,du = 2\pi ar [u]_0^{2\pi} = 2\pi ar (2\pi) = 4\pi^2 ar.
+\end{align*}
+The area of the torus is $(2\pi a)(2\pi r)$.
+\end{solution}
+
+
+\begin{problem}[Geodesic on Sphere]
+Consider the sphere parametrized by spherical coordinates:
+$$X(u,v)=(\sin v \cos u, \sin v \sin u, \cos v)$$
+with $-\pi<u<\pi$, $0<v<\pi$. Find the length of the curve $\alpha$ given by $u=u_{0}$ and $a\le v\le b$ with $0<a<b<\pi$.
+(That is $\alpha(t)=(\sin t \cos u_{0}, \sin t \sin u_{0}, \cos t)$, with $a\le t\le b$.)
+Let $\beta(t)$ be another curve joining $\alpha(a)$ to $\alpha(b)$ on the surface, i.e., $\beta(t)=X(u(t),v(t))$, $a\le t\le b$ with $\beta(a)=\alpha(a)$, $\beta(b)=\alpha(b)$. Show that $l(\beta)\ge l(\alpha)$.
+\end{problem}
+\begin{solution}
+First, we compute the first fundamental form of the sphere.
+$X_u = (-\sin v \sin u, \sin v \cos u, 0)$ and $X_v = (\cos v \cos u, \cos v \sin u, -\sin v)$.
+\begin{align*}
+E &= \langle X_u, X_u \rangle = \sin^2 v \\
+F &= \langle X_u, X_v \rangle = 0 \\
+G &= \langle X_v, X_v \rangle = \cos^2 v + \sin^2 v = 1
+\end{align*}
+The curve $\alpha$ is given by $u(t) = u_0$ (constant) and $v(t) = t$ for $a \le t \le b$.
+The velocity vector is $\alpha'(t) = X_u \frac{du}{dt} + X_v \frac{dv}{dt} = 0 \cdot X_u + 1 \cdot X_v = X_v$.
+The speed is $||\alpha'(t)|| = \sqrt{E(\frac{du}{dt})^2 + 2F\frac{du}{dt}\frac{dv}{dt} + G(\frac{dv}{dt})^2} = \sqrt{G} = 1$.
+The length of $\alpha$ is
+$$ l(\alpha) = \int_a^b ||\alpha'(t)|| \,dt = \int_a^b 1 \,dt = b-a. $$
+Now, let $\beta(t) = X(u(t), v(t))$ be any other curve with $\beta(a)=\alpha(a)$ and $\beta(b)=\alpha(b)$. This means $u(a)=u_0, v(a)=a$ and $u(b)=u_0, v(b)=b$.
+The velocity vector of $\beta$ is $\beta'(t) = X_u u'(t) + X_v v'(t)$.
+The squared speed is $||\beta'(t)||^2 = E(u')^2 + 2F u'v' + G(v')^2 = \sin^2(v(t))(u'(t))^2 + (v'(t))^2$.
+The length of $\beta$ is
+$$ l(\beta) = \int_a^b \sqrt{\sin^2(v(t))(u'(t))^2 + (v'(t))^2} \,dt. $$
+Since $\sin^2(v(t))(u'(t))^2 \ge 0$, we have:
+$$ \sqrt{\sin^2(v(t))(u'(t))^2 + (v'(t))^2} \ge \sqrt{(v'(t))^2} = |v'(t)|. $$
+Therefore,
+$$ l(\beta) \ge \int_a^b |v'(t)| \,dt. $$
+By the fundamental theorem of calculus, $\int_a^b v'(t) \,dt = v(b) - v(a)$. Also, the integral of the absolute value is greater than or equal to the absolute value of the integral:
+$$ \int_a^b |v'(t)| \,dt \ge \left|\int_a^b v'(t) \,dt\right| = |v(b)-v(a)|. $$
+Since $v(a)=a$ and $v(b)=b$, we have $|v(b)-v(a)| = |b-a| = b-a$ (as $b>a$).
+Combining the inequalities, we get
+$$ l(\beta) \ge b-a = l(\alpha). $$
+Equality holds if and only if $u'(t)=0$ for all $t$ (so $u(t)=u_0$) and $v'(t) \ge 0$. This means $\beta$ must be the same curve as $\alpha$. Thus, the meridian arc is the shortest path between its endpoints.
+\end{solution}
+
+\begin{problem}[Mean Curvature Formula]
+Show that the mean curvature of $p\in S$ is given by the formula
+$$H=\frac{1}{2}\left(\frac{E g-2 F f+G e}{E G-F^{2}}\right)$$
+\end{problem}
+\begin{solution}
+The mean curvature $H$ is defined as half the trace of the shape operator (Weingarten map) $dN_p$. The matrix of the shape operator with respect to the basis $\{X_u, X_v\}$ is given by $W = I^{-1}II$, where $I$ and $II$ are the matrices of the first and second fundamental forms:
+$$ I = \begin{pmatrix} E & F \\ F & G \end{pmatrix}, \quad II = \begin{pmatrix} e & f \\ f & g \end{pmatrix}. $$
+The inverse of the first fundamental form matrix is:
+$$ I^{-1} = \frac{1}{EG-F^2} \begin{pmatrix} G & -F \\ -F & E \end{pmatrix}. $$
+Now we compute the matrix product $W = I^{-1}II$:
+\begin{align*}
+W &= \frac{1}{EG-F^2} \begin{pmatrix} G & -F \\ -F & E \end{pmatrix} \begin{pmatrix} e & f \\ f & g \end{pmatrix} \\
+&= \frac{1}{EG-F^2} \begin{pmatrix} Ge - Ff & Gf - Fg \\ -Fe + Ef & -Ff + Eg \end{pmatrix}.
+\end{align*}
+The trace of a matrix is the sum of its diagonal elements.
+$$ \text{Tr}(W) = \frac{1}{EG-F^2} ( (Ge - Ff) + (-Ff + Eg) ) = \frac{Ge - 2Ff + Eg}{EG-F^2}. $$
+The mean curvature is $H = \frac{1}{2}\text{Tr}(W)$.
+$$ H = \frac{1}{2} \left( \frac{Eg - 2Ff + Ge}{EG-F^2} \right). $$
+This completes the proof.
+\end{solution}
+
+\begin{problem}[Ellipsoid Curvature]
+Compute the first and second fundamental form of the ellipsoid $S$
+$$X(\theta,\phi)=(a \sin \theta \cos \phi, a \sin \theta \sin \phi, c \cos \theta)$$
+Hence find its Gaussian curvature $K$ and mean curvature $H$. Moreover, verify that
+$$\int_{S}K\,dA=\iint_{U}K\sqrt{EG-F^{2}}\,dudv=4\pi.$$
+\end{problem}
+\begin{solution}
+Let's use $(u,v)$ for $(\theta, \phi)$. $X(u,v)=(a \sin u \cos v, a \sin u \sin v, c \cos u)$.
+\textbf{First Fundamental Form:}
+$X_u = (a \cos u \cos v, a \cos u \sin v, -c \sin u)$
+$X_v = (-a \sin u \sin v, a \sin u \cos v, 0)$
+$E = \langle X_u, X_u \rangle = a^2 \cos^2 u \cos^2 v + a^2 \cos^2 u \sin^2 v + c^2 \sin^2 u = a^2 \cos^2 u + c^2 \sin^2 u$.
+$F = \langle X_u, X_v \rangle = 0$.
+$G = \langle X_v, X_v \rangle = a^2 \sin^2 u \sin^2 v + a^2 \sin^2 u \cos^2 v = a^2 \sin^2 u$.
+$\sqrt{EG-F^2} = a \sin u \sqrt{a^2 \cos^2 u + c^2 \sin^2 u}$.
+
+\textbf{Second Fundamental Form:}
+$X_u \times X_v = (-ac \sin^2 u \cos v, -ac \sin^2 u \sin v, a^2 \sin u \cos u)$.
+$|X_u \times X_v| = \sqrt{EG-F^2}$.
+$N = \frac{X_u \times X_v}{|X_u \times X_v|} = \frac{1}{\sqrt{a^2 \cos^2 u + c^2 \sin^2 u}}(-c \sin u \cos v, -c \sin u \sin v, a \cos u)$.
+$X_{uu} = (-a \sin u \cos v, -a \sin u \sin v, -c \cos u)$.
+$X_{uv} = (-a \cos u \sin v, a \cos u \cos v, 0)$.
+$X_{vv} = (-a \sin u \cos v, -a \sin u \sin v, 0)$.
+$e = \langle X_{uu}, N \rangle = \frac{ac \sin^2 u + ac \cos^2 u}{\sqrt{a^2 \cos^2 u + c^2 \sin^2 u}} = \frac{ac}{\sqrt{a^2 \cos^2 u + c^2 \sin^2 u}}$.
+$f = \langle X_{uv}, N \rangle = 0$.
+$g = \langle X_{vv}, N \rangle = \frac{ac \sin^2 u}{\sqrt{a^2 \cos^2 u + c^2 \sin^2 u}}$.
+
+\textbf{Curvatures:} Let $W = \sqrt{a^2 \cos^2 u + c^2 \sin^2 u}$.
+$K = \frac{eg-f^2}{EG-F^2} = \frac{eg}{EG} = \frac{a^2c^2\sin^2 u/W^2}{(a^2\cos^2 u+c^2\sin^2 u)a^2\sin^2 u} = \frac{c^2}{W^4} = \frac{c^2}{(a^2 \cos^2 u + c^2 \sin^2 u)^2}$.
+$H = \frac{Eg+Ge}{2(EG-F^2)} = \frac{1}{2}(\frac{g}{G}+\frac{e}{E}) = \frac{1}{2}\left( \frac{ac\sin^2 u / W}{a^2\sin^2 u} + \frac{ac/W}{a^2\cos^2 u+c^2\sin^2 u} \right) = \frac{c(2a^2\cos^2 u + (a^2+c^2)\sin^2 u)}{2a (a^2\cos^2 u + c^2\sin^2 u)^{3/2}}$.
+
+\textbf{Integral of K:}
+$\int_S K dA = \int_0^{2\pi} \int_0^\pi K \sqrt{EG} \,du\,dv$.
+$K\sqrt{EG} = \frac{c^2}{(a^2 \cos^2 u + c^2 \sin^2 u)^2} \cdot a \sin u \sqrt{a^2 \cos^2 u + c^2 \sin^2 u} = \frac{ac^2 \sin u}{(a^2 \cos^2 u + c^2 \sin^2 u)^{3/2}}$.
+The integral is $2\pi \int_0^\pi \frac{ac^2 \sin u}{(a^2 \cos^2 u + c^2 \sin^2 u)^{3/2}} \,du$.
+Let $w = \cos u$, $dw = -\sin u \,du$. The bounds change from $[0, \pi]$ to $[1, -1]$.
+$$ \int_S K dA = 2\pi \int_1^{-1} \frac{ac^2}{ (a^2 w^2 + c^2(1-w^2))^{3/2} } (-dw) = 2\pi ac^2 \int_{-1}^{1} \frac{dw}{(c^2+(a^2-c^2)w^2)^{3/2}}. $$
+Using the standard integral $\int \frac{dx}{(A+Bx^2)^{3/2}} = \frac{x}{A\sqrt{A+Bx^2}}$, we have:
+$$ \int_S K dA = 2\pi ac^2 \left[ \frac{w}{c^2\sqrt{c^2+(a^2-c^2)w^2}} \right]_{-1}^1 = 2\pi a \left[ \frac{w}{\sqrt{a^2w^2+c^2(1-w^2)}} \right]_{-1}^1. $$
+$$ = 2\pi a \left( \frac{1}{\sqrt{a^2}} - \frac{-1}{\sqrt{a^2}} \right) = 2\pi a \left( \frac{1}{a} + \frac{1}{a} \right) = 2\pi a \left(\frac{2}{a}\right) = 4\pi. $$
+This is consistent with the Gauss-Bonnet theorem, as the ellipsoid is homeomorphic to a sphere, for which the Euler characteristic $\chi=2$, and $\int_S K dA = 2\pi\chi = 4\pi$.
+\end{solution}
+
+\begin{problem}[Curvature of Paraboloids]
+Calculate the mean curvature $H$ and Gauss curvature $K$ of the following surfaces:
+$$S_{1}=\{(x,y,z)\in\mathbb{R}^{3}|z=x^{2}+y^{2}\},$$
+$$S_{2}=\{(x,y,z)\in\mathbb{R}^{3}|z=x^{2}-y^{2}\}$$
+with respect to the "upward" (toward positive $z$-axis) pointing unit normal $N$. Express the second fundamental form of each surface at $p=(0,0,0)$ as a diagonal matrix. What are the principal curvatures and principal directions? Sketch the surfaces near $(0,0,0)$.
+\end{problem}
+\begin{solution}
+For a surface defined by a graph $z=f(x,y)$, let $p=f_x, q=f_y, r=f_{xx}, s=f_{xy}, t=f_{yy}$.
+The curvatures are $K = \frac{rt-s^2}{(1+p^2+q^2)^2}$ and $H = \frac{(1+q^2)r - 2pqs + (1+p^2)t}{2(1+p^2+q^2)^{3/2}}$.
+
+\textbf{For $S_1: z=x^2+y^2$ (Elliptic Paraboloid)}
+$p=2x, q=2y, r=2, s=0, t=2$.
+$K = \frac{2 \cdot 2 - 0^2}{(1+4x^2+4y^2)^2} = \frac{4}{(1+4(x^2+y^2))^2}$.
+$H = \frac{(1+4y^2)2 - 0 + (1+4x^2)2}{2(1+4x^2+4y^2)^{3/2}} = \frac{4+8(x^2+y^2)}{2(1+4(x^2+y^2))^{3/2}} = \frac{2(1+2(x^2+y^2))}{(1+4(x^2+y^2))^{3/2}}$.
+
+\textbf{For $S_2: z=x^2-y^2$ (Hyperbolic Paraboloid)}
+$p=2x, q=-2y, r=2, s=0, t=-2$.
+$K = \frac{2(-2)-0^2}{(1+4x^2+4y^2)^2} = \frac{-4}{(1+4(x^2+y^2))^2}$.
+$H = \frac{(1+4y^2)2 - 0 + (1+4x^2)(-2)}{2(1+4x^2+4y^2)^{3/2}} = \frac{2+8y^2-2-8x^2}{2(1+4(x^2+y^2))^{3/2}} = \frac{4(y^2-x^2)}{(1+4(x^2+y^2))^{3/2}}$.
+
+\textbf{At the origin $p=(0,0,0)$:}
+For both surfaces, $x=y=0$, so $p=q=0$.
+At $p=(0,0,0)$, $X_x=(1,0,0), X_y=(0,1,0)$, so $E=1,F=0,G=1$. The normal is $N=(0,0,1)$.
+The coefficients of the second fundamental form are $e = \langle X_{xx}, N \rangle = r$, $f = s$, $g = t$.
+The matrix of the second fundamental form is $II = \begin{pmatrix} r & s \\ s & t \end{pmatrix}$.
+Since $I$ is the identity matrix, the principal curvatures are the eigenvalues of $II$.
+
+\textbf{For $S_1$ at $(0,0,0)$:}
+$r=2, s=0, t=2$. $II = \begin{pmatrix} 2 & 0 \\ 0 & 2 \end{pmatrix}$.
+This is already diagonal.
+The principal curvatures are $\kappa_1=2, \kappa_2=2$.
+Since the curvatures are equal, this is an umbilical point. Every tangent vector is a principal direction.
+$K = \kappa_1\kappa_2=4$, $H=(\kappa_1+\kappa_2)/2 = 2$.
+Near the origin, $S_1$ is shaped like a bowl opening upwards.
+
+\textbf{For $S_2$ at $(0,0,0)$:}
+$r=2, s=0, t=-2$. $II = \begin{pmatrix} 2 & 0 \\ 0 & -2 \end{pmatrix}$.
+This is already diagonal.
+The principal curvatures are $\kappa_1=2, \kappa_2=-2$.
+The principal directions are the eigenvectors, which are $(1,0)$ (the $x$-direction) and $(0,1)$ (the $y$-direction).
+$K = \kappa_1\kappa_2=-4$, $H=(\kappa_1+\kappa_2)/2 = 0$.
+Near the origin, $S_2$ is shaped like a saddle.
+\end{solution}
+
+\begin{problem}[Theorem of Beltrami-Enneper]
+Prove that the absolute value of the torsion $\tau$ at a point of an asymptotic curve, whose curvature is nowhere zero, is given by
+$$|\tau|=\sqrt{-K},$$
+where $K$ is the Gaussian curvature of the surface at the given point.
+\end{problem}
+\begin{solution}
+Let $\alpha(s)$ be an asymptotic curve parametrized by arc length $s$. Let $\{\mathbf{t}, \mathbf{n}, \mathbf{b}\}$ be its Frenet-Serret frame.
+By definition, an asymptotic curve has zero normal curvature, $k_n = \langle \alpha''(s), N \rangle = 0$.
+Since $\alpha''(s) = k(s)\mathbf{n}(s)$ and $k \neq 0$, the principal normal $\mathbf{n}$ of the curve must be orthogonal to the surface normal $N$. This implies $\mathbf{n}$ lies in the tangent plane $T_pS$.
+Since $\mathbf{n}$ is also orthogonal to $\mathbf{t}$, the Darboux frame vector $\mathbf{g} = N \times \mathbf{t}$ must be $\pm\mathbf{n}$. Let's choose the orientation so that $\mathbf{g}=\mathbf{n}$.
+The binormal of the curve is $\mathbf{b} = \mathbf{t} \times \mathbf{n} = \mathbf{t} \times \mathbf{g} = \mathbf{t} \times (N \times \mathbf{t}) = ( \mathbf{t} \cdot \mathbf{t} ) N - ( \mathbf{t} \cdot N ) \mathbf{t} = N$.
+The torsion is given by the Frenet-Serret formula $\mathbf{b}'(s) = -\tau(s)\mathbf{n}(s)$.
+Differentiating $\mathbf{b}=N$ along the curve, we get $\mathbf{b}'(s) = \frac{d}{ds}N(\alpha(s)) = dN_{\alpha(s)}(\alpha'(s)) = dN(\mathbf{t})$.
+So, $dN(\mathbf{t}) = -\tau\mathbf{n}$.
+The Gaussian curvature is $K = \det(dN)$. Let's compute this determinant in an orthonormal basis of $T_pS$.
+Let $\{\mathbf{t}, \mathbf{n}\}$ be an orthonormal basis for $T_pS$ (since $\mathbf{n} \in T_pS$).
+$dN(\mathbf{t}) = -\tau\mathbf{n} = 0\cdot\mathbf{t} - \tau\cdot\mathbf{n}$.
+Now we need to find $dN(\mathbf{n})$. From the property that $dN$ is self-adjoint:
+$\langle dN(\mathbf{t}), \mathbf{n} \rangle = \langle \mathbf{t}, dN(\mathbf{n}) \rangle$.
+$\langle -\tau\mathbf{n}, \mathbf{n} \rangle = -\tau$. So $\langle \mathbf{t}, dN(\mathbf{n}) \rangle = -\tau$.
+Let $dN(\mathbf{n}) = c_1 \mathbf{t} + c_2 \mathbf{n}$.
+Then $\langle \mathbf{t}, c_1 \mathbf{t} + c_2 \mathbf{n} \rangle = c_1$. So $c_1=-\tau$.
+The matrix of $dN$ in the basis $\{\mathbf{t}, \mathbf{n}\}$ is
+$$ [dN] = \begin{pmatrix} 0 & -\tau \\ -\tau & c_2 \end{pmatrix}. $$
+The Gaussian curvature is the determinant of this matrix:
+$$ K = \det([dN]) = (0)(c_2) - (-\tau)(-\tau) = -\tau^2. $$
+Therefore, $\tau^2 = -K$. This requires $K \le 0$, which is always true for a surface admitting asymptotic curves.
+Taking the square root, we get $|\tau| = \sqrt{-K}$.
+\end{solution}
+
+\begin{problem}[Curvature of Intersection]
+If the surface $S_{1}$ intersects the surface $S_{2}$ along the regular curve $C$, then the curvature $k$ of $C$ at $p\in C$ is given by
+$$k^{2}\sin^{2}\theta=\lambda_{1}^{2}+\lambda_{2}^{2}-2\lambda_{1}\lambda_{2}\cos\theta,$$
+where $\lambda_{1}$ and $\lambda_{2}$ are the normal curvatures at $p$, along the tangent line to $C$, of $S_{1}$ and $S_{2}$, respectively, and $\theta$ is the angle made up by the normal vectors of $S_{1}$ and $S_{2}$ at $p$.
+\end{problem}
+\begin{solution}
+Let $C$ be parametrized by arc length $s$. Let $p = C(s)$. Let $\mathbf{t}$ be the tangent vector, $\mathbf{n}$ the principal normal, and $k$ the curvature of $C$ at $p$. The acceleration vector is $C''(s) = k\mathbf{n}$.
+Let $N_1$ and $N_2$ be the unit normal vectors to $S_1$ and $S_2$ at $p$.
+The normal curvature of $S_i$ in the direction $\mathbf{t}$ is $\lambda_i = \langle C''(s), N_i \rangle = k\langle\mathbf{n}, N_i\rangle$.
+The tangent vector $\mathbf{t}$ is orthogonal to both $N_1$ and $N_2$, so $N_1$ and $N_2$ lie in the normal plane of the curve $C$. The principal normal $\mathbf{n}$ also lies in the normal plane. Since the normal plane is two-dimensional, $\mathbf{n}$ must be a linear combination of $N_1$ and $N_2$ (assuming they are not collinear, i.e., $\sin\theta \neq 0$).
+So, we can write $\mathbf{n} = a N_1 + b N_2$ for some scalars $a,b$.
+From the definition of normal curvature:
+$\lambda_1 = k\langle aN_1+bN_2, N_1 \rangle = k(a\langle N_1,N_1\rangle + b\langle N_2,N_1\rangle) = k(a + b\cos\theta)$.
+$\lambda_2 = k\langle aN_1+bN_2, N_2 \rangle = k(a\langle N_1,N_2\rangle + b\langle N_2,N_2\rangle) = k(a\cos\theta + b)$.
+We have a linear system for $a$ and $b$:
+\begin{align*} a + b\cos\theta &= \lambda_1/k \\ a\cos\theta + b &= \lambda_2/k \end{align*}
+Solving this system (e.g., using Cramer's rule or substitution) gives:
+$$ a = \frac{\lambda_1 - \lambda_2\cos\theta}{k(1-\cos^2\theta)} = \frac{\lambda_1 - \lambda_2\cos\theta}{k\sin^2\theta} $$
+$$ b = \frac{\lambda_2 - \lambda_1\cos\theta}{k(1-\cos^2\theta)} = \frac{\lambda_2 - \lambda_1\cos\theta}{k\sin^2\theta} $$
+Since $\mathbf{n}$ is a unit vector, $\langle\mathbf{n}, \mathbf{n}\rangle=1$.
+$1 = \langle aN_1+bN_2, aN_1+bN_2 \rangle = a^2\langle N_1,N_1\rangle + b^2\langle N_2,N_2\rangle + 2ab\langle N_1,N_2\rangle = a^2+b^2+2ab\cos\theta$.
+Substitute the expressions for $a$ and $b$:
+$k^2\sin^4\theta = (\lambda_1-\lambda_2\cos\theta)^2 + (\lambda_2-\lambda_1\cos\theta)^2 + 2(\lambda_1-\lambda_2\cos\theta)(\lambda_2-\lambda_1\cos\theta)\cos\theta$.
+Expanding the right hand side:
+RHS $= (\lambda_1^2 - 2\lambda_1\lambda_2\cos\theta + \lambda_2^2\cos^2\theta) + (\lambda_2^2 - 2\lambda_1\lambda_2\cos\theta + \lambda_1^2\cos^2\theta) + 2(\lambda_1\lambda_2 - (\lambda_1^2+\lambda_2^2)\cos\theta + \lambda_1\lambda_2\cos^2\theta)\cos\theta$
+$= (\lambda_1^2+\lambda_2^2)(1+\cos^2\theta) - 4\lambda_1\lambda_2\cos\theta + 2\lambda_1\lambda_2\cos\theta - 2(\lambda_1^2+\lambda_2^2)\cos^2\theta + 2\lambda_1\lambda_2\cos^3\theta$
+$= (\lambda_1^2+\lambda_2^2)(1-\cos^2\theta) - 2\lambda_1\lambda_2\cos\theta(1-\cos^2\theta)$
+$= ((\lambda_1^2+\lambda_2^2) - 2\lambda_1\lambda_2\cos\theta)\sin^2\theta$.
+So, $k^2\sin^4\theta = (\lambda_1^2+\lambda_2^2-2\lambda_1\lambda_2\cos\theta)\sin^2\theta$.
+Dividing by $\sin^2\theta$ (which is non-zero), we get the desired result:
+$$ k^2\sin^2\theta = \lambda_1^2+\lambda_2^2-2\lambda_1\lambda_2\cos\theta. $$
+\end{solution}
+
+\begin{problem}[Self-adjointness of the Shape Operator]
+Given a surface $S$ parametrized by $X(u,v)$, the shape operator (or Weingarten map) $dN_p: T_pS \to T_pS$ at a point $p$ can be viewed through its coefficients in the basis $\{X_u, X_v\}$ of the tangent plane $T_pS$. The property of the shape operator being **self-adjoint** with respect to the first fundamental form is equivalent to the following equality holding for any vectors $v_1, v_2 \in T_pS$:
+$$\langle dN_p(v_1), v_2 \rangle = \langle v_1, dN_p(v_2) \rangle$$
+In terms of the basis vectors, show that the condition $\langle dN_p(X_u), X_v \rangle = \langle X_u, dN_p(X_v) \rangle$ is equivalent to the following relation involving the partial derivatives of the unit normal vector $N$:
+$$\langle N_u, X_v \rangle = \langle X_u, N_v \rangle$$
+\end{problem}
+\begin{solution}
+First, we show that the condition holding for all vectors $v_1, v_2$ is equivalent to it holding for the basis vectors $\{X_u, X_v\}$.
+One direction is trivial: if it holds for all vectors, it must hold for the basis vectors.
+For the other direction, assume $\langle dN_p(X_i), X_j \rangle = \langle X_i, dN_p(X_j) \rangle$ for $i,j \in \{u,v\}$. Let $v_1 = aX_u+bX_v$ and $v_2 = cX_u+dX_v$. By linearity of $dN_p$ and bilinearity of the inner product $\langle\cdot,\cdot\rangle$:
+\begin{align*}
+\langle dN_p(v_1), v_2 \rangle &= \langle dN_p(aX_u+bX_v), cX_u+dX_v \rangle \\
+&= \langle a dN_p(X_u) + b dN_p(X_v), cX_u+dX_v \rangle \\
+&= ac\langle dN_p(X_u), X_u \rangle + ad\langle dN_p(X_u), X_v \rangle + bc\langle dN_p(X_v), X_u \rangle + bd\langle dN_p(X_v), X_v \rangle
+\end{align*}
+Using the assumption, this becomes:
+\begin{align*}
+&= ac\langle X_u, dN_p(X_u) \rangle + ad\langle X_u, dN_p(X_v) \rangle + bc\langle X_v, dN_p(X_u) \rangle + bd\langle X_v, dN_p(X_v) \rangle \\
+&= \langle aX_u+bX_v, c dN_p(X_u) + d dN_p(X_v) \rangle \\
+&= \langle v_1, dN_p(v_2) \rangle
+\end{align*}
+So the condition for all vectors is equivalent to the condition on the basis vectors.
+
+Next, we show the equivalence with the relation involving partial derivatives of $N$.
+The differential map $dN_p$ applied to a basis vector $X_u$ is defined as the directional derivative of the vector field $N$ in the direction of $X_u$. For a parametrized surface, this is simply the partial derivative with respect to the parameter $u$.
+$$ dN_p(X_u) = N_u \quad \text{and} \quad dN_p(X_v) = N_v $$
+Substituting these into the condition for the basis vectors:
+$$ \langle dN_p(X_u), X_v \rangle = \langle X_u, dN_p(X_v) \rangle $$
+becomes
+$$ \langle N_u, X_v \rangle = \langle X_u, N_v \rangle $$
+This establishes the required equivalence.
+\end{solution}
+
+\begin{note}
+This property, $\langle N_u, X_v \rangle = \langle X_u, N_v \rangle$, is always true for a $C^2$ parametrization. It follows from differentiating $\langle N, X_u \rangle=0$ with respect to $v$ and $\langle N, X_v \rangle=0$ with respect to $u$, which gives $\langle N_v, X_u \rangle + \langle N, X_{uv} \rangle = 0$ and $\langle N_u, X_v \rangle + \langle N, X_{vu} \rangle = 0$. Since $X_{uv}=X_{vu}$ for a $C^2$ surface (Clairaut's theorem), the property holds. This confirms that the shape operator is indeed always self-adjoint.
+\end{note}
+
+
+
+\end{document}
