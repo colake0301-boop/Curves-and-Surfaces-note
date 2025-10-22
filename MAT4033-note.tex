@@ -1414,7 +1414,7 @@ Let $w \in T_p S$ of unit length, define the \textbf{normal section} of $w$ as t
 $(\beta \text{ is called sectional curve of } w)$.
 \end{example}
 
-\begin{figure}[h]
+\begin{figure}[h!]
     \centering
     \includegraphics[width=0.5\linewidth]{Normal-section.png} % Replace 'normal_section.png' with your filename
     \caption{The normal section $\beta$ formed by the intersection of the surface $S$ and the plane spanned by the normal vector $N$ and the tangent vector $w$.}
@@ -1594,6 +1594,120 @@ We can check this by direct calculation.
 \begin{exercise}
 Check $H = \frac{1}{2} \cdot \frac{e G - 2 f F + g E}{E G - F^2}$.
 \end{exercise}
+
+% New content from Lec12_251022_221812.pdf
+\subsection*{Gaussian Curvature}
+
+$K = \det(II) / \det(I)$.
+Since $\lambda_1, \lambda_2$ principal curvature are roots of characteristic poly of $-dN_p$.
+\[ \Rightarrow \lambda^2 - 2\lambda H + K = 0. \]
+\[ \Rightarrow \lambda = H \pm \sqrt{H^2 - K} \]
+A differentiable fcn of local charts.
+except possible at pt where $H^2 = K$
+we define these as "umbilical pts"
+
+\begin{exercise}[HW]
+prove A planar or sphere is the only totally "umbilical pts" surface
+Here "totally umbilical" means every pt is umbilical in $\mathbb{R}^3$.
+\end{exercise}
+
+\textbf{Third Fundamental Form}
+
+\begin{definition}
+\[ III_p(w_1, w_2) = \langle (-dN_p)^2 w_1, w_2 \rangle \]
+also we can define the N-fundamental form as
+\[ IV_p(w_1, w_2) := \langle -(dN_p)^{(n-1)} w_1, w_2 \rangle. \]
+this is a bilinear form symmetric form.
+\end{definition}
+
+\begin{exercise}
+\[ III_p = 2H II_p - K I_p. \]
+\end{exercise}
+
+\begin{remark}[Rank]
+By the above computation we see f.f.f \& s.f.f.
+indeed gives all the information.
+\end{remark}
+
+\subsection{Minimal Surfaces}
+
+\textbf{Idea}
+
+Given a coordinate patch $z: U \to S \cap V$
+take $\overline{D} \subset U$ closed. if we "perturb" the surface
+a bit will the area go up
+or down?
+
+\begin{definition}[Minimal surface "="]
+Surface that has minimal area
+If we "perturb" the surface a little bit, its area
+will always go up !
+\end{definition}
+
+Now we are making the concept of minimal surface rigorously.
+Let $\phi: \overline{D} \times (-\epsilon, \epsilon) \to \mathbb{R}^3$
+\[ \phi(u,v,t) = z(u,v) + t h(u,v) N(u,v) \]
+for some $h: \overline{D} \to \mathbb{R}$ Normal to surfaces.
+with $h|_{\partial \overline{D}} = 0$ ( this is the boundary condition,
+note that there is always a boundary condition
+when we do Calculus of variation)
+and $X^t(u,v) = \phi(u,v,t)$.
+a family of parametrization
+\begin{align*}
+    \Rightarrow X^t_u &= X_u + th N_u + th_u N \\
+    X^t_v &= X_v + th N_v + th_v N
+\end{align*}
+
+\begin{align*}
+    E^t &= E + 2th\langle X_u, N_u \rangle + t^2 h^2 \langle N_u, N_u \rangle + t^2 h_u^2 \\
+    F^t &= F + 2th\langle X_u, N_v \rangle + t^2 h^2 \langle N_u, N_v \rangle + t^2 h_u h_v \\
+    G^t &= G + 2th\langle X_v, N_v \rangle + t^2 h^2 \langle N_v, N_v \rangle + t^2 h_v^2
+\end{align*}
+
+$\Rightarrow E^t G^t - {F^t}^2$ we expand it and pick the order 1-term
+\[ = EG - F^2 - 2th(eG - 2fF + gE) + O(t^2) \]
+with
+\[ H = \frac{1}{2} \frac{eG - 2fF + gE}{EG - F^2}. \]
+\[ = (EG - F^2)(1 - 4thH) + O(t^2) \]
+\[ \Rightarrow A(t) = \int_{\overline{D}} \sqrt{E^t G^t - {F^t}^2} du dv. \]
+we have.
+\[ = \int_{\overline{D}} \sqrt{EG - F^2} \sqrt{1 - 4thH + O(t^2)} du dv \]
+then $A'(0) = - \int_{\overline{D}} 2h H \sqrt{EG - F^2} du dv$.
+
+\begin{proposition}
+$H=0 \Leftrightarrow A'(0)=0$ for all $h$.
+\begin{itemize}
+    \item "$\Leftarrow$" is obvious.
+    \item "$\Rightarrow$" Suppose $H(q) \ne 0$ for some $q \in \overline{D}$. Then one can choose $h$ such that $h(q) = H(q)$ \& hence $A'(0) < 0$.
+\end{itemize}
+\end{proposition}
+
+\begin{definition}
+A regular parametrized surface is a minimal surface if $H \equiv 0$.
+a minimal regular surface.
+by the above discussion. hits the critical value of the area functional, yet one may not know whether this is the minimal area: local min? global min?
+\end{definition}
+
+\begin{proposition}
+Let S be a minimal surface. and a graph.
+\[ X(u,v) = (u,v, f(u,v)). \]
+then f satisfies the PDE.
+\[ (1 + f_u^2) f_{vv} - 2 f_u f_v f_{uv} + (1 + f_v^2) f_{uu} = 0. \]
+This is a Elliptic PDE.
+\end{proposition}
+
+\begin{proof}
+If $h: \overline{D} \to \mathbb{R}$ smooth \& $h|_{\partial \overline{D}} = 0$ consider family of graphs
+\[ F(t) = f + th \]
+\[ X^t(u,v) = (u,v, F(t)) \text{ All above share boundary} \]
+\[ \nabla F = \nabla f + t \nabla h \]
+\[ \Rightarrow \frac{d}{dt} (\text{area } X^t) \Big|_{t=0} = \int_D \frac{d}{dt} \sqrt{1 + |\nabla f + t \nabla h|^2} \Big|_{t=0} du dv. \]
+\[ = \int_D \frac{\langle \nabla f, \nabla h \rangle}{\sqrt{1 + |\nabla f|^2}} du dv \]
+\[ \stackrel{HW}{=} \int_D -h \text{ div} \left(\frac{\nabla f}{\sqrt{1 + |\nabla f|^2}}\right) du dv = 0 \]
+$\Rightarrow \text{div} \left(\frac{\nabla f}{\sqrt{1 + |\nabla f|^2}}\right) = 0$.
+
+then we can verify this is our PDE.
+\end{proof}
 
 \end{document}
 
