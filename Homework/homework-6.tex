@@ -1,0 +1,430 @@
+\documentclass[12pt, a4paper, oneside]{article}
+\usepackage{amsmath, amsthm, amssymb, bm, color, framed, graphicx, hyperref, mathrsfs}
+\usepackage{tikz-cd}
+\usepackage[shortlabels]{enumitem} % Added for list formatting (e.g., a, b, c)
+\usepackage{graphicx}
+\title{\textbf{Mat4033 Supplement Problems for Second Fundamental Forms}}
+\author{Cola}
+\date{\today}
+\linespread{1.5}
+\definecolor{shadecolor}{RGB}{241, 241, 255}
+\newcounter{problemname}
+
+% Problem environment
+\newenvironment{problem}
+  {\begin{shaded}\stepcounter{problemname}\par\noindent\textbf{Problem \arabic{problemname}.
+  }\newline}
+  {\end{shaded}\par}
+
+% Solution environment
+\newenvironment{solution}
+  {\par\noindent\textbf{Solution. }\newline}
+  {\par}
+
+
+% Note environment
+\newenvironment{note}
+  {\par\noindent\textbf{Note for Problem \arabic{problemname}.
+  }\newline}
+  {\par}
+
+%Definition environment
+\newtheorem*{definition}{Definition}
+\newtheorem{proposition}{Proposition}
+
+\begin{document}
+
+\maketitle
+
+\begin{problem}
+Calculate the first and second fundamental forms of the pseudosphere (see Example 8) and check our computations of the principal curvatures and Gaussian curvature.
+\end{problem}
+
+\begin{solution}
+We use the standard parametrization for the pseudosphere, which is the surface of revolution of a tractrix:
+$$
+\mathbf{x}(u, v) = (u - \tanh u, \text{sech } u \cos v, \text{sech } u \sin v)
+$$
+where $u > 0$ and $v \in [0, 2\pi)$.
+
+\subsubsection*{Step 1: First Fundamental Form (I)}
+First, we compute the partial derivatives:
+\begin{align*}
+\mathbf{x}_u &= \left( 1 - \text{sech}^2 u, -\text{sech } u \tanh u \cos v, -\text{sech } u \tanh u \sin v \right) \\
+&= \left( \tanh^2 u, -\text{sech } u \tanh u \cos v, -\text{sech } u \tanh u \sin v \right) \\
+\mathbf{x}_v &= \left( 0, -\text{sech } u \sin v, \text{sech } u \cos v \right)
+\end{align*}
+
+Next, we compute the coefficients $E, F, G$:
+\begin{align*}
+E &= \mathbf{x}_u \cdot \mathbf{x}_u = (\tanh^4 u) + (\text{sech}^2 u \tanh^2 u \cos^2 v) + (\text{sech}^2 u \tanh^2 u \sin^2 v) \\
+&= \tanh^4 u + \text{sech}^2 u \tanh^2 u = \tanh^2 u (\tanh^2 u + \text{sech}^2 u) = \mathbf{\tanh^2 u}
+\end{align*}
+\begin{align*}
+F &= \mathbf{x}_u \cdot \mathbf{x}_v = 0 + (\text{sech}^2 u \tanh u \cos v \sin v) - (\text{sech}^2 u \tanh u \sin v \cos v) \\
+&= \mathbf{0}
+\end{align*}
+\begin{align*}
+G &= \mathbf{x}_v \cdot \mathbf{x}_v = 0 + (\text{sech}^2 u \sin^2 v) + (\text{sech}^2 u \cos^2 v) \\
+&= \text{sech}^2 u (\sin^2 v + \cos^2 v) = \mathbf{\text{sech}^2 u}
+\end{align*}
+The First Fundamental Form is $I = \begin{pmatrix} \tanh^2 u & 0 \\ 0 & \text{sech}^2 u \end{pmatrix}$.
+
+\subsubsection*{Step 2: Second Fundamental Form (II)}
+The normal vector $\mathbf{N} = \frac{\mathbf{x}_u \times \mathbf{x}_v}{\|\mathbf{x}_u \times \mathbf{x}_v\|}$.
+$$
+\mathbf{x}_u \times \mathbf{x}_v = \left( -\text{sech}^2 u \tanh u, -\text{sech } u \tanh^2 u \cos v, -\text{sech } u \tanh^2 u \sin v \right)
+$$
+The magnitude is $\|\mathbf{x}_u \times \mathbf{x}_v\| = \sqrt{EG - F^2} = \sqrt{\tanh^2 u \text{sech}^2 u} = \tanh u \text{sech } u$.
+$$
+\mathbf{N} = \frac{1}{\tanh u \text{sech } u} (\mathbf{x}_u \times \mathbf{x}_v) = \left( -\text{sech } u, -\tanh u \cos v, -\tanh u \sin v \right)
+$$
+Now we compute the second partial derivatives:
+\begin{align*}
+\mathbf{x}_{uu} &= \left( 2\tanh u \text{sech}^2 u, (\text{sech } u \tanh^2 u - \text{sech}^3 u)\cos v, (\text{sech } u \tanh^2 u - \text{sech}^3 u)\sin v \right) \\
+\mathbf{x}_{uv} &= \left( 0, \text{sech } u \tanh u \sin v, -\text{sech } u \tanh u \cos v \right) \\
+\mathbf{x}_{vv} &= \left( 0, -\text{sech } u \cos v, -\text{sech } u \sin v \right)
+\end{align*}
+We compute the coefficients $e, f, g$:
+\begin{align*}
+e &= \mathbf{N} \cdot \mathbf{x}_{uu} = -2\tanh u \text{sech}^3 u - \tanh u (\text{sech } u \tanh^2 u - \text{sech}^3 u) \\
+&= -2\tanh u \text{sech}^3 u - \tanh^3 u \text{sech } u + \tanh u \text{sech}^3 u \\
+&= -\tanh u \text{sech } u (\text{sech}^2 u + \tanh^2 u) = \mathbf{-\tanh u \text{sech } u}
+\end{align*}
+\begin{align*}
+f &= \mathbf{N} \cdot \mathbf{x}_{uv} = 0 - \tanh^2 u \text{sech } u \cos v \sin v + \tanh^2 u \text{sech } u \sin v \cos v \\
+&= \mathbf{0}
+\end{align*}
+\begin{align*}
+g &= \mathbf{N} \cdot \mathbf{x}_{vv} = 0 + \tanh u \text{sech } u \cos^2 v + \tanh u \text{sech } u \sin^2 v \\
+&= \mathbf{\tanh u \text{sech } u}
+\end{align*}
+The Second Fundamental Form is $II = \begin{pmatrix} -\tanh u \text{sech } u & 0 \\ 0 & \tanh u \text{sech } u \end{pmatrix}$.
+
+\subsubsection*{Step 3: Curvatures}
+\textbf{Gaussian Curvature ($K$):}
+$$
+K = \frac{eg - f^2}{EG - F^2} = \frac{(-\tanh u \text{sech } u)(\tanh u \text{sech } u) - 0^2}{(\tanh^2 u)(\text{sech}^2 u) - 0^2} = \frac{-\tanh^2 u \text{sech}^2 u}{\tanh^2 u \text{sech}^2 u} = \mathbf{-1}
+$$
+\textbf{Principal Curvatures ($\kappa_1, \kappa_2$):}
+The principal curvatures are the eigenvalues of the shape operator $S = I^{-1} II$.
+$$
+S = \begin{pmatrix} \tanh^2 u & 0 \\ 0 & \text{sech}^2 u \end{pmatrix}^{-1} \begin{pmatrix} -\tanh u \text{sech } u & 0 \\ 0 & \tanh u \text{sech } u \end{pmatrix}
+$$
+$$
+S = \begin{pmatrix} 1/\tanh^2 u & 0 \\ 0 & 1/\text{sech}^2 u \end{pmatrix} \begin{pmatrix} -\tanh u \text{sech } u & 0 \\ 0 & \tanh u \text{sech } u \end{pmatrix}
+$$
+$$
+S = \begin{pmatrix} -\frac{\text{sech } u}{\tanh u} & 0 \\ 0 & \frac{\tanh u}{\text{sech } u} \end{pmatrix} = \begin{pmatrix} -1/\sinh u & 0 \\ 0 & \sinh u \end{pmatrix}
+$$
+The principal curvatures are $\mathbf{\kappa_1 = -1/\sinh u}$ and $\mathbf{\kappa_2 = \sinh u}$.
+We check $K = \kappa_1 \kappa_2 = (-1/\sinh u)(\sinh u) = -1$, which is correct.
+\end{solution}
+
+\begin{problem}
+Show that a ruled surface has Gaussian curvature $K \le 0$.
+\end{problem}
+
+\begin{solution}
+\subsubsection*{What is a Ruled Surface?}
+A ruled surface is a surface that can be parametrized by
+$$
+\mathbf{x}(u, v) = \boldsymbol{\alpha}(u) + v \boldsymbol{\beta}(u)
+$$
+where $\boldsymbol{\alpha}(u)$ is a base curve (the directrix) and $\boldsymbol{\beta}(u)$ is a vector field defining the direction of the line (the ruling) at each point $\boldsymbol{\alpha}(u)$.
+
+\subsubsection*{Solution}
+We need to show that $K \le 0$. The formula for Gaussian curvature is
+$$
+K = \frac{eg - f^2}{EG - F^2}
+$$
+For a regular surface, the denominator $EG - F^2 > 0$. Thus, we only need to show that the numerator $eg - f^2 \le 0$.
+
+\textbf{1. Find Second Partial Derivatives}
+\begin{align*}
+\mathbf{x}_u &= \boldsymbol{\alpha}'(u) + v \boldsymbol{\beta}'(u) \\
+\mathbf{x}_v &= \boldsymbol{\beta}(u)
+\end{align*}
+The second partial derivatives are:
+\begin{align*}
+\mathbf{x}_{uu} &= \boldsymbol{\alpha}''(u) + v \boldsymbol{\beta}''(u) \\
+\mathbf{x}_{uv} &= \boldsymbol{\beta}'(u) \\
+\mathbf{x}_{vv} &= \mathbf{0}
+\end{align*}
+
+\textbf{2. Find the Second Fundamental Form (II)}
+The coefficients $e, f, g$ are the dot products of the second partials with the unit normal vector $\mathbf{N} = (\mathbf{x}_u \times \mathbf{x}_v) / \|\mathbf{x}_u \times \mathbf{x}_v\|$.
+\begin{align*}
+e &= \langle \mathbf{N}, \mathbf{x}_{uu} \rangle = \langle \mathbf{N}, \boldsymbol{\alpha}''(u) + v \boldsymbol{\beta}''(u) \rangle \\
+f &= \langle \mathbf{N}, \mathbf{x}_{uv} \rangle = \langle \mathbf{N}, \boldsymbol{\beta}'(u) \rangle \\
+g &= \langle \mathbf{N}, \mathbf{x}_{vv} \rangle = \langle \mathbf{N}, \mathbf{0} \rangle = \mathbf{0}
+\end{align*}
+
+\textbf{3. Calculate $K$}
+Now we substitute $g=0$ into the formula for $K$:
+$$
+K = \frac{e \cdot (0) - f^2}{EG - F^2} = \frac{-f^2}{EG - F^2}
+$$
+
+\textbf{4. Conclusion}
+Let's analyze this result:
+\begin{itemize}
+    \item The numerator is $-f^2$. Since $f$ is a real-valued scalar (from a dot product), $f^2$ must be non-negative ($f^2 \ge 0$). Therefore, $\mathbf{-f^2 \le 0}$.
+    \item The denominator $EG - F^2$ is the squared magnitude of the normal vector, which must be positive for a regular surface ($\mathbf{EG - F^2 > 0}$).
+\end{itemize}
+Since $K = \frac{(\text{a value } \le 0)}{(\text{a value } > 0)}$, the result $K$ must be less than or equal to zero.
+Thus, $K \le 0$ for any ruled surface.
+\end{solution}
+
+\begin{problem}
+Let $\kappa_{n}(\theta)$ denote the normal curvature in the direction making angle $\theta$ with the first principal direction.
+\begin{enumerate}[a.]
+    \item Show that $H=\frac{1}{2\pi}\int_{0}^{2\pi}\kappa_{n}(\theta)d\theta$.
+    
+    \item Show that $H=\frac{1}{2}(\kappa_{n}(\theta)+\kappa_{n}(\theta+\frac{\pi}{2}))$ for any $\theta$.
+    
+    \item (More challenging) Show that, more generally, for any $\theta$ and $m\ge3,$ we have
+    \[
+    H=\frac{1}{m}\left(\kappa_{n}(\theta)+\kappa_{n}\left(\theta+\frac{2\pi}{m}\right)+\cdot\cdot\cdot+\kappa_{n}\left(\theta+\frac{2\pi(m-1)}{m}\right)\right).
+    \]
+\end{enumerate}
+\end{problem}
+
+\begin{solution}
+All three parts rely on Euler's Formula for normal curvature and the definition of Mean Curvature.
+\begin{itemize}
+    \item \textbf{Euler's Formula:} $\kappa_n(\theta) = \kappa_1 \cos^2 \theta + \kappa_2 \sin^2 \theta$, where $\kappa_1, \kappa_2$ are principal curvatures.
+    \item \textbf{Mean Curvature:} $H = \frac{1}{2}(\kappa_1 + \kappa_2)$.
+\end{itemize}
+
+\subsubsection*{a. Show that $H=\frac{1}{2\pi}\int_{0}^{2\pi}\kappa_{n}(\theta)d\theta$}
+1. Substitute Euler's Formula into the integral:
+$$
+\frac{1}{2\pi}\int_{0}^{2\pi}\kappa_{n}(\theta)d\theta = \frac{1}{2\pi}\int_{0}^{2\pi} (\kappa_1 \cos^2 \theta + \kappa_2 \sin^2 \theta) d\theta
+$$
+2. Split the integral:
+$$
+= \frac{1}{2\pi} \left[ \kappa_1 \int_{0}^{2\pi} \cos^2 \theta d\theta + \kappa_2 \int_{0}^{2\pi} \sin^2 \theta d\theta \right]
+$$
+3. Use the identities $\int_{0}^{2\pi} \cos^2 \theta d\theta = \pi$ and $\int_{0}^{2\pi} \sin^2 \theta d\theta = \pi$:
+$$
+= \frac{1}{2\pi} \left[ \kappa_1 (\pi) + \kappa_2 (\pi) \right] = \frac{\pi}{2\pi} (\kappa_1 + \kappa_2)
+$$
+4. This simplifies to $\frac{1}{2}(\kappa_1 + \kappa_2)$, which is the definition of $H$.
+
+\subsubsection*{b. Show that $H=\frac{1}{2}(\kappa_{n}(\theta)+\kappa_{n}(\theta+\frac{\pi}{2}))$}
+1. Write out the two terms using Euler's Formula:
+\begin{align*}
+\kappa_n(\theta) &= \kappa_1 \cos^2 \theta + \kappa_2 \sin^2 \theta \\
+\kappa_n(\theta + \frac{\pi}{2}) &= \kappa_1 \cos^2(\theta + \frac{\pi}{2}) + \kappa_2 \sin^2(\theta + \frac{\pi}{2})
+\end{align*}
+2. Use the identities $\cos(\theta + \frac{\pi}{2}) = -\sin \theta$ and $\sin(\theta + \frac{\pi}{2}) = \cos \theta$:
+$$
+\kappa_n(\theta + \frac{\pi}{2}) = \kappa_1 (-\sin \theta)^2 + \kappa_2 (\cos \theta)^2 = \kappa_1 \sin^2 \theta + \kappa_2 \cos^2 \theta
+$$
+3. Add the two terms:
+\begin{align*}
+\kappa_n(\theta) + \kappa_n(\theta + \frac{\pi}{2}) &= (\kappa_1 \cos^2 \theta + \kappa_2 \sin^2 \theta) + (\kappa_1 \sin^2 \theta + \kappa_2 \cos^2 \theta) \\
+&= \kappa_1 (\cos^2 \theta + \sin^2 \theta) + \kappa_2 (\sin^2 \theta + \cos^2 \theta) \\
+&= \kappa_1(1) + \kappa_2(1) = \kappa_1 + \kappa_2
+\end{align*}
+4. Substitute this back into the expression:
+$$
+\frac{1}{2}(\kappa_{n}(\theta)+\kappa_{n}(\theta+\frac{\pi}{2})) = \frac{1}{2}(\kappa_1 + \kappa_2) = H
+$$
+
+\subsubsection*{c. Show that $H=\frac{1}{m}(\sum_{k=0}^{m-1} \kappa_{n}(\theta+\frac{2\pi k}{m}))$}
+1. Let $S = \sum_{k=0}^{m-1} \kappa_n\left(\theta + \frac{2\pi k}{m}\right)$. We substitute Euler's Formula:
+$$
+S = \sum_{k=0}^{m-1} \left[ \kappa_1 \cos^2\left(\theta + \frac{2\pi k}{m}\right) + \kappa_2 \sin^2\left(\theta + \frac{2\pi k}{m}\right) \right]
+$$
+2. Split the sum:
+$$
+S = \kappa_1 \underbrace{\left[ \sum_{k=0}^{m-1} \cos^2\left(\theta + \frac{2\pi k}{m}\right) \right]}_{A} + \kappa_2 \underbrace{\left[ \sum_{k=0}^{m-1} \sin^2\left(\theta + \frac{2\pi k}{m}\right) \right]}_{B}
+$$
+3. We evaluate the sums $A$ and $B$.
+$$
+A + B = \sum_{k=0}^{m-1} \left[ \cos^2(\dots) + \sin^2(\dots) \right] = \sum_{k=0}^{m-1} 1 = m
+$$
+$$
+A - B = \sum_{k=0}^{m-1} \left[ \cos^2(\dots) - \sin^2(\dots) \right] = \sum_{k=0}^{m-1} \cos\left(2\theta + \frac{4\pi k}{m}\right)
+$$
+This is the sum of cosines of angles in arithmetic progression, which is the real part of $\sum_{k=0}^{m-1} e^{i(2\theta + 4\pi k/m)}$. For $m \ge 3$, this sum is $0$.
+4. We have a system of equations:
+\begin{itemize}
+    \item $A + B = m$
+    \item $A - B = 0 \implies A = B$
+\end{itemize}
+This gives $2A = m \implies A = m/2$ and $B = m/2$.
+5. Substitute this back into the expression for $S$:
+$$
+S = \kappa_1 \left(\frac{m}{2}\right) + \kappa_2 \left(\frac{m}{2}\right) = \frac{m}{2}(\kappa_1 + \kappa_2)
+$$
+6. Finally, we find the average:
+$$
+\frac{1}{m} S = \frac{1}{m} \left[ \frac{m}{2}(\kappa_1 + \kappa_2) \right] = \frac{1}{2}(\kappa_1 + \kappa_2) = H
+$$
+\end{solution}
+
+\begin{problem}
+(Surfaces of Revolution with Constant Curvature.)
+A surface is given as a surface of revolution $(\phi(v) \cos u, \phi(v) \sin u, \psi(v))$ with constant Gaussian curvature $K$. To determine the functions $\phi$ and $\psi$, choose the parameter $v$ in such a way that $(\varphi^{\prime})^{2}+(\psi^{\prime})^{2}=1$ (geometrically, this means that $v$ is the arc length of the generating curve $(\phi(v), \psi(v))$).
+\begin{enumerate}[a.]
+    \item Show that $\varphi$ satisfies $\varphi^{\prime\prime}+K\varphi=0$ and $\psi$ is given by $\psi=\int\sqrt{1-(\varphi^{\prime})^{2}}dv$; thus, $0<u<2\pi$, and the domain of $v$ is such that the last integral makes sense.
+    
+    \item All surfaces of revolution with constant curvature $K=1$ which intersect perpendicularly the plane $xOy$ are given by
+    \begin{align*}
+        \varphi(v) &= C \cos v \\
+        \psi(v) &= \int_{0}^{v}\sqrt{1-C^{2}\sin^{2}t}\,dt ,
+    \end{align*}
+    where $C$ is a constant $(C=\varphi(0)).$ Determine the domain of $v$ and draw a rough sketch of the profile of the surface in the $xz$ plane for the cases $C=1$, $C>1$, $C<1$. Observe that $C=1$ gives a sphere.
+    
+    \item All surfaces of revolution with constant curvature $K=-1$ may be given by one of the following types:
+    \begin{enumerate}[1.]
+        \item $\varphi(v)=C \cosh v, \quad \psi(v)=\int_{0}^{v}\sqrt{1-C^{2}\sinh^{2}t}\,dt$
+        \item $\varphi(v)=C \sinh v, \quad \psi(v)=\int_{0}^{v}\sqrt{1-C^{2}\cosh^{2}t}\,dt$
+        \item $\varphi(v)=e^{v}, \quad \psi(v)=\int_{0}^{v}\sqrt{1-e^{2t}}\,dt$
+    \end{enumerate}
+    Determine the domain of $v$ and draw a rough sketch of the profile of the surface in the $xz$ plane.
+    
+    \item The surface of type 3 in part c is the pseudosphere of Exercise 6.
+    
+    \item The only surfaces of revolution with $K\equiv0$ are the right circular cylinder, the right circular cone, and the plane.
+\end{enumerate}
+\end{problem}
+
+
+\begin{solution}
+\subsubsection*{a. Deriving the Fundamental Equations}
+We are given $\mathbf{x}(u, v) = (\phi(v) \cos u, \phi(v) \sin u, \psi(v))$ and $(\phi')^2 + (\psi')^2 = 1$.
+
+\textbf{1. First Fundamental Form:}
+\begin{align*}
+\mathbf{x}_u &= (-\phi \sin u, \phi \cos u, 0) \\
+\mathbf{x}_v &= (\phi' \cos u, \phi' \sin u, \psi')
+\end{align*}
+$E = \mathbf{x}_u \cdot \mathbf{x}_u = \phi^2$ \\
+$F = \mathbf{x}_u \cdot \mathbf{x}_v = 0$ \\
+$G = \mathbf{x}_v \cdot \mathbf{x}_v = (\phi')^2(\cos^2 u + \sin^2 u) + (\psi')^2 = (\phi')^2 + (\psi')^2 = 1$ \\
+So, $EG - F^2 = \phi^2$.
+
+\textbf{2. Second Fundamental Form:}
+The normal vector is $\mathbf{N} = \frac{\mathbf{x}_u \times \mathbf{x}_v}{\|\mathbf{x}_u \times \mathbf{x}_v\|} = \frac{1}{\phi}(\phi \psi' \cos u, \phi \psi' \sin u, -\phi \phi') = (\psi' \cos u, \psi' \sin u, -\phi')$.
+The second partials are:
+\begin{align*}
+\mathbf{x}_{uu} &= (-\phi \cos u, -\phi \sin u, 0) \\
+\mathbf{x}_{vv} &= (\phi'' \cos u, \phi'' \sin u, \psi'')
+\end{align*}
+The coefficients $e, f, g$ are:
+$e = \mathbf{N} \cdot \mathbf{x}_{uu} = -\phi \psi' \cos^2 u - \phi \psi' \sin^2 u = -\phi \psi'$ \\
+$f = \mathbf{N} \cdot \mathbf{x}_{uv} = 0$ (as $\mathbf{x}_{uv}$ is orthogonal to $\mathbf{N}$) \\
+$g = \mathbf{N} \cdot \mathbf{x}_{vv} = \psi' \phi'' (\cos^2 u + \sin^2 u) - \phi' \psi'' = \psi' \phi'' - \phi' \psi''$
+
+\textbf{3. Simplify $g$ and find $K$:}
+From $(\phi')^2 + (\psi')^2 = 1$, we differentiate w.r.t $v$: $2\phi'\phi'' + 2\psi'\psi'' = 0 \implies \psi'\psi'' = -\phi'\phi''$.
+Substitute $\psi'' = -\frac{\phi'\phi''}{\psi'}$ into $g$:
+$$
+g = \psi' \phi'' - \phi' \left( -\frac{\phi'\phi''}{\psi'} \right) = \frac{(\psi')^2\phi'' + (\phi')^2\phi''}{\psi'} = \frac{\phi'' ((\psi')^2 + (\phi')^2)}{\psi'} = \frac{\phi''(1)}{\psi'} = \frac{\phi''}{\psi'}
+$$
+Now, we compute $K$:
+$$
+K = \frac{eg - f^2}{EG - F^2} = \frac{(-\phi \psi')(\frac{\phi''}{\psi'}) - 0^2}{\phi^2} = \frac{-\phi \phi''}{\phi^2} = -\frac{\phi''}{\phi}
+$$
+This gives the differential equation $\mathbf{\phi'' + K\phi = 0}$.
+From the arc-length condition, $(\psi')^2 = 1 - (\phi')^2$, so $\mathbf{\psi(v) = \int\sqrt{1-(\phi')^{2}}dv}$.
+
+\subsubsection*{b. Case $K = 1$}
+The equation is $\phi'' + \phi = 0$, with general solution $\phi(v) = C_1 \cos v + C_2 \sin v$. As given in the problem, we take the solution $\mathbf{\phi(v) = C \cos v}$.
+This gives $\phi'(v) = -C \sin v$.
+$\psi(v)$ becomes $\mathbf{\psi(v) = \int_{0}^{v}\sqrt{1-C^{2}\sin^{2}t}dt}$.
+\begin{itemize}
+    \item \textbf{C=1:} $\phi = \cos v$, $\psi = \int_0^v \cos t dt = \sin v$. The curve $(\cos v, \sin v)$ is a circle, which generates a \textbf{sphere}.
+    \item \textbf{C $<$ 1:} The term $1-C^2\sin^2 t$ is always positive. This generates a \textbf{spindle} (prolate ellipsoid).
+    \item \textbf{C $>$ 1:} The domain is restricted by $1-C^2\sin^2 t \ge 0$, or $|\sin v| \le 1/C$. This generates a \textbf{barrel}.
+\end{itemize}
+
+\subsubsection*{c. Case $K = -1$}
+The equation is $\phi'' - \phi = 0$, with general solution $\phi(v) = C_1 e^v + C_2 e^{-v}$ (or $A \cosh v + B \sinh v$).
+The three types listed are special cases of this solution:
+\begin{enumerate}
+    \item $\mathbf{\phi(v) = C \cosh v} \implies \phi' = C \sinh v \implies \mathbf{\psi(v) = \int \sqrt{1 - C^2 \sinh^2 v} dv}$. Domain is restricted.
+    \item $\mathbf{\phi(v) = C \sinh v} \implies \phi' = C \cosh v \implies \mathbf{\psi(v) = \int \sqrt{1 - C^2 \cosh^2 v} dv}$. Domain is trivial (or non-existent).
+    \item $\mathbf{\phi(v) = e^v} \implies \phi' = e^v \implies \mathbf{\psi(v) = \int \sqrt{1 - e^{2v}} dv}$. Domain is $1-e^{2v} \ge 0 \implies v \le 0$.
+\end{enumerate}
+
+\subsubsection*{d. Type 3 is the Pseudosphere}
+The generating curve for Type 3 is $\gamma(v) = (e^v, \int \sqrt{1-e^{2v}}dv)$. This is the definition of a **tractrix**, a curve with a constant tangent length (of 1) to its asymptote (the $z$-axis). The surface of revolution of a tractrix is the **pseudosphere**.
+
+\subsubsection*{e. Case $K = 0$}
+The equation is $\phi'' = 0$, so $\phi(v) = C_1 v + C_2$ and $\phi' = C_1$.
+$\psi' = \sqrt{1 - C_1^2}$. Let $C_3 = \sqrt{1 - C_1^2}$ (a constant, requires $C_1^2 \le 1$).
+$\psi(v) = C_3 v + C_4$.
+The generating curve $(\phi(v), \psi(v))$ is a line.
+\begin{itemize}
+    \item \textbf{$C_1 = 0$:} $\phi = C_2$ (constant), $\psi = v + C_4$ (vertical line). Generates a \textbf{cylinder}.
+    \item \textbf{$C_1^2 = 1$:} $\phi = \pm v + C_2$, $\psi = C_4$ (horizontal line). Generates a \textbf{plane}.
+    \item \textbf{$0 < C_1^2 < 1$:} $\phi = C_1 v + C_2$, $\psi = C_3 v + C_4$ (slanted line). Generates a \textbf{cone}.
+\end{itemize}
+\end{solution}
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[height=0.2\textwidth]{figures/sprindle.pdf}
+    \caption{A detailed diagram of the sprindle shape.}
+    \label{fig:sprindle}
+\end{figure}
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.2\textwidth]{figures/spool.pdf}
+    \caption{The geometry of the spool shape.}
+    \label{fig:spool}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.2\textwidth]{figures/pseudosphere.pdf}
+    \caption{Illustration of the pseudosphere.}
+    \label{fig:pseudosphere}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.2\textwidth]{figures/cone.pdf}
+    \caption{The standard cone geometry.}
+    \label{fig:cone}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.2\textwidth]{figures/barrel.pdf}
+    \caption{The three-dimensional representation of a barrel shape.}
+    \label{fig:barrel}
+\end{figure}
+
+\begin{problem}
+    \vspace{-2.0em}
+\begin{enumerate}[1.]
+    \item Suppose $\alpha:I\rightarrow\mathbb{R}^{3}$ is a p.a.l (parametrized by arc length) spatial curve that attains its maximum norm at $p$ i.e., $|p|=\max_{x\in\alpha(I)}|x|$. Prove that the curvature $k$ of $\alpha$ at $p$ is greater than or equal to $1/|p|$ (that is, $k \ge 1/|p|$), that is, the curve must be more "curving" than its circumscribed sphere (namely, $B_{|p|}(0))$ so as to curb back before penetrating it. (Hint: use the second order derivative test).
+    
+    \item Suppose $S$ is a regular surface that attains its maximum norm at $p$, prove that all the principal curvature(s) of $S$ at $p$ has magnitude greater than or equal to $1/|p|$ (i.e. $|\kappa_i| \ge 1/|p|$) and hence the magnitude of the Gaussian curvature $|K|$ greater than or equal to $1/{|p|}^{2}$ that is, the surface must be more "curving" than its circumscribed sphere (namely, $B_{|p|}(0))$ so as to curb back before penetrating it.
+    
+    \item Hence, or otherwise, show no compact (closed and bounded) regular surface is minimal since such a surface must contain a point $p$ with maximum norm.
+\end{enumerate}
+\end{problem}
+\begin{solution}
+I have done this in the previous problem set.
+\end{solution}
+
+\begin{problem}
+(From "Excersice Left in Lecture")
+Check the formula for Mean Curvature $H$:
+\[
+H=\frac{1}{2}\frac{eG-2fF+gE}{EG-F^{2}}
+\]
+\end{problem}
+\begin{solution}
+I have done this in the last problem set.
+\end{solution}
+
+\end{document}

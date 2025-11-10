@@ -1595,8 +1595,7 @@ We can check this by direct calculation.
 Check $H = \frac{1}{2} \cdot \frac{e G - 2 f F + g E}{E G - F^2}$.
 \end{exercise}
 
-% New content from Lec12_251022_221812.pdf
-\subsection*{Gaussian Curvature}
+\subsection{Gaussian Curvature}
 
 $K = \det(II) / \det(I)$.
 Since $\lambda_1, \lambda_2$ principal curvature are roots of characteristic poly of $-dN_p$.
@@ -1610,6 +1609,33 @@ we define these as "umbilical pts"
 prove A planar or sphere is the only totally "umbilical pts" surface
 Here "totally umbilical" means every pt is umbilical in $\mathbb{R}^3$.
 \end{exercise}
+
+Also we have another characterization of gaussian curvature. In fact this is the orginal definition of Gauss.
+\begin{theorem}
+    The Gaussian Curvature $K$ of a surface $S$ at a point $p \in S$ is given by the limit of the ratio of the area of the spherical image of a small neighborhood of $p$ to the area of the neighborhood itself.
+    \[ K(p) = \lim_{n\to\infty}\frac{\text{signed area } (N(B_{n}))}{\text{area } (B_{n})} \]
+    where $B_{1}\supset B_{2}\supset \dots \supset B_{n} \supset \dots$ is a sequence of nested neighborhoods (e.g., small geodesic balls) around $p$ such that $\lim_{n\to\infty} \text{area}(B_{n})=0$.
+    
+    This can be written infinitesimally as $d(\text{area}_N) = K \cdot d(\text{area}_S)$, where $d(\text{area}_N)$ is the area element on the sphere $S^2$ via the Gauss map $N$.
+\end{theorem}
+\begin{remark}
+    This was Gauss's original definition of the curvature.
+    Let $X: R \to B_n$ be a parametrization of the neighborhood $B_n$.
+    \[ \text{area}(B_{n}) = \iint_{R} |X_{u}\times X_{v}| du dv = \iint_{R} \sqrt{EG-F^2} du dv \]
+    \[ \text{area}(N(B_{n})) = \iint_{R} |N_{u}\times N_{v}| du dv \]
+\end{remark}
+\begin{proof}[Proof (Sketch)]
+    We know that the differential of the Gauss map $dN_p: T_p S \to T_p S$ (identifying $T_{N(p)}S^2$ with $T_pS$) relates the tangent vectors.
+    The relationship between the area elements is given by the determinant of this map.
+    \[ |N_{u}\times N_{v}| = |\det(dN_p)| |X_{u}\times X_{v}| \]
+    The Gaussian curvature is $K = \det(dN_p)$ (or $\det(-dN_p)$ depending on convention, but for area ratios, we use $\det(dN_p)$).
+    \[ |N_{u}\times N_{v}| = |K| |X_{u}\times X_{v}| \]
+    Therefore,
+    \[ \frac{\text{area}(N(B_{n}))}{\text{area}(B_{n})} = \frac{\iint_{R_n} |N_{u}\times N_{v}| du dv}{\iint_{R_n} |X_{u}\times X_{v}| du dv} = \frac{\iint_{R_n} |K(u,v)| \sqrt{EG-F^2} du dv}{\iint_{R_n} \sqrt{EG-F^2} du dv} \]
+    By the Mean Value Theorem for integrals, as the region $R_n$ shrinks to the point $p$, this ratio limits to $|K(p)|$.
+    Taking into account the orientation (sign), the limit is $K(p)$.
+    \[ \lim_{n\to\infty}\frac{\text{signed area } (N(B_{n}))}{\text{area } (B_{n})} = K(p) \]
+\end{proof}
 
 \textbf{Third Fundamental Form}
 
@@ -1708,6 +1734,733 @@ $\Rightarrow \text{div} \left(\frac{\nabla f}{\sqrt{1 + |\nabla f|^2}}\right) = 
 
 then we can verify this is our PDE.
 \end{proof}
+
+% New content from Lec13
+\begin{example}
+    Suppose a solution of form
+    \[ f=\alpha(u)+\beta(v) \]
+    The minimal surface equation is $(1+f_u^2)f_{vv} + (1+f_v^2)f_{uu} - 2f_u f_v f_{uv} = 0$.
+    Since $f_{uv}=0$, $f_{uu} = \alpha_{uu}$, $f_{vv} = \beta_{vv}$, $f_u = \alpha_u$, $f_v = \beta_v$, this becomes:
+    \[ (1+\alpha_{u}^{2})\beta_{vv}+(1+\beta_{v}^{2})\alpha_{uu}=0 \]
+    \[ \Rightarrow -\frac{1+\alpha_{u}^{2}}{\alpha_{uu}}=\frac{1+\beta_{v}^{2}}{\beta_{vv}} \]
+    Since the left side depends only on $u$ and the right side only on $v$, both must be equal to a constant $\lambda$.
+    \[ \begin{cases} -(1+\alpha_{u}^{2})=\lambda \alpha_{uu} \\ (1+\beta_{v}^{2})=\lambda \beta_{vv} \end{cases} \]
+    A solution to this system is $\alpha(u) = \lambda \ln(\cos(u/\lambda))$ and $\beta(v) = -\lambda \ln(\cos(v/\lambda))$.
+    This gives the function:
+    \[ f(u,v) = \alpha(u) + \beta(v) = \lambda \ln\left(\frac{\cos(\frac{u}{\lambda})}{\cos(\frac{v}{\lambda})}\right) \]
+    The surface given by $(u,v,f(u,v))$ is a minimal surface.
+    % [Complex diagram placeholder: Picture of Scherk's first surface]
+    This is "Scherk's" first surface.
+\end{example}
+
+\begin{definition}[Isothermal Coordinates]
+    A coordinate patch $X(u,v)$ provides \textbf{isothermal coordinates} if the first fundamental form satisfies $E=G$ and $F=0$.
+    \[ I_{p}= E(u,v) (du^{2}+dv^{2}) \]
+    (Sometimes written $I_p = e^{\phi}(du^2 + dv^2)$ where $E = e^\phi$).
+\end{definition}
+
+\begin{theorem}
+    Isothermal coordinates exist locally for any minimal surface.
+    In fact, they exist locally on any smooth (real analytic) surface.
+    (A special theorem for $S \subseteq \mathbb{R}^{3}$)
+\end{theorem}
+\begin{proof}
+    (Sketch for minimal part)
+    Let $S$ be a minimal surface. We can locally represent it as a graph $X(u,v)=(u,v,f(u,v))$.
+    Since $S$ is minimal, $H=0$, and $f$ satisfies the minimal surface PDE:
+    \[ (1+f_{u}^{2})f_{vv}-2f_{u}f_{v}f_{uv}+(1+f_{v}^{2})f_{uu}=0 \]
+    Let $F = (1+f_{u}^{2})f_{vv}-2f_{u}f_{v}f_{uv}+(1+f_{v}^{2})f_{uu}$.
+    One can verify the following identities:
+    \[ \frac{\partial}{\partial v}\left(\frac{1+f_{u}^{2}}{\sqrt{1+f_{u}^{2}+f_{v}^{2}}}\right)-\frac{\partial}{\partial u}\left(\frac{f_{u}f_{v}}{\sqrt{1+f_{u}^{2}+f_{v}^{2}}}\right)=\frac{-f_{v}}{\sqrt{1+f_{u}^{2}+f_{v}^{2}}}F \]
+    \[ \frac{\partial}{\partial u}\left(\frac{1+f_{v}^{2}}{\sqrt{1+f_{u}^{2}+f_{v}^{2}}}\right)-\frac{\partial}{\partial v}\left(\frac{f_{u}f_{v}}{\sqrt{1+f_{u}^{2}+f_{v}^{2}}}\right)=-\frac{f_{u}}{\sqrt{1+f_{u}^{2}+f_{v}^{2}}}F \]
+    Since $F=0$ (minimal surface), both right-hand sides are zero.
+    Let $a = \sqrt{1+f_{u}^{2}+f_{v}^{2}}$ and define:
+    \[ P = \frac{f_{u}f_{v}}{a}, \quad Q=\frac{1+f_{u}^{2}}{a}, \quad R=\frac{1+f_{v}^{2}}{a} \]
+    The equations become $\frac{\partial P}{\partial u} - \frac{\partial Q}{\partial v} = 0$ and $\frac{\partial R}{\partial u} - \frac{\partial P}{\partial v} = 0$.
+    These are the conditions for the vector fields $V=(Q, P)$ and $W=(P, R)$ to be conservative (on a simply connected domain $D$).
+    By Green's Theorem (Gauss's theorem in 2D):
+    \begin{align*}
+        \iint_{D} \left( \frac{\partial P}{\partial u}-\frac{\partial Q}{\partial v} \right) du dv &= \oint_{\partial D}Q~du+P~dv = 0 \\
+        \iint_{D} \left( \frac{\partial R}{\partial u}-\frac{\partial P}{\partial v} \right) du dv &= \oint_{\partial D}P~du+R~dv = 0
+    \end{align*}
+    This implies $V$ and $W$ have potentials, i.e., there exist functions $\theta, w$ such that
+    $\nabla\theta=V$ and $\nabla w=W$.
+    
+    Now define a new coordinate transformation $T:D\to \mathbb{R}^{2}$ by
+    \[ (u,v) \mapsto (x,y) = (u+\theta, v+w) \]
+    The Jacobian matrix is $J(T)=\begin{pmatrix} 1+\theta_{u} & \theta_{v} \\ w_{u} & 1+w_{v} \end{pmatrix} = \begin{pmatrix} 1+Q & P \\ P & 1+R \end{pmatrix}$.
+    One can compute $\det(J(T)) = (1+Q)(1+R) - P^2 = \dots = \frac{(1+f_u^2+f_v^2+1)^2}{1+f_u^2+f_v^2} > 0$.
+    By the Inverse Function Theorem, this map is a local diffeomorphism. We can get $T^{-1}(x,y)=(u(x,y),v(x,y))$.
+    
+    The final step is to consider the new parametrization $\tilde{X}(x,y) = (u(x,y), v(x,y), f(u(x,y), v(x,y)))$.
+    One computes the new first fundamental form coefficients $\tilde{E} = \langle \tilde{X}_x, \tilde{X}_x \rangle$ and $\tilde{G} = \langle \tilde{X}_y, \tilde{X}_y \rangle$ and $\tilde{F} = \langle \tilde{X}_x, \tilde{X}_y \rangle$.
+    After a long calculation using the chain rule and the inverse Jacobian, one finds:
+    \[ \tilde{E} = \tilde{G} \quad \text{and} \quad \tilde{F} = 0 \]
+    Thus, $(x,y)$ are isothermal coordinates.
+\end{proof}
+
+\begin{theorem}
+    For any isothermal parametrization $X(u,v)=(x^{1}(u,v), x^{2}(u,v), x^{3}(u,v))$, the Laplacian of $X$ is related to the mean curvature $H$ by:
+    \[ \Delta X=2EHN \]
+    where $\Delta = \frac{\partial^2}{\partial u^2} + \frac{\partial^2}{\partial v^2}$, $E$ is the E in the first fundamental form, and $N$ is the unit normal vector.
+\end{theorem}
+\begin{proof}
+    We are given $X$ is isothermal, so:
+    $\langle X_{u}, X_{u} \rangle = \langle X_{v}, X_{v} \rangle = E(u,v)$
+    and $\langle X_{u}, X_{v} \rangle = 0$.
+    
+    Differentiating these relations:
+    \begin{enumerate}
+        \item $\frac{\partial}{\partial u} \langle X_u, X_v \rangle = 0 \Rightarrow \langle X_{uu}, X_v \rangle + \langle X_u, X_{uv} \rangle = 0$
+        \item $\frac{\partial}{\partial v} \langle X_u, X_v \rangle = 0 \Rightarrow \langle X_{uv}, X_v \rangle + \langle X_u, X_{vv} \rangle = 0$
+    \end{enumerate}
+    From $\langle X_u, X_u \rangle = \langle X_v, X_v \rangle = E$:
+    \begin{enumerate}
+        \item $\frac{\partial}{\partial u} \langle X_u, X_u \rangle = 2\langle X_{uu}, X_u \rangle = \frac{\partial E}{\partial u}$
+        \item $\frac{\partial}{\partial u} \langle X_v, X_v \rangle = 2\langle X_{uv}, X_v \rangle = \frac{\partial E}{\partial u}$
+        \item $\frac{\partial}{\partial v} \langle X_u, X_u \rangle = 2\langle X_{uv}, X_u \rangle = \frac{\partial E}{\partial v}$
+        \item $\frac{\partial}{\partial v} \langle X_v, X_v \rangle = 2\langle X_{vv}, X_v \rangle = \frac{\partial E}{\partial v}$
+    \end{enumerate}
+    From this, we see $\langle X_{uu}, X_u \rangle = \langle X_{uv}, X_v \rangle$ and $\langle X_{uv}, X_u \rangle = \langle X_{vv}, X_v \rangle$.
+    
+    Now consider the Laplacian $\Delta X = X_{uu} + X_{vv}$. We check its components in the tangent plane $T_pS = \text{span}\{X_u, X_v\}$:
+    \begin{align*}
+        \langle \Delta X, X_u \rangle &= \langle X_{uu} + X_{vv}, X_u \rangle = \langle X_{uu}, X_u \rangle + \langle X_{vv}, X_u \rangle \\
+        &= \langle X_{uv}, X_v \rangle - \langle X_{v}, X_{uv} \rangle = 0 \quad \text{(using 2 and a=c)}
+    \end{align*}
+    \begin{align*}
+        \langle \Delta X, X_v \rangle &= \langle X_{uu} + X_{vv}, X_v \rangle = \langle X_{uu}, X_v \rangle + \langle X_{vv}, X_v \rangle \\
+        &= -\langle X_{u}, X_{uv} \rangle + \langle X_{uv}, X_u \rangle = 0 \quad \text{(using 1 and b=d)}
+    \end{align*}
+    Since $\Delta X$ is orthogonal to both $X_u$ and $X_v$, it must be parallel to the normal vector $N$.
+    \[ \Delta X = \lambda N \quad \text{for some scalar } \lambda \]
+    To find $\lambda$, we take the dot product with $N$:
+    \[ \lambda = \langle \Delta X, N \rangle = \langle X_{uu} + X_{vv}, N \rangle = \langle X_{uu}, N \rangle + \langle X_{vv}, N \rangle \]
+    By definition, $e = \langle X_{uu}, N \rangle$ and $g = \langle X_{vv}, N \rangle$.
+    So, $\lambda = e+g$.
+    
+    For an isothermal surface ($F=0, E=G$), the mean curvature is:
+    \[ H = \frac{eG - 2fF + gE}{2(EG - F^2)} = \frac{eE + gE}{2(E^2)} = \frac{E(e+g)}{2E^2} = \frac{e+g}{2E} \]
+    Therefore, $e+g = 2EH$.
+    Substituting this back, we get $\lambda = 2EH$.
+    \[ \Delta X = 2EHN \]
+\end{proof}
+
+\begin{corollary}
+    Let $S$ be a minimal surface ($H=0$) with an isothermal parametrization $X(u,v)$.
+    Then
+    \[ \Delta X=0 \]
+    This means the coordinate functions $x^1(u,v)$, $x^2(u,v)$, and $x^3(u,v)$ are \textbf{harmonic functions}.
+\end{corollary}
+
+\begin{remark}[Complex Analysis Connection]
+    Recall from complex analysis:
+    \begin{itemize}
+        \item Let $z=u+iv$, where $i=\sqrt{-1}$. Then $u=\frac{z+\overline{z}}{2}$ and $v=\frac{z-\overline{z}}{2i}$.
+        \item A function $\phi(z, \overline{z})$ is \textbf{holomorphic} if it satisfies the Cauchy-Riemann equations, which is equivalent to $\frac{\partial\phi}{\partial\overline{z}}=0$.
+        \item A function is \textbf{harmonic} if $\Delta \phi = 0$.
+        \item The Wirtinger derivatives are:
+        \[ \frac{\partial}{\partial z}=\frac{1}{2}\left(\frac{\partial}{\partial u}-i\frac{\partial}{\partial v}\right) \quad \text{and} \quad \frac{\partial}{\partial \overline{z}}=\frac{1}{2}\left(\frac{\partial}{\partial u}+i\frac{\partial}{\partial v}\right) \]
+        \item The Laplacian is $\Delta = \frac{\partial^2}{\partial u^2} + \frac{\partial^2}{\partial v^2} = 4 \frac{\partial^2}{\partial z \partial \overline{z}}$.
+    \end{itemize}
+\end{remark}
+
+\begin{definition}
+    Let $X(u,v) = X(z,\overline{z})=(X^{1},X^{2},X^{3})$ be a surface parametrization.
+    Define the complex vector $\phi(z) = (\phi^1, \phi^2, \phi^3)$ where
+    \[ \phi^{j}(z) = \frac{\partial X^{j}}{\partial z} \quad \text{for } j=1,2,3 \]
+    Also define the complex scalar $\Phi^2$ :
+    \[ \Phi^{2}:=\sum_{j=1}^{3}(\phi^{j})^{2}=\sum_{j=1}^{3}\left(\frac{\partial X^{j}}{\partial z}\right)^{2} \]
+\end{definition}
+
+\begin{proposition}
+    Let $X(u,v)=(X^1, X^2, X^3)$ be a parametrization of a surface. Then:
+    \begin{enumerate}
+        \item The components $\phi^{j}$ are \textbf{holomorphic} $\iff$ the coordinate functions $X^{j}$ are \textbf{harmonic}.
+        \item The parametrization $X$ is \textbf{isothermal} $\iff \Phi^{2}=0$.
+        \item If $X$ is isothermal, then $S$ is \textbf{regular} $\iff \sum_{j=1}^3 |\phi^j|^2 \ne 0$.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}
+        \item We check the Cauchy-Riemann condition for $\phi^j$:
+        \[ \frac{\partial \phi^{j}}{\partial\overline{z}} = \frac{\partial}{\partial\overline{z}}\left(\frac{\partial X^{j}}{\partial z}\right) = \frac{1}{4}\left(\frac{\partial}{\partial u}+i\frac{\partial}{\partial v}\right) \left(\frac{\partial X^j}{\partial u}-i\frac{\partial X^j}{\partial v}\right) \]
+        \[ = \frac{1}{4}\left( (X_{uu}^{j} - iX_{uv}^j) + (iX_{vu}^j + X_{vv}^j) \right) = \frac{1}{4}(X_{uu}^{j}+X_{vv}^{j}) = \frac{1}{4}\Delta X^j \]
+        Thus, $\frac{\partial \phi^{j}}{\partial\overline{z}} = 0$ (i.e., $\phi^j$ is holomorphic) if and only if $\Delta X^j = 0$ (i.e., $X^j$ is harmonic).
+        
+        \item We compute $\Phi^2$:
+        \[ \Phi^{2} = \sum_{j=1}^{3} \left( \frac{\partial X^{j}}{\partial z} \right)^2 = \sum_{j=1}^{3} \left( \frac{1}{2}\left(\frac{\partial X^j}{\partial u}-i\frac{\partial X^j}{\partial v}\right) \right)^2 \]
+        \[ = \frac{1}{4} \sum_{j=1}^{3} \left( (X_u^j)^2 - (X_v^j)^2 - 2i X_u^j X_v^j \right) \]
+        \[ = \frac{1}{4} \left( \sum_{j=1}^{3}(X_u^j)^2 - \sum_{j=1}^{3}(X_v^j)^2 - 2i \sum_{j=1}^{3} X_u^j X_v^j \right) \]
+        \[ = \frac{1}{4} ( \langle X_u, X_u \rangle - \langle X_v, X_v \rangle - 2i \langle X_u, X_v \rangle ) \]
+        \[ = \frac{1}{4}(E-G-2iF) \]
+        Therefore, $\Phi^2 = 0$ if and only if $E=G$ and $F=0$, which is the definition of an isothermal parametrization.
+        
+        \item (Homework) Regularity means $X_u \times X_v \ne 0$, which is equivalent to $EG-F^2 \ne 0$. For an isothermal patch, this is $E^2 \ne 0$ or $E \ne 0$. $E = \langle X_u, X_u \rangle$. One must relate this to $\sum |\phi^j|^2$.
+    \end{enumerate}
+\end{proof}
+
+\begin{exercise}
+Show the third proposition above.
+\end{exercise}
+
+\begin{theorem}[Weierstrass-Enneper Integral Representation]
+    Let $D$ be a simply-connected domain in $\mathbb{C}$.
+    Let $g(z)$ be a meromorphic function and $f(z)$ be a holomorphic function on $D$ such that at any pole $z_0$ of $g$, the order of the pole is $m$, and $f$ has a zero of order at least $2m$. (This ensures $f(1-g^2)$, $f(1+g^2)$, and $fg$ are all holomorphic).
+    
+    Define the holomorphic map $\phi(z)=(\phi^{1},\phi^{2},\phi^{3})$ by
+    \[ \begin{cases} \phi^{1}=\frac{1}{2}f(z)(1-g(z)^{2}) \\ \phi^{2}=\frac{i}{2}f(z)(1+g(z)^{2}) \\ \phi^{3}=f(z)g(z) \end{cases} \]
+    Then the surface $S$ defined by the parametrization
+    \[ X(z,\overline{z}) = (X^1, X^2, X^3) \quad \text{with} \quad X^{j}(z,\overline{z}) = c^{j}+\Re\left(\int_{z_0}^z \phi^{j}(\zeta) d\zeta\right) \]
+    is a minimal surface with isothermal coordinates.
+    
+    Conversely, any non-planar minimal surface can be locally represented in this way.
+\end{theorem}
+\begin{proof}
+    We have a map $\phi = (\phi^1, \phi^2, \phi^3)$ whose components are holomorphic by construction.
+    By Proposition 1, the resulting coordinate functions $X^j = \Re \int \phi^j dz$ are harmonic ($\Delta X^j = 0$).
+    By the Corollary to the previous theorem, if $X$ is isothermal, $H=0$, so $S$ is minimal.
+    We only need to check that $X$ is isothermal. By Proposition 2, this is equivalent to checking if $\Phi^2=0$.
+    
+    \[ \Phi^{2} = (\phi^{1})^{2}+(\phi^{2})^{2}+(\phi^{3})^{2} \]
+    \[ = \left(\frac{1}{2}f(1-g^2)\right)^2 + \left(\frac{i}{2}f(1+g^2)\right)^2 + (fg)^2 \]
+    \[ = \frac{1}{4}f^2(1-2g^2+g^4) - \frac{1}{4}f^2(1+2g^2+g^4) + f^2g^2 \]
+    \[ = \frac{f^2}{4}(1-2g^2+g^4 - (1+2g^2+g^4)) + f^2g^2 \]
+    \[ = \frac{f^2}{4}(-4g^2) + f^2g^2 = -f^2g^2 + f^2g^2 = 0 \]
+    Since $\Phi^2 = 0$, the parametrization is isothermal.
+    Since $\phi^j$ are holomorphic, the $X^j$ are harmonic ($\Delta X = 0$).
+    Since $X$ is isothermal and $\Delta X = 0$, we have $2EHN = 0$. Assuming the surface is regular ($E \ne 0$), this implies $H=0$.
+    Thus, the surface is minimal.
+\end{proof}
+
+\begin{example}[Enneper's Surface]
+    Let $f(z)=c$ (e.g., $f(z)=2$) and $g(z)=z$.
+    \[ \phi^1 = \frac{1}{2}(2)(1-z^2) = 1-z^2 \]
+    \[ \phi^2 = \frac{i}{2}(2)(1+z^2) = i(1+z^2) \]
+    \[ \phi^3 = 2z \]
+    Integrating to find $X$ ($z=u+iv$):
+    \[ X^1 = \Re \int (1-z^2) dz = \Re (z - \frac{z^3}{3}) = u - \frac{u^3}{3} + uv^2 \]
+    \[ X^2 = \Re \int i(1+z^2) dz = \Re (i(z + \frac{z^3}{3})) = -v - \frac{v^3}{3} + u^2v \]
+    \[ X^3 = \Re \int 2z dz = \Re (z^2) = u^2-v^2 \]
+    One can check that this is a regular, isothermal parametrization.
+    \[ \langle X_{u},X_{v} \rangle = 0 \Rightarrow F=0 \]
+    \[ \langle X_{u},X_{u} \rangle = \langle X_{v},X_{v} \rangle = (1+u^2+v^2)^2 \Rightarrow E=G \]
+    Since it is isothermal and its coordinate functions are harmonic ($\Delta X = 0$), it is a minimal surface.
+\end{example}
+
+\begin{example}[Catenoid-Helicoid Family]
+    Let $f(z)=e^{-i\theta}e^z$ and $g(z)=e^{-z}$.
+    \[ \phi^1 = \frac{1}{2}f(1-g^2) = \frac{1}{2}e^{-i\theta}e^z(1-e^{-2z}) = \frac{1}{2}e^{-i\theta}(e^z - e^{-z}) = e^{-i\theta} \sinh z \]
+    \[ \phi^2 = \frac{i}{2}f(1+g^2) = \frac{i}{2}e^{-i\theta}e^z(1+e^{-2z}) = \frac{i}{2}e^{-i\theta}(e^z + e^{-z}) = i e^{-i\theta} \cosh z \]
+    \[ \phi^3 = fg = (e^{-i\theta}e^z)(e^{-z}) = e^{-i\theta} \]
+    So, $\phi(z) = (e^{-i\theta} \sinh z, i e^{-i\theta} \cosh z, e^{-i\theta})$.
+    
+    \begin{itemize}
+        \item If $\theta = 0$, $\phi = (\sinh z, i \cosh z, 1)$. Integrating gives the \textbf{Catenoid}.
+        \item If $\theta = \frac{\pi}{2}$, $\phi = (-i \sinh z, \cosh z, -i)$. Integrating gives the \textbf{Helicoid}.
+    \end{itemize}
+\end{example}
+
+\begin{remark}
+    This provides a continuous deformation from the Catenoid to the Helicoid by varying the parameter $\theta$.
+\end{remark}
+
+% New content from 251110
+
+\subsection{Geodesics}
+\noindent \textbf{Recall}:
+\[
+\alpha''(t) = k_n(t) N(\alpha(t)) + k_g(t) T(\alpha(t))
+\]
+where $k_g$ is the \textbf{geodesic curvature}.
+
+\noindent \underline{Question:} How shall we understand $k_g(t)$?
+
+\begin{example}
+    Suppose $S = \text{plane}$ and $Z(u,v) = (u,v,0)$.
+    Then for any $\alpha = (x(t), y(t), 0)$, $\alpha'' = (x'', y'', 0) = 0N + k_g T$.
+    i.e:
+    \[ k = k_g \]
+    If S is plane, $k_g$ means the curvature of the curve.
+\end{example}
+
+\begin{definition}
+    A \textbf{geodesic} on a surface $S$ is a curve $\alpha: I \to S$ such that $k_g(t) = 0, \forall t \in I$.
+\end{definition}
+
+\begin{example}
+    If $S$ is a plane, then we have just seen that the path with shortest distance between 2 pts, i.e: Straight lines are geodesics.
+\end{example}
+
+\noindent In fact, we'll show path $\alpha$ joining $a, b$ with shortest distance is a geodesic.
+
+\begin{theorem}[Gauss]
+    Let $\alpha: I \to S$ p.a.l (parameterized by arc length) be the shortest curve between $\alpha(t_1)$ and $\alpha(t_2)$. Then $\alpha$ is a geodesic.
+\end{theorem}
+\begin{proof}
+    As in the minimal surface proof, this requires the technique of variations:
+    Focus on a small subinterval of $I' \subseteq I$ such that $\alpha(I')$ lies on a single coord patch.
+    with $\alpha = Z \circ \gamma$.
+    $h: I' \to \mathbb{R}^2$ with $h(a_0) = h(a_1) = 0$.
+    Consider
+    \[ \gamma^t(s) = \gamma(s) + t h(s): I' \to U \]
+    Such that $\gamma^t(a_0) = \gamma(a_0)$ and $\gamma^t(a_1) = \gamma(a_1)$.
+    Let $\alpha(t; s) = \alpha^t(s) = Z \circ \gamma^t(s)$
+    $= Z(\gamma_1(s) + t h_1(s), \gamma_2(s) + t h_2(s))$.
+    
+    \[ L(t) = \int_{a_0}^{a_1} \langle \alpha'(t;s), \alpha'(t;s) \rangle^{1/2} ds \]
+    then
+    \[ L'(t) = \int_{a_0}^{a_1} \frac{\langle \alpha_{ts}, \alpha_s \rangle}{\langle \alpha_s, \alpha_s \rangle^{1/2}} ds \]
+    Assuming $\alpha$ is p.a.l (so $\langle \alpha_s, \alpha_s \rangle = 1$ at $t=0$),
+    \[ L'(0) = \int_{a_0}^{a_1} \langle \alpha_{ts}, \alpha_s \rangle|_{t=0} ds \]
+    Consider
+    \[ \frac{\partial}{\partial s} \langle \alpha_t, \alpha_s \rangle|_{t=0} = \langle \alpha_{ts}, \alpha_s \rangle|_{t=0} + \langle \alpha_t, \alpha_{ss} \rangle|_{t=0} \]
+    \[ \Rightarrow L'(0) = \int_{a_0}^{a_1} \left( \frac{\partial}{\partial s} \langle \alpha_t, \alpha_s \rangle|_{t=0} - \langle \alpha_t, \alpha_{ss} \rangle|_{t=0} \right) ds \]
+    Note that $\alpha(t,s) = Z(\gamma_1(s) + t h_1(s), \gamma_2(s) + t h_2(s))$
+    $\partial_t \alpha(t,s)|_{t=0} = Z_u h_1 + Z_v h_2$
+    $\partial_{ss} \alpha(t,s)|_{t=0} = \alpha''(s)$
+    
+    Since $h(a_0) = h(a_1) = 0$, the boundary term $\left[ \langle \alpha_t, \alpha_s \rangle \right]_{a_0}^{a_1}$ vanishes.
+    \[ \Rightarrow L'(0) = - \int_{a_0}^{a_1} \langle \alpha_t, \alpha_{ss} \rangle|_{t=0} ds \]
+    \[ = - \int_{a_0}^{a_1} \langle h_1 Z_u + h_2 Z_v, \alpha''(s) \rangle ds \]
+    \[ = - \int_{a_0}^{a_1} k_g \langle h_1 Z_u + h_2 Z_v, T \rangle ds \]
+    Since the curve $\alpha$ attains its minimum length when $t=0$, we have $L'(0) = 0$ for any choice of $h$.
+    This implies $k_g = 0$.
+\end{proof}
+
+\begin{remark}
+    Geodesics may not be global minimum, but it is local minimum.
+\end{remark}
+
+\noindent \underline{Question:} Given a p.a.l curve $\alpha: I \to S$, how can we check if it is a geodesic?
+
+\begin{lemma}
+    $k_g(s) = \det(N(\alpha(s)), \alpha', \alpha'')$
+\end{lemma}
+\begin{proof}
+    $t' = \alpha'' = k_n N + k_g T$
+    where $T = N \times t = N \times \alpha'$.
+    $k_g = \langle t', T \rangle = \langle \alpha'', N \times \alpha' \rangle$
+    $= \det(N, \alpha', \alpha'')$.
+    Therefore, $\alpha(s)$ is a geodesic $\iff \det(N, \alpha', \alpha'') = 0$.
+\end{proof}
+
+\begin{example}
+    $S = S^2$. For any two pts on $S^2$, one can perform rigid motion such that these two pts lie on the equator.
+    % [Complex diagram placeholder: Sphere with two points p1, p2 on the equator]
+    Now assume these two pts lie on the equator.
+    We claim the great circle, i.e. the equator lines joining the two pts $\alpha(s) = (\cos(s), \sin(s), 0)$ is a geodesic.
+    Indeed:
+    One can check $\det(N, \alpha', \alpha'') = 0 \Rightarrow k_g = 0$.
+\end{example}
+
+\begin{remark}
+    It's obvious that the great circle may not be the global minimum, but it's indeed a local minimum.
+    % [Complex diagram placeholder: Sphere with p1, p2 showing short and long great circle paths]
+    The long path is a geodesic but not global minimum.
+\end{remark}
+
+\noindent Next Question is study which curve $\gamma: I \to U$ such that $Z \circ \gamma$ is a geodesic?
+
+\begin{definition}[The Christoffel Symbols]
+    For a coord patch $X$ is given by:
+    $\Gamma_{ij}^k: U \to \mathbb{R}$
+    Satisfies (where we denote $X_u = X_1, X_v = X_2$)
+    \begin{align*}
+        X_{uu} &= \Gamma_{11}^1 X_1 + \Gamma_{11}^2 X_2 + e N \\
+        X_{uv} &= \Gamma_{12}^1 X_1 + \Gamma_{12}^2 X_2 + f N \\
+        X_{vv} &= \Gamma_{22}^1 X_1 + \Gamma_{22}^2 X_2 + g N
+    \end{align*}
+\end{definition}
+
+\begin{remark}
+    $\Gamma_{ij}^k$ gives the "Levi-Civita Connection".
+\end{remark}
+
+\begin{remark}
+    For short hand, we may write: $Z_u = Z_1, Z_v = Z_2$.
+    $\Gamma_{12}^k = \Gamma_{21}^k$ for $k=1,2$. Since $Z_{uv} = Z_{vu}$.
+\end{remark}
+
+\begin{proposition}
+    $\alpha(s) = Z \circ \beta(s) = Z(u(s), v(s))$ is a geodesic
+    $\iff$
+    \begin{align*}
+        u'' + \Gamma_{11}^1 (u')^2 + 2\Gamma_{12}^1 u'v' + \Gamma_{22}^1 (v')^2 &= 0 \\
+        v'' + \Gamma_{11}^2 (u')^2 + 2\Gamma_{12}^2 u'v' + \Gamma_{22}^2 (v')^2 &= 0
+    \end{align*}
+\end{proposition}
+\begin{proof}
+    $\alpha' = X_u u' + X_v v'$
+    $\alpha'' = X_u u'' + X_{uu}(u')^2 + X_{uv} u'v' + X_v v'' + X_{vu} u'v' + X_{vv}(v')^2$
+    
+    In order $k_g = 0$.
+    Then $\alpha'' = k_n N \iff \alpha'' || N$.
+    So $\alpha''$ has no $X_u, X_v$ component.
+    Substitute the definitions of $X_{uu}, X_{uv}, X_{vv}$ using Christoffel symbols.
+    $X_u$ component and $X_v$ component should be 0.
+    (Collecting $X_u$ terms): $u'' + \Gamma_{11}^1 (u')^2 + \Gamma_{12}^1 u'v' + \Gamma_{21}^1 v'u' + \Gamma_{22}^1 (v')^2 = 0$
+    (Collecting $X_v$ terms): $v'' + \Gamma_{11}^2 (u')^2 + \Gamma_{12}^2 u'v' + \Gamma_{21}^2 v'u' + \Gamma_{22}^2 (v')^2 = 0$
+    then we're done.
+\end{proof}
+
+\begin{definition}
+    The equations above are called \textbf{geodesic equations}.
+\end{definition}
+
+For any $(p_0, v_0)$ and $w \in \mathbb{R}^2$, $\exists !$ solution of the geodesics.
+The Christoffel symbol can be given by the first fundamental form (i.e. the metric).
+
+\begin{proposition}[Gauss Equation]
+    \[ \Gamma_{ij}^k = \frac{1}{2} g^{mk} (\partial_i g_{mj} + \partial_j g_{mi} - \partial_m g_{ij}) \]
+    where
+    $g_{mk} = \begin{pmatrix} E & F \\ F & G \end{pmatrix}, g^{mk} = \begin{pmatrix} E & F \\ F & G \end{pmatrix}^{-1}$
+\end{proposition}
+   \begin{proof}[Computation of Christoffel Symbols]
+    We start with the definition of the metric tensor components $g_{ij} = \langle X_i, X_j \rangle$, where $X_1 = X_u$ and $X_2 = X_v$.
+    We assume the connection is torsion-free (i.e., $\Gamma_{ij}^k = \Gamma_{ji}^k$), which is true for the Levi-Civita connection on a surface derived from the embedding, as $X_{uv} = X_{vu}$.
+    
+    We take the partial derivatives of the metric tensor:
+    \[ \partial_k g_{ij} = \frac{\partial}{\partial x^k} \langle X_i, X_j \rangle = \langle X_{ik}, X_j \rangle + \langle X_i, X_{kj} \rangle \]
+    Using the definition of the Christoffel symbols $X_{ij} = \Gamma_{ij}^l X_l + (\text{normal component})$, and noting that the inner product of a tangential vector ($X_l$) with the normal component is zero, we get:
+    \begin{align*}
+        \partial_k g_{ij} &= \langle \Gamma_{ik}^l X_l, X_j \rangle + \langle X_i, \Gamma_{kj}^l X_l \rangle \\
+        &= \Gamma_{ik}^l \langle X_l, X_j \rangle + \Gamma_{kj}^l \langle X_i, X_l \rangle \\
+        \partial_k g_{ij} &= \Gamma_{ik}^l g_{lj} + \Gamma_{kj}^l g_{il}
+    \end{align*}
+    This equation relates the derivative of the metric to the Christoffel symbols. To solve for $\Gamma$, we write this equation three times with permuted indices (this is sometimes called the Koszul formula):
+    \begin{enumerate}
+        \item[(1)] $\partial_i g_{mj} = \Gamma_{im}^l g_{lj} + \Gamma_{ij}^l g_{ml}$
+        \item[(2)] $\partial_j g_{mi} = \Gamma_{jm}^l g_{li} + \Gamma_{ji}^l g_{ml}$
+        \item[(3)] $\partial_m g_{ij} = \Gamma_{mi}^l g_{lj} + \Gamma_{mj}^l g_{il}$
+    \end{enumerate}
+    Using the symmetry $\Gamma_{ij}^k = \Gamma_{ji}^k$, we compute $(1) + (2) - (3)$:
+    \begin{align*}
+        \text{LHS} &= \partial_i g_{mj} + \partial_j g_{mi} - \partial_m g_{ij} \\
+        \text{RHS} &= (\Gamma_{im}^l g_{lj} + \Gamma_{ij}^l g_{ml}) + (\Gamma_{jm}^l g_{li} + \Gamma_{ij}^l g_{ml}) - (\Gamma_{im}^l g_{lj} + \Gamma_{jm}^l g_{il}) \\
+        &= 2 \Gamma_{ij}^l g_{ml}
+    \end{align*}
+    This gives the relation:
+    \[ 2 \Gamma_{ij}^l g_{ml} = \partial_i g_{mj} + \partial_j g_{mi} - \partial_m g_{ij} \]
+    To isolate $\Gamma_{ij}^k$, we contract with the inverse metric $g^{mk}$.
+    \[ 2 (\Gamma_{ij}^l g_{ml}) g^{mk} = g^{mk} (\partial_i g_{mj} + \partial_j g_{mi} - \partial_m g_{ij}) \]
+    \[ 2 \Gamma_{ij}^l (\delta_l^k) = g^{mk} (\partial_i g_{mj} + \partial_j g_{mi} - \partial_m g_{ij}) \]
+    \[ 2 \Gamma_{ij}^k = g^{mk} (\partial_i g_{mj} + \partial_j g_{mi} - \partial_m g_{ij}) \]
+    This yields the final formula:
+    \[ \Gamma_{ij}^k = \frac{1}{2} g^{mk} (\partial_i g_{mj} + \partial_j g_{mi} - \partial_m g_{ij}) \]
+\end{proof}
+
+\begin{remark}
+    It's useful to memorize the formula, and also useful to perform the calculation in this two-dimensional surface case.
+\end{remark}
+
+\begin{example}[Geodesics of surface of Revolution]
+    $X(u, v) = (f(v) \cos u, f(v) \sin u, g(v))$
+    $X_u = (-f \sin u, f \cos u, 0)$
+    $X_v = (f' \cos u, f' \sin u, g')$
+    $\Rightarrow E = f^2, F = 0, G = f'^2 + g'^2$
+    
+    Then
+    $\Gamma_{11}^1 = 0$, $\Gamma_{12}^1 = \frac{f'}{f}$
+    $\Gamma_{11}^2 = \frac{-ff'}{f'^2 + g'^2}$
+    $\Gamma_{22}^1 = 0$
+    $\Gamma_{12}^2 = 0$
+    $\Gamma_{22}^2 = \frac{f'f'' + g'g''}{f'^2 + g'^2}$
+    
+    Geodesics Equation:
+    \[ u'' + 2 \left( \frac{f'}{f} \right) u'v' = 0 \]
+    \[ v'' + \left( \frac{-ff'}{f'^2 + g'^2} \right) (u')^2 + \left( \frac{f'f'' + g'g''}{f'^2 + g'^2} \right) (v')^2 = 0 \]
+    
+    \begin{itemize}
+        \item Any \textbf{meridian curve} ($u = \text{const}$) parametrized by constant speed is geodesic.
+        If $u = \text{const}$, $u' = 0, u'' = 0$. The first geodesic equation $0=0$ is satisfied.
+        The second equation becomes $v'' + \left( \frac{f'f'' + g'g''}{f'^2 + g'^2} \right) (v')^2 = 0$.
+        
+        \item $v = \text{const}$ (\textbf{parallel}).
+        Then $v' = 0, v'' = 0$. The second equation becomes $\left( \frac{-ff'}{f'^2 + g'^2} \right) (u')^2 = 0$.
+        This holds if $f' = 0$ (e.g., a cylinder) or $u' = 0$ (a point).
+        So, a parallel is a geodesic iff $f'(v) = 0$.
+    \end{itemize}
+
+    For $\alpha = (u(t), v(t))$ constant speed, we have:
+    
+    \noindent \textbf{Clairaut's Relation:}
+    From the first geodesic equation: $u'' + 2(\frac{f'}{f})u'v' = 0$.
+    This can be rewritten as $(f^2 u')' = 0$.
+    \[ \Rightarrow f^2 u' = \text{const} \]
+    Note $\langle \alpha', X_u \rangle = \langle X_u u' + X_v v', X_u \rangle = E u' + F v' = f^2 u'$.
+    Let $\theta$ be the angle between $\alpha'$ and the parallel (spanned by $X_u$).
+    Then $f^2 u' = \text{const}$ is the same as $f \cos \theta = \text{const}$.
+\end{example}
+
+\begin{remark}
+    One can refer this to Do Carmo Chap 3. Exercise.
+\end{remark}
+
+\noindent \textbf{Riemannian Geometry}
+
+\subsection{Fundamental Theorem of Surfaces}
+Let $\{X_u, X_v, N\}$ be the moving frame.
+$\Phi = (X_u, X_v, N): S \to GL(\mathbb{R}^3)$
+\[ \Phi_u = \Phi \Lambda, \quad \Phi_v = \Phi \Theta \]
+where
+\[ \Lambda = \begin{pmatrix} \Gamma_{11}^1 & \Gamma_{12}^1 & -a_{11} \\ \Gamma_{11}^2 & \Gamma_{12}^2 & -a_{21} \\ e & f & 0 \end{pmatrix}, \quad \Theta = \begin{pmatrix} \Gamma_{12}^1 & \Gamma_{22}^1 & -a_{12} \\ \Gamma_{12}^2 & \Gamma_{22}^2 & -a_{22} \\ f & g & 0 \end{pmatrix} \]
+where $a_{ij}$ are components of $(-dN_p)$.
+
+\begin{proof}[Computation of Gauss-Weingarten Equations]
+    We want to verify the matrix equations $\Phi_u = \Phi \Lambda$ and $\Phi_v = \Phi \Theta$, where $\Phi = (X_u, X_v, N)$. We denote $X_1 = X_u$ and $X_2 = X_v$.
+    
+    \noindent \textbf{1. Check $\Phi_u = \Phi \Lambda$:}
+    
+    The left side is $\Phi_u = \partial_u \Phi = (\partial_u X_u, \partial_u X_v, \partial_u N) = (X_{uu}, X_{uv}, N_u)$.
+    The right side is $\Phi \Lambda = (X_u, X_v, N) \Lambda$. Using the matrix $\Lambda$ from our notes:
+    \[ \Phi \Lambda = (X_u, X_v, N) \begin{pmatrix} \Gamma_{11}^1 & \Gamma_{12}^1 & -a_{11} \\ \Gamma_{11}^2 & \Gamma_{12}^2 & -a_{21} \\ e & f & 0 \end{pmatrix} \]
+    We check this column by column:
+    \begin{itemize}
+        \item \textbf{Column 1:} $(\Phi \Lambda)_1 = X_u \Gamma_{11}^1 + X_v \Gamma_{11}^2 + N e$. By definition of the Christoffel symbols, this is exactly $X_{uu}$. This matches.
+        \item \textbf{Column 2:} $(\Phi \Lambda)_2 = X_u \Gamma_{12}^1 + X_v \Gamma_{12}^2 + N f$. By definition, this is exactly $X_{uv}$. This matches.
+        \item \textbf{Column 3:} $(\Phi \Lambda)_3 = X_u(-a_{11}) + X_v(-a_{21}) + N(0) = -a_{11} X_u - a_{21} X_v$.
+        This must equal $N_u = \partial_u N$. By definition of the Weingarten map $S = -dN_p$, we have $S(X_u) = -dN_p(X_u) = -N_u$. The matrix $(a_{ij})$ of $S$ is defined by $S(X_i) = \sum a_{ij} X_j$.
+        So, $S(X_u) = a_{11} X_u + a_{21} X_v$.
+        This means $-N_u = a_{11} X_u + a_{21} X_v$, or $N_u = -a_{11} X_u - a_{21} X_v$. This matches.
+    \end{itemize}
+    Thus, the equation $\Phi_u = \Phi \Lambda$ holds.
+
+    \noindent \textbf{2. Check $\Phi_v = \Phi \Theta$:}
+    
+    The left side is $\Phi_v = \partial_v \Phi = (\partial_v X_u, \partial_v X_v, \partial_v N) = (X_{vu}, X_{vv}, N_v)$.
+    The right side is $\Phi \Theta = (X_u, X_v, N) \Theta$. Using the matrix $\Theta$ from your notes (and $\Gamma_{21}^k = \Gamma_{12}^k$):
+    \[ \Phi \Theta = (X_u, X_v, N) \begin{pmatrix} \Gamma_{12}^1 & \Gamma_{22}^1 & -a_{12} \\ \Gamma_{12}^2 & \Gamma_{22}^2 & -a_{22} \\ f & g & 0 \end{pmatrix} \]
+    We check this column by column:
+    \begin{itemize}
+        \item \textbf{Column 1:} $(\Phi \Theta)_1 = X_u \Gamma_{12}^1 + X_v \Gamma_{12}^2 + N f$. By definition, this is $X_{uv}$. Since $X_{uv} = X_{vu}$, this matches.
+        \item \textbf{Column 2:} $(\Phi \Theta)_2 = X_u \Gamma_{22}^1 + X_v \Gamma_{22}^2 + N g$. By definition, this is $X_{vv}$. This matches.
+        \item \textbf{Column 3:} $(\Phi \Theta)_3 = X_u(-a_{12}) + X_v(-a_{22}) + N(0) = -a_{12} X_u - a_{22} X_v$.
+        This must equal $N_v = \partial_v N$.
+        From the Weingarten map, $S(X_v) = -dN_p(X_v) = -N_v$.
+        Using the matrix definition, $S(X_v) = a_{12} X_u + a_{22} X_v$.
+        This means $-N_v = a_{12} X_u + a_{22} X_v$, or $N_v = -a_{12} X_u - a_{22} X_v$. This matches.
+    \end{itemize}
+    Thus, the equation $\Phi_v = \Phi \Theta$ also holds.
+\end{proof}
+
+The above formula is called \textbf{Gauss-Weingarten Equation}.
+
+\begin{proposition}
+    The matrix $\Lambda, \Theta$ satisfy:
+    \[ \frac{\partial \Lambda}{\partial v} - \frac{\partial \Theta}{\partial u} = \Lambda \Theta - \Theta \Lambda \]
+    (Compatibility Condition)
+\end{proposition}
+\begin{proof}
+    By comparing $\Phi_{uv}$ and $\Phi_{vu}$.
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+
+
+\newpage
+\appendix
+\section{Generalizing the Covariant Derivative to Tensor Fields}
+
+\subsection{From Vectors to Tensors: The Guiding Principles}
+We have defined the covariant derivative $\nabla_X Y$ of a vector field $Y$ along $X$. Our goal is to extend this definition to an arbitrary tensor field $T$ of type $(r, s)$. We do this by enforcing two fundamental rules:
+
+\begin{enumerate}
+    \item \textbf{Action on scalars:} For any scalar function $f$, $\nabla_X f = X(f)$, which is the standard directional derivative.
+    \item \textbf{Leibniz Rule (Product Rule):} The covariant derivative must obey the product rule for all tensor products. For example:
+    \[
+    \nabla_X(T \otimes S) = (\nabla_X T) \otimes S + T \otimes (\nabla_X S)
+    \]
+\end{enumerate}
+From these rules, we can derive the action on all tensor types.
+
+\subsection{Step 1: Deriving the Action on 1-forms (Covectors)}
+Let $\omega$ be a 1-form (a $(0,1)$ tensor) and $Y$ be a vector field (a $(1,0)$ tensor). Their contraction $\omega(Y)$ is a scalar.
+
+Let's apply our rules to this scalar:
+\begin{itemize}
+    \item By \textbf{Rule 1}: $\nabla_X(\omega(Y)) = X(\omega(Y))$.
+    \item By \textbf{Rule 2}: $\nabla_X(\omega(Y)) = (\nabla_X \omega)(Y) + \omega(\nabla_X Y)$.
+\end{itemize}
+
+Equating these two expressions gives us a definition for $(\nabla_X \omega)$:
+\[
+(\nabla_X \omega)(Y) = X(\omega(Y)) - \omega(\nabla_X Y)
+\]
+This defines how the covariant derivative acts on 1-forms.
+
+\subsection{Step 2: The General Rule for an (r, s) Tensor}
+We can generalize this idea. An $(r, s)$ tensor $\theta$ is a multilinear map that takes $r$ covectors ($\Omega^1, \dots, \Omega^r$) and $s$ vectors ($Y_1, \dots, Y_s$) to produce a scalar:
+\[
+f = \theta(\Omega^1, \dots, \Omega^r, Y_1, \dots, Y_s)
+\]
+Applying the Leibniz rule repeatedly to this scalar defines the action of $\nabla_X$ on $\theta$. The result is:
+\begin{align*}
+(\nabla_X \theta)(\Omega^1, \dots, Y_s) = X(&\theta(\Omega^1, \dots, Y_s)) \quad \text{(Derivative of the scalar output)} \\
+    &- \sum_{p=1}^r \theta(\Omega^1, \dots, \nabla_X \Omega^p, \dots, Y_s) \quad \text{(Terms for covector inputs)} \\
+    &- \sum_{q=1}^s \theta(\Omega^1, \dots, Y_q, \dots, \nabla_X Y_q, \dots) \quad \text{(Terms for vector inputs)}
+\end{align*}
+
+\subsection{Step 3: Component Computation}
+Now we find the components of $\nabla \theta$. An $(r,s)$ tensor $\theta$ can be written in a basis as:
+\[
+\theta = \theta^{i_1 \dots i_r}_{j_1 \dots j_s} \frac{\partial}{\partial x^{i_1}} \otimes \dots \otimes \frac{\partial}{\partial x^{i_r}} \otimes dx^{j_1} \otimes \dots \otimes dx^{j_s}
+\]
+The covariant derivative $\nabla \theta$ is an $(r, s+1)$ tensor. We denote its components by $\nabla_k \theta^{i_1 \dots i_r}_{j_1 \dots j_s}$. These components are found by applying $\nabla_{\frac{\partial}{\partial x^k}}$ to $\theta$ and evaluating the result on the basis covectors and vectors:
+\[
+\nabla_k \theta^{i_1 \dots i_r}_{j_1 \dots j_s} = \left(\nabla_{\frac{\partial}{\partial x^k}} \theta \right) \left(dx^{i_1}, \dots, dx^{i_r}, \frac{\partial}{\partial x^{j_1}}, \dots, \frac{\partial}{\partial x^{j_s}}\right)
+\]
+Using our general rule from Step 2 (with $X = \frac{\partial}{\partial x^k}$):
+\begin{align*}
+\nabla_k \theta^{i_1 \dots i_r}_{j_1 \dots j_s} = \frac{\partial}{\partial x^k} &\left( \theta\left(dx^{i_1}, \dots, \frac{\partial}{\partial x^{j_s}}\right) \right) \\
+    &- \sum_{p=1}^r \theta\left(dx^{i_1}, \dots, \nabla_k dx^{i_p}, \dots, \frac{\partial}{\partial x^{j_s}}\right) \\
+    &- \sum_{q=1}^s \theta\left(dx^{i_1}, \dots, \nabla_k \frac{\partial}{\partial x^{j_q}}, \dots, \frac{\partial}{\partial x^{j_s}}\right)
+\end{align*}
+Let's evaluate these three terms (using $h$ as a dummy summation index):
+
+\begin{enumerate}
+    \item \textbf{First Term:} $\theta\left(dx^{i_1}, \dots, \frac{\partial}{\partial x^{j_s}}\right)$ is just the component $\theta^{i_1 \dots i_r}_{j_1 \dots j_s}$. So the first term is the partial derivative:
+    \[
+    \frac{\partial \theta^{i_1 \dots i_r}_{j_1 \dots j_s}}{\partial x^k}
+    \]
+    
+    \item \textbf{Contravariant terms ($p$ sum):} We need the components of $\nabla_k dx^{i_p}$. From Step 1:
+    \[
+    (\nabla_k dx^{i_p})\left(\frac{\partial}{\partial x^h}\right) = \frac{\partial}{\partial x^k}\left(dx^{i_p}\left(\frac{\partial}{\partial x^h}\right)\right) - dx^{i_p}\left(\nabla_k \frac{\partial}{\partial x^h}\right)
+    \]
+    \[
+    = \frac{\partial}{\partial x^k}(\delta^{i_p}_h) - dx^{i_p}\left(\Gamma^m_{kh} \frac{\partial}{\partial x^m}\right) = 0 - \Gamma^m_{kh} \delta^{i_p}_m = -\Gamma^{i_p}_{kh}
+    \]
+    So, $\nabla_k dx^{i_p} = -\Gamma^{i_p}_{kh} dx^h$. Substituting this into the $p$-th term:
+    \[
+    \theta\left(\dots, \nabla_k dx^{i_p}, \dots\right) = \theta\left(\dots, -\Gamma^{i_p}_{kh} dx^h, \dots\right) = -\Gamma^{i_p}_{kh} \theta^{i_1 \dots h \dots i_r}_{j_1 \dots j_s}
+    \]
+    (where $h$ is in the $p$-th slot). The full sum becomes:
+    \[
+    - \sum_{p=1}^r \left(-\Gamma^{i_p}_{kh} \theta^{i_1 \dots h \dots i_r}_{j_1 \dots j_s}\right) = + \sum_{p=1}^r \Gamma^{i_p}_{kh} \theta^{i_1 \dots h \dots i_r}_{j_1 \dots j_s}
+    \]
+    
+    \item \textbf{Covariant terms ($q$ sum):} We need $\nabla_k \frac{\partial}{\partial x^{j_q}}$. This is given by the definition of the connection coefficients:
+    \[
+    \nabla_k \frac{\partial}{\partial x^{j_q}} = \Gamma^h_{k j_q} \frac{\partial}{\partial x^h}
+    \]
+    Substituting this into the $q$-th term:
+    \[
+    \theta\left(\dots, \nabla_k \frac{\partial}{\partial x^{j_q}}, \dots\right) = \theta\left(\dots, \Gamma^h_{k j_q} \frac{\partial}{\partial x^h}, \dots\right) = \Gamma^h_{k j_q} \theta^{i_1 \dots i_r}_{j_1 \dots h \dots j_s}
+    \]
+    (where $h$ is in the $q$-th slot). The full sum becomes:
+    \[
+    - \sum_{q=1}^s \Gamma^h_{k j_q} \theta^{i_1 \dots i_r}_{j_1 \dots h \dots j_s}
+    \]
+\end{enumerate}
+
+\subsubsection{Final Component Formula}
+Combining all three terms gives the complete formula for the components of the covariant derivative of a tensor $\theta$:
+
+\[
+\nabla_k \theta^{i_1 \dots i_r}_{j_1 \dots j_s} = 
+\frac{\partial \theta^{i_1 \dots i_r}_{j_1 \dots j_s}}{\partial x^k} 
++ \sum_{p=1}^{r} \Gamma^{i_p}_{kh} \theta^{i_1 \dots h \dots i_r}_{j_1 \dots j_s} 
+- \sum_{q=1}^{s} \Gamma^{h}_{k j_q} \theta^{i_1 \dots i_r}_{j_1 \dots h \dots j_s}
+\]
+(Note: We assume a torsion-free connection, so $\Gamma^i_{kj} = \Gamma^i_{jk}$).
+
+Now that we have this formula, we have successfully generalized the $\nabla$ operator from acting only on a vector field to acting on any tensor field.
+
+\section{The Riemann Curvature Tensor}
+
+\subsection{Motivation: The Commutator of Derivatives}
+In basic multivariable calculus, Schwarz's theorem guarantees that for a smooth function $f$, partial derivatives commute: $\partial_i \partial_j f = \partial_j \partial_i f$. This "flatness" of Euclidean space means the order of differentiation doesn't matter.
+
+On a general manifold with a covariant connection $\nabla$, we must ask the same question: Does the order of covariant differentiation matter? That is, for two vector fields $X, Y$ and a third vector field $Z$, is $\nabla_X (\nabla_Y Z)$ the same as $\nabla_Y (\nabla_X Z)$?
+
+It turns out that in general, they are not equal. Their failure to commute is precisely what defines the curvature of the manifold.
+
+\subsection{Coordinate-Free Definition}
+The operator $R(X, Y) = \nabla_X \nabla_Y - \nabla_Y \nabla_X - \nabla_{[X, Y]}$ measures this failure. The $\nabla_{[X,Y]}$ term is crucial to ensure that the operator is a \textbf{tensor}—that is, its value at a point $p$ depends only on the vectors $X_p, Y_p, Z_p$ at that point, not on how they are extended to vector fields.
+
+\begin{definition}[Riemann Curvature Tensor]
+    The \textbf{Riemann Curvature Tensor} $R$ is a $(1,3)$ tensor field that is defined by its action on three vector fields $X, Y, Z$:
+    \[
+    R(X, Y)Z = \nabla_X \nabla_Y Z - \nabla_Y \nabla_X Z - \nabla_{[X, Y]} Z
+    \]
+\end{definition}
+
+The curvature tensor $R$ is the fundamental measure of a manifold's intrinsic curvature. A manifold is called \textbf{flat} (locally indistinguishable from Euclidean space) if and only if its Riemann tensor is zero everywhere.
+
+\subsection{Component Expression}
+We can find the components of $R$ by evaluating it on a local coordinate basis $\{\partial_j = \frac{\partial}{\partial x^j}\}$.
+
+First, recall that for a coordinate basis, the Lie bracket is zero: $[\partial_k, \partial_j] = 0$. This simplifies the definition significantly:
+\[
+R(\partial_k, \partial_j)\partial_l = \nabla_k \nabla_j \partial_l - \nabla_j \nabla_k \partial_l
+\]
+The components $R^i_{l k j}$ are defined as the components of the resulting vector:
+\[
+R(\partial_k, \partial_j)\partial_l = R^i_{l k j} \partial_i
+\]
+Let's apply the commutator to an arbitrary vector field $V = V^l \partial_l$ in this basis:
+\[
+R(\partial_k, \partial_j)V = (\nabla_k \nabla_j - \nabla_j \nabla_k) V
+\]
+Expanding the left side:
+\[
+R(\partial_k, \partial_j)(V^l \partial_l) = V^l R(\partial_k, \partial_j)\partial_l = V^l (R^i_{l k j} \partial_i) = R^i_{l k j} V^l \partial_i
+\]
+Expanding the right side (as was done in the previous version) yields:
+\[
+(\nabla_k \nabla_j - \nabla_j \nabla_k) V = (\nabla_k \nabla_j - \nabla_j \nabla_k) (V^i \partial_i) = \left( \nabla_k (\nabla_j V^i) - \nabla_j (\nabla_k V^i) \right) \partial_i
+\]
+A direct calculation (involving the component formula for $\nabla$ on a $(1,1)$ tensor) shows that this simplifies to:
+\[
+(\nabla_k \nabla_j - \nabla_j \nabla_k) V = \left( \partial_k \Gamma^i_{l j} - \partial_j \Gamma^i_{l k} + \Gamma^i_{k m} \Gamma^m_{l j} - \Gamma^i_{j m} \Gamma^m_{l k} \right) V^l \partial_i
+\]
+By comparing the components of $\partial_i$ in our two results, we arrive at the component formula for the Riemann tensor:
+\[
+R^i_{l k j} = \partial_k \Gamma^i_{l j} - \partial_j \Gamma^i_{l k} + \Gamma^i_{k m} \Gamma^m_{l j} - \Gamma^i_{j m} \Gamma^m_{l k}
+\]
+
+\subsection{Properties and Symmetries}
+The Riemann tensor possesses several fundamental symmetries, which can be expressed in both coordinate-free and component forms.
+
+\begin{enumerate}
+    \item \textbf{Antisymmetry in $X$ and $Y$:}
+    \begin{itemize}
+        \item $R(X, Y)Z = -R(Y, X)Z$
+        \item $R^i_{l k j} = -R^i_{l j k}$
+    \end{itemize}
+    
+    \item \textbf{First Bianchi Identity (Cyclic sum):}
+    \begin{itemize}
+        \item $R(X, Y)Z + R(Y, Z)X + R(Z, X)Y = 0$
+        \item $R^i_{l k j} + R^i_{j l k} + R^i_{k j l} = 0$
+    \end{itemize}
+\end{enumerate}
+
+If we lower the first index using the metric $g_{i l}$ to create the $(0,4)$ tensor $R_{i l k j} = g_{i m} R^m_{l k j}$, we find two additional symmetries:
+
+\begin{enumerate}
+    \item \textbf{Antisymmetry in the first two indices:}
+    \[
+    R_{i l k j} = -R_{l i k j}
+    \]
+    
+    \item \textbf{Block (Pair) Symmetry:}
+    \[
+    R_{i l k j} = R_{k j i l}
+    \]
+\end{enumerate}
+These symmetries drastically reduce the number of independent components of the curvature tensor. In an $n$-dimensional manifold, there are only $\frac{n^2(n^2-1)}{12}$ independent components.
+
+
 
 \end{document}
 

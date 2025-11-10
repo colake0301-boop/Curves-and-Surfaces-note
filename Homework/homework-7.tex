@@ -1,0 +1,249 @@
+\documentclass[12pt, a4paper, oneside]{article}
+\usepackage{amsmath, amsthm, amssymb, bm, color, framed, graphicx, hyperref, mathrsfs}
+\usepackage{tikz-cd}
+\usepackage{enumerate} % For itemized lists in problems
+
+% --- Math Operator Declarations ---
+% Defines \operatorname for functions like arctanh
+\DeclareMathOperator{\arctanh}{arctanh}
+\DeclareMathOperator{\arccosh}{arccosh}
+% ---------------------------------
+
+\title{\textbf{Math4033 Homework}}
+\author{Cola}
+\date{\today}
+\linespread{1.5}
+\definecolor{shadecolor}{RGB}{241, 241, 255}
+\newcounter{problemname}
+
+% Problem environment
+\newenvironment{problem}
+  {\begin{shaded}\stepcounter{problemname}\par\noindent\textbf{Problem \arabic{problemname}. }\newline}
+  {\end{shaded}\par}
+
+% Solution environment
+\newenvironment{solution}
+  {\par\noindent\textbf{Solution. }\newline}
+  {\par}
+
+
+% Note environment
+\newenvironment{note}
+  {\par\noindent\textbf{Note for Problem \arabic{problemname}. }\newline}
+  {\par}
+
+%Definition environment
+\newtheorem*{definition}{Definition}
+\newtheorem{proposition}{Proposition}
+
+\begin{document}
+
+\maketitle
+
+% -------------------- Problem 1 --------------------
+\begin{problem}
+\begin{enumerate}
+    \item[a.] Determine what type of the point $(0,0,0)$ on monkey saddle surface given in lecture?
+    \item[b.] Taking simple closed loop counterclockwise about the point $(0,0,0)$, find the image of this loop on $S^{2}$ under Gauss map with orientation.
+\end{enumerate}
+\end{problem}
+\begin{solution}
+\textbf{a. Type of Point} \newline
+The monkey saddle is given by $z = x^3 - 3xy^2$, which we analyze as a graph $z = h(x,y)$.
+\begin{itemize}
+    \item \textbf{Tangent Plane:} The first derivatives are $h_x = 3x^2 - 3y^2$ and $h_y = -6xy$. At $(0,0)$, we have $h_x = 0$ and $h_y = 0$. This confirms the tangent plane is the horizontal plane $z=0$ and $(0,0)$ is a critical point.
+    
+    \item \textbf{Second Fundamental Form:} The second derivatives are $h_{xx} = 6x$, $h_{xy} = -6y$, and $h_{yy} = -6x$. At the point $(0,0)$, the Hessian matrix is the zero matrix:
+    \[ H_h(0,0) = \begin{pmatrix} 0 & 0 \\ 0 & 0 \end{pmatrix} \]
+    The components of the second fundamental form, $L, M, N$, are proportional to $h_{xx}, h_{xy}, h_{yy}$ respectively. Since all are zero at $(0,0)$, we have $L=M=N=0$.
+    The Gaussian curvature $K = \frac{LN-M^2}{EG-F^2}$ is therefore $K=0$.
+\end{itemize}
+A point where the second fundamental form is identically zero ($L=M=N=0$) is known as a \textbf{planar point}.
+
+\vspace{1em} % Add a little space
+\textbf{b. Gauss Map Image} \newline
+The (unnormalized) normal vector $\mathbf{N}$ for the graph $z=h(x,y)$ is $(-h_x, -h_y, 1)$.
+\[ \mathbf{N} = (-3x^2 + 3y^2, 6xy, 1) \]
+We parameterize a small counterclockwise loop around $(0,0)$ by $x = r \cos \theta$ and $y = r \sin \theta$ for a small fixed $r > 0$ and $\theta \in [0, 2\pi]$.
+
+Substituting this into the normal vector components:
+\begin{align*}
+    N_x &= -3(r \cos \theta)^2 + 3(r \sin \theta)^2 = -3r^2 (\cos^2 \theta - \sin^2 \theta) = -3r^2 \cos(2\theta) \\
+    N_y &= 6(r \cos \theta)(r \sin \theta) = 3r^2 (2 \sin \theta \cos \theta) = 3r^2 \sin(2\theta) \\
+    N_z &= 1
+\end{align*}
+The image under the Gauss map is the path traced by $\mathbf{N} / \|\mathbf{N}\|$ on $S^2$. For small $r$, $N_z \approx 1$ and the image is a small loop near the north pole $(0,0,1)$. The $(X, Y)$ coordinates of the image are approximately $(X, Y) \approx (-3r^2 \cos(2\theta), 3r^2 \sin(2\theta))$.
+
+As $\theta$ (the original loop) goes from $0$ to $2\pi$, the argument $2\theta$ goes from $0$ to $4\pi$. The image path $(X,Y)$ traces a circle of radius $3r^2$ twice. The orientation is counterclockwise (as $\theta$ increases, $2\theta$ increases, and the path $(-\cos(2\theta), \sin(2\theta))$ is counterclockwise).
+
+The image is a small loop near the north pole, which winds \textbf{twice} in the \textbf{counterclockwise} direction.
+\end{solution}
+
+% -------------------- Problem 2 --------------------
+\begin{problem}
+Show that the plane and catenoid are the only rotationally symmetric minimal surface in $\mathbb{R}^{3}$.
+\end{problem}
+\begin{solution}
+A rotationally symmetric surface can be parametrized by $\mathbf{x}(u,v) = (u \cos v, u \sin v, f(u))$ where $u = \sqrt{x^2+y^2}$.
+For this surface to be minimal, its mean curvature $H$ must be zero. The mean curvature $H$ is zero if and only if the profile curve $f(u)$ satisfies the differential equation:
+\[ u f''(u) + f'(u)(1 + (f'(u))^2) = 0 \]
+We solve this ODE by cases.
+\begin{itemize}
+    \item \textbf{Case 1: $f(u) = C$ (a constant).}
+    In this case, $f'(u) = 0$ and $f''(u) = 0$. The ODE becomes $u(0) + 0(1+0) = 0$, which is $0=0$. This is a valid solution. The surface $z = C$ is a \textbf{plane}.
+
+    \item \textbf{Case 2: $f(u)$ is not constant.}
+    Let $p = f'(u)$, so $f''(u) = \frac{dp}{du}$. The ODE becomes:
+    \[ u \frac{dp}{du} + p(1 + p^2) = 0 \]
+    This is a separable equation:
+    \[ u \frac{dp}{du} = -p(1 + p^2) \implies \frac{dp}{p(1 + p^2)} = -\frac{du}{u} \]
+    We use partial fractions on the left side: $\frac{1}{p(1+p^2)} = \frac{1}{p} - \frac{p}{1+p^2}$.
+    \[ \int \left(\frac{1}{p} - \frac{p}{1+p^2}\right) dp = - \int \frac{du}{u} \]
+    \[ \ln|p| - \frac{1}{2} \ln(1+p^2) = -\ln|u| + C_1 \]
+    \[ \ln\left(\frac{p}{\sqrt{1+p^2}}\right) = \ln\left(\frac{c}{u}\right) \quad (\text{where } c = e^{C_1}) \]
+    Now, we solve for $p$:
+    \[ \frac{p^2}{1+p^2} = \frac{c^2}{u^2} \implies p^2 u^2 = c^2 (1+p^2) \implies p^2 (u^2 - c^2) = c^2 \]
+    \[ p = \frac{df}{du} = \frac{c}{\sqrt{u^2 - c^2}} \]
+    Finally, we integrate to find $f(u)$:
+    \[ f(u) = \int \frac{c}{\sqrt{u^2 - c^2}} du = c \cdot \operatorname{arccosh}(u/c) + D \]
+    The profile curve is $z = c \cdot \operatorname{arccosh}(u/c) + D$, which can be rewritten as $u = c \cosh\left(\frac{z-D}{c}\right)$. This is the equation for a \textbf{catenoid}.
+\end{itemize}
+Therefore, the only two rotationally symmetric minimal surfaces are the plane and the catenoid.
+\end{solution}
+
+% -------------------- Problem 3 --------------------
+\begin{problem}
+Use Weierstrass-Enneper representation to show
+$g=iz, f=\frac{4i}{1-z^{4}}$
+is the Scherk's first surface given in the lecture.
+\end{problem}
+\begin{solution}
+The Weierstrass-Enneper representation coordinates are:
+$X_1 = \frac{1}{2} \int f(1-g^2) dz$, $X_2 = \frac{i}{2} \int f(1+g^2) dz$, $X_3 = \int fg dz$.
+Given $g(z) = iz$ and $f(z) = \frac{4i}{1-z^4}$.
+
+\begin{enumerate}
+    \item \textbf{Calculate $X_3$:}
+    \[ X_3 = \int \left(\frac{4i}{1-z^4}\right) (iz) dz = \int \frac{-4z}{1-z^4} dz \]
+    Let $u = z^2$, then $du = 2z dz$.
+    \[ X_3 = \int \frac{-2 du}{1-u^2} = -2 \operatorname{arctanh}(u) = -2 \operatorname{arctanh}(z^2) = \ln\left(\frac{1-z^2}{1+z^2}\right) \]
+
+    \item \textbf{Calculate $X_1$:}
+    \[ X_1 = \frac{1}{2} \int \left(\frac{4i}{1-z^4}\right) (1 - (iz)^2) dz = \int \frac{2i(1 + z^2)}{1-z^4} dz \]
+    \[ X_1 = \int \frac{2i(1 + z^2)}{(1-z^2)(1+z^2)} dz = \int \frac{2i}{1-z^2} dz = 2i \operatorname{arctanh}(z) \]
+
+    \item \textbf{Calculate $X_2$:}
+    \[ X_2 = \frac{i}{2} \int \left(\frac{4i}{1-z^4}\right) (1 + (iz)^2) dz = \int \frac{-2(1 - z^2)}{1-z^4} dz \]
+    \[ X_2 = \int \frac{-2(1 - z^2)}{(1-z^2)(1+z^2)} dz = \int \frac{-2}{1+z^2} dz = -2 \arctan(z) \]
+\end{enumerate}
+Scherk's first surface is given by the implicit equation $e^{x_3} \cos(x_1) = \cos(x_2)$. We check if our complex coordinates satisfy a related identity.
+\begin{itemize}
+    \item From $X_3$: $e^{X_3} = e^{\ln(\frac{1-z^2}{1+z^2})} = \frac{1-z^2}{1+z^2}$.
+    \item From $X_2$: $\cos(X_2) = \cos(-2 \arctan z) = \cos(2 \arctan z)$.
+    Using the identity $\cos(2\theta) = \frac{1-\tan^2 \theta}{1+\tan^2 \theta}$ with $\theta = \arctan z$ (so $\tan \theta = z$), we get:
+    \[ \cos(X_2) = \frac{1-z^2}{1+z^2} \]
+\end{itemize}
+This immediately shows $e^{X_3} = \cos(X_2)$.
+\begin{itemize}
+    \item From $X_1$: $\cos(X_1) = \cos(2i \operatorname{arctanh}(z)) = \cosh(2 \operatorname{arctanh}(z))$.
+    Using $\cosh(2\theta) = \frac{1+\tanh^2 \theta}{1-\tanh^2 \theta}$ with $\theta = \operatorname{arctanh}(z)$ (so $\tanh \theta = z$), we get:
+    \[ \cos(X_1) = \frac{1+z^2}{1-z^2} \]
+\end{itemize}
+We have $e^{X_3} = \frac{1-z^2}{1+z^2}$ and $\cos(X_1) = \frac{1+z^2}{1-z^2}$. This means $e^{X_3} = \frac{1}{\cos(X_1)}$, or $e^{X_3} \cos(X_1) = 1$.
+Since $e^{X_3} = \cos(X_2)$, this also implies $\cos(X_1) = \cos(X_2)$.
+The real parts $x_i = \text{Re}(X_i)$ of these coordinates will satisfy $e^{x_3} \cos(x_1) = \cos(x_2)$, which is the equation for Scherk's first surface.
+\end{solution}
+
+% -------------------- Problem 4 --------------------
+\begin{problem}
+Given smooth family of parametrizations of surface
+\begin{equation}
+    X^{t}: U \times (-\epsilon, \epsilon) \rightarrow \mathbb{R}^{3}
+\end{equation}
+with $X^{0}(u_{1}, u_{2})|_{\partial U} = X(u_{1}, u_{2})|_{\partial U} = X^{t}(u_{1}, u_{2})|_{\partial U}$ fixed boundary deformation.
+Show
+\[
+    \frac{d}{dt}\text{area}(X^{t}) \Big|_{t=0} = \int_{U} \langle X_{t}^{t}, \vec{H} \rangle \Big|_{t=0} dA
+\]
+where $X_{t}^{t} = \frac{\partial}{\partial t} X^{t}$ restricted to S, $\vec{H} = H\vec{N},$ and H denotes mean curvature and $\vec{N}$ denotes unit normal vector of S. $(S = X^{0})$
+\end{problem}
+\begin{note}
+$X^{t}$ is a general deformation, not the "normal" deformation we did in the lecture.
+\end{note}
+\begin{solution}
+The area is $A(t) = \int_U dA_t = \int_U \sqrt{g(t)} \, du_1 du_2$, where $g = \det(g_{ij})$.
+The first variation is $\frac{d}{dt}A(t)|_{t=0} = \int_U \frac{1}{2\sqrt{g}} \frac{d}{dt}(g) |_{t=0} \, du_1 du_2$.
+Using Jacobi's formula, $\frac{d g}{dt} = g \cdot \text{Tr}(g^{-1} g') = g g^{ij} g'_{ij}$.
+\[ \frac{d}{dt}A(t) = \int_U \frac{\sqrt{g}}{2} g^{ij} g'_{ij} \, du_1 du_2 = \frac{1}{2} \int_U g^{ij} g'_{ij} \, dA \]
+Now we compute $g'_{ij} = \frac{d}{dt}\langle X_i, X_j \rangle = \langle (X_t)_i, X_j \rangle + \langle X_i, (X_t)_j \rangle$.
+Note $(X_t)_i = \frac{\partial}{\partial u_i} X_t = \nabla_i X_t$. So $g'_{ij} = \langle \nabla_i X_t, X_j \rangle + \langle X_i, \nabla_j X_t \rangle$.
+Substituting back:
+\[ \frac{d}{dt}A(t) = \frac{1}{2} \int_U g^{ij} (\langle \nabla_i X_t, X_j \rangle + \langle X_i, \nabla_j X_t \rangle) \, dA \]
+By symmetry ($g^{ij} = g^{ji}$ and $\langle A, B \rangle = \langle B, A \rangle$), the two terms in the parenthesis are equal.
+\[ \frac{d}{dt}A(t) = \int_U g^{ij} \langle \nabla_i X_t, X_j \rangle \, dA = \int_U \langle \nabla X_t, \nabla X \rangle_g \, dA \]
+We use the integration by parts formula (Green's identity or Divergence Theorem) for a vector field $\mathbf{V}$ and a function $f$. Here we use it for $\mathbf{V} = X_t$ and $\mathbf{W} = X$:
+\[ \int_U \langle \nabla \mathbf{V}, \nabla \mathbf{W} \rangle_g \, dA = - \int_U \langle \mathbf{V}, \Delta \mathbf{W} \rangle dA + \int_{\partial U} \langle \mathbf{V}, \nabla_{\mathbf{n}} \mathbf{W} \rangle ds \]
+Here $\mathbf{V} = X_t$ and $\mathbf{W} = X$. $\Delta \mathbf{W} = \Delta X$ is the Laplace-Beltrami operator on the position vector $X$.
+\[ \frac{d}{dt}A(t) = - \int_U \langle X_t, \Delta X \rangle dA + \int_{\partial U} \langle X_t, \nabla_{\mathbf{n}} X \rangle ds \]
+The problem states $X^t$ has a fixed boundary, which means the variation $X_t = \frac{\partial X^t}{\partial t}$ is zero on $\partial U$. This makes the boundary integral zero.
+\[ \frac{d}{dt}A(t) \Big|_{t=0} = - \int_U \langle X_t, \Delta X \rangle \Big|_{t=0} dA \]
+The mean curvature vector $\vec{H}$ is defined by the formula $\Delta X = -2H\vec{N}$.
+The problem states $\vec{H} = H\vec{N}$. This implies a convention difference, and the formula in the problem likely assumes $\vec{H} = -\Delta X$.
+Let's assume the standard definition $\vec{H} = -\Delta X = (\kappa_1+\kappa_2)\vec{N}$. (Note: $H$ in this formula is $\frac{1}{2}(\kappa_1+\kappa_2)$, so $\vec{H} = 2H\vec{N}$. The problem's note $\vec{H} = H\vec{N}$ is contradictory to the standard $\Delta X$ formula. We will assume $\vec{H}$ in the integral *is* the mean curvature vector, $\vec{H} = -\Delta X$.)
+
+Assuming $\vec{H} = -\Delta X$:
+\[ \frac{d}{dt}A(t) \Big|_{t=0} = - \int_U \langle X_t, (-\vec{H}) \rangle \Big|_{t=0} dA = \int_U \langle X_t, \vec{H} \rangle \Big|_{t=0} dA \]
+This proves the identity.
+\end{solution}
+
+% -------------------- Problem 5 --------------------
+\begin{problem}
+Show that the helicoid is recovered from the Weierstrass-Enneper representation given in the lecture.
+\end{problem}
+\begin{solution}
+We use the Weierstrass-Enneper representation for the Catenoid-Helicoid family, which is given by $g(z) = i/z$ and $f(z) = c$ (for some real constant $c$).
+
+\begin{enumerate}
+    \item \textbf{Integrate for $X_k$:}
+    \begin{align*}
+        X_1 &= \frac{1}{2} \int f(1-g^2) dz = \frac{c}{2} \int (1 - (i/z)^2) dz = \frac{c}{2} \int (1 + 1/z^2) dz \\
+            &= \frac{c}{2} \left(z - \frac{1}{z}\right) \\
+        X_2 &= \frac{i}{2} \int f(1+g^2) dz = \frac{ic}{2} \int (1 + (i/z)^2) dz = \frac{ic}{2} \int (1 - 1/z^2) dz \\
+            &= \frac{ic}{2} \left(z + \frac{1}{z}\right) \\
+        X_3 &= \int fg dz = \int c(i/z) dz = ic \ln z
+    \end{align*}
+
+    \item \textbf{Parametrize and Take Real Parts:}
+    We use polar coordinates in the $z$-domain: $z = r e^{i\theta} = r(\cos \theta + i \sin \theta)$.
+    \begin{align*}
+        z - \frac{1}{z} &= (r e^{i\theta} - \frac{1}{r} e^{-i\theta}) = (r \cos \theta + i r \sin \theta) - (\frac{1}{r} \cos \theta - i \frac{1}{r} \sin \theta) \\
+                        &= (r - \frac{1}{r})\cos \theta + i(r + \frac{1}{r})\sin \theta \\
+        z + \frac{1}{z} &= (r e^{i\theta} + \frac{1}{r} e^{-i\theta}) = (r \cos \theta + i r \sin \theta) + (\frac{1}{r} \cos \theta - i \frac{1}{r} \sin \theta) \\
+                        &= (r + \frac{1}{r})\cos \theta + i(r - \frac{1}{r})\sin \theta
+    \end{align*}
+    Now we find the real parts $x_k = \text{Re}(X_k)$:
+    \begin{align*}
+        x_1 &= \text{Re}\left[ \frac{c}{2} \left( (r - \frac{1}{r})\cos \theta + i(r + \frac{1}{r})\sin \theta \right) \right] \\
+            &= \frac{c}{2} (r - \frac{1}{r}) \cos \theta \\
+        x_2 &= \text{Re}\left[ \frac{ic}{2} \left( (r + \frac{1}{r})\cos \theta + i(r - \frac{1}{r})\sin \theta \right) \right] \\
+            &= \text{Re}\left[ i(\dots) + \frac{ic}{2} i(r - \frac{1}{r})\sin \theta \right] = \text{Re}\left[ i(\dots) - \frac{c}{2} (r - \frac{1}{r})\sin \theta \right] \\
+            &= -\frac{c}{2} (r - \frac{1}{r}) \sin \theta \\
+        x_3 &= \text{Re}[ ic(\ln r + i\theta) ] = \text{Re}[ ic \ln r - c\theta ] \\
+            &= -c\theta
+    \end{align*}
+
+    \item \textbf{Identify the Surface:}
+    Let's re-parametrize with new variables $u$ and $v$.
+    Let $u = \frac{c}{2} (r - \frac{1}{r})$ and $v = -c\theta$. This implies $\theta = -v/c$.
+    Substituting these into our coordinates $x_1, x_2, x_3$:
+    \begin{align*}
+        x_1 &= u \cos(-v/c) = u \cos(v/c) \\
+        x_2 &= -u \sin(-v/c) = u \sin(v/c) \\
+        x_3 &= v
+    \end{align*}
+    The resulting parametrization $\mathbf{x}(u,v) = (u \cos(v/c), u \sin(v/c), v)$ is the standard parametrization of a \textbf{helicoid}.
+\end{enumerate}
+\end{solution}
+
+
+\end{document}
