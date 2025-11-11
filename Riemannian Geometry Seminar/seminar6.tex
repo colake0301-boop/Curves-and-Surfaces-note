@@ -1,0 +1,393 @@
+\documentclass[english]{beamer} 
+\usepackage{hyperref}              
+\usefonttheme{serif}
+% other packages
+\usepackage{latexsym,amsmath,xcolor,multicol,booktabs,calligra}
+\usepackage{graphicx,pstricks,listings,stackengine}
+\usepackage{amssymb} % Added for \mathbb{R}
+\usepackage{CUHKSZ} % <-- MOVED TO FIX ERRORS
+
+\author{Cola Ke}
+\title{Seminar 6: Curvature}
+\institute{The Chinese University of Hong Kong (Shenzhen)}
+\date{November 9, 2025}
+
+% defs
+\def\cmd#1{\texttt{\color{red}\footnotesize $\backslash$#1}}
+\def\env#1{\texttt{\color{blue}\footnotesize #1}}
+\xdefinecolor{cuhksz1}{rgb}{0.457,0.0585,0.42578}      %RGB(117,15,109)
+\xdefinecolor{cuhksz2}{rgb}{0.86328,0.63671875,0}      %RGB(221,163,0)
+\xdefinecolor{cuhksz3}{rgb}{0.953125,0.87109,0.6875}   %RGB(244,223,176)
+
+
+\definecolor{deepred}{rgb}{0.6,0,0}
+
+\lstset{
+    basicstyle=\ttfamily\small,
+    keywordstyle=\bfseries\color{cuhksz1},
+    emphstyle=\ttfamily\color{deepred},    % Custom highlighting style
+    stringstyle=\color{cuhksz2},
+    numbers=left,
+    numberstyle=\small\color{cuhksz3},
+    rulesepcolor=\color{red!20!green!20!blue!20},
+    frame=shadowbox,
+}
+
+
+\begin{document}
+
+\begin{frame}
+    \titlepage
+     \begin{figure}[htpb]
+        \begin{center}
+            \includegraphics[width=0.3\linewidth]{pic/CUHKSZ-Logo.pdf}
+        \end{center}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Outlines} 
+    \tableofcontents
+\end{frame}
+
+\section{Gaussian Curvature of $S \subseteq \mathbb{R}^3$} 
+
+\begin{frame}{Notation for Surfaces}
+    \begin{itemize}
+        \item \textbf{Local Chart:} 
+            \begin{itemize}
+                \item $X: U \to V \cap S \subseteq S$ 
+                \item $(u,v) \mapsto X(u,v)$ 
+            \end{itemize}
+        \item \textbf{Tangent Space:}
+            \begin{itemize}
+                \item $p \in S$. $T_pM := \text{span}\{\frac{\partial}{\partial u}, \frac{\partial}{\partial v}\}$ 
+                \item We can identify $T_pM = \text{span}\{X_u, X_v\}$, which is a plane in $\mathbb{R}^3$.
+            \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{First Fundamental Form}   
+    \begin{definition}[First Fundamental Form]
+        $I_p: T_pM \times T_pM \to \mathbb{R}$ 
+        $$ (v,w) \mapsto \langle v,w \rangle_{\mathbb{R}^3} $$ 
+        In local coordinates, this is given by the matrix:
+        $$ I_p = \begin{pmatrix} E & F \\ F & G \end{pmatrix} $$ 
+        where:
+        \begin{itemize}
+            \item $E = \langle X_u, X_u \rangle$ 
+            \item $F = \langle X_u, X_v \rangle$ 
+            \item $G = \langle X_v, X_v \rangle$ 
+        \end{itemize}
+    \end{definition}
+\end{frame}
+
+\begin{frame}{Gauss Map \& Shape Operator}
+    \begin{definition}[Gauss Map]
+        Given $S \subseteq \mathbb{R}^3$ a regular surface with a smooth normal vector $N_p \perp T_pM$ for all $p \in S$.
+        \begin{itemize}
+            \item The map $N: S \to S^2$ is called the Gauss map.
+            \item Rmk: Not every $S$ has such a $N$. 
+            \item In a coordinate chart: $N = \frac{X_u \times X_v}{||X_u \times X_v||}$ 
+            \item We use the Gauss map to detect curvature. 
+        \end{itemize}
+    \end{definition}
+
+    \begin{definition}[Shape Operator]
+        Given $N: S \to S^2$ at $p \in S$:
+        $$ (-dN_p): T_pS \to T_{N(p)}S^2 = T_pS $$ 
+        We call $-dN_p$ the \textbf{Shape Operator}. 
+    \end{definition}
+
+    \begin{lemma}
+        $-dN_p: T_pS \to T_pS$ is a self-adjoint map. 
+        \begin{itemize}
+            \item We need to show: $\langle -dN_p(v), w \rangle = \langle v, -dN_p(w) \rangle$. 
+            \item This is equivalent to showing $\langle N_u, X_v \rangle = \langle X_u, N_v \rangle$.
+            \item This is true because $\langle N, X_u \rangle = 0 \implies \langle N_v, X_u \rangle + \langle N, X_{uv} \rangle = 0$ and $\langle N_u, X_v \rangle + \langle N, X_{vu} \rangle = 0$. 
+        \end{itemize}
+    \end{lemma}
+\end{frame}
+
+\begin{frame}{Second Fundamental Form}
+    \begin{definition}[Second Fundamental Form]
+        $\Pi_p: T_pM \times T_pM \to \mathbb{R}$ 
+        $$ \Pi_p(v,w) = \langle -dN_p(v), w \rangle $$ 
+        This is a symmetric, bilinear form. 
+    \end{definition}
+
+    \begin{itemize}
+        \item $-dN_p$ is self-adjoint, so it has real eigenvalues $\lambda_1, \lambda_2$ and orthonormal eigenvectors $e_1, e_2$ (the principal directions).
+        \item \textbf{Gaussian Curvature:} $K := \det(-dN_p) = \lambda_1 \lambda_2$ 
+        \item \textbf{Mean Curvature:} $H := \frac{1}{2}\text{tr}(-dN_p) = \frac{\lambda_1 + \lambda_2}{2}$ 
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Second Fundamental Forms}
+
+    \begin{block}{Computation in Local Charts} 
+        $I_p = \begin{pmatrix} E & F \\ F & G \end{pmatrix}$, $\Pi_p = \begin{pmatrix} e & f \\ f & g \end{pmatrix}$ 
+        \begin{itemize}
+            \item $e = \langle -N_u, X_u \rangle = \langle N, X_{uu} \rangle$ 
+            \item $f = \langle -N_v, X_u \rangle = \langle N, X_{uv} \rangle$ 
+            \item $g = \langle -N_v, X_v \rangle = \langle N, X_{vv} \rangle$
+        \end{itemize}
+        Claim: $-dN_p = I_p^{-1} \Pi_p$ 
+        $$ K = \det(-dN_p) = \frac{\det \Pi_p}{\det I_p} = \frac{eg - f^2}{EG - F^2} $$ 
+    \end{block}
+\end{frame}
+
+\section{$\nabla_X$ acts on tensor} 
+
+\begin{frame}{$\nabla_X$ Generalised to Tensors} 
+    We extend $\nabla_X: \Gamma(TM) \to \Gamma(TM)$ to act on any (r,s)-tensor field by generalizing the Leibniz rule.
+    
+    $$ \nabla_X [T(\alpha^1, \dots, \alpha^r, Y_1, \dots, Y_s)] = $$
+    \begin{itemize}
+        \item $(\nabla_X T)(\alpha^1, \dots, \alpha^r, Y_1, \dots, Y_s)$ 
+        \item $+ T(\nabla_X \alpha^1, \dots, \alpha^r, Y_1, \dots, Y_s)$ 
+        \item $+ T(\alpha^1, \nabla_X \alpha^2, \dots, \alpha^r, Y_1, \dots, Y_s) + \dots$ 
+        \item $+ T(\alpha^1, \dots, \alpha^r, \nabla_X Y_1, \dots, Y_s) + \dots$
+    \end{itemize}
+    
+    A specific Example is to define $\nabla_X \omega$ (for $\omega$ a one-form) to fit the Leibniz rule:
+    $$ X(\omega(Y)) = \nabla_X[\omega(Y)] = (\nabla_X \omega)(Y) + \omega(\nabla_X Y) $$ 
+\end{frame}
+
+\begin{frame}{Covariant Derivative in Local Charts}
+    Given $\Theta$ a (2,1) tensor: 
+    $$ \Theta = \Theta^{\mu\nu}_{\rho} \frac{\partial}{\partial x^\mu} \otimes \frac{\partial}{\partial x^\nu} \otimes dx^\rho $$ 
+    Then $\nabla \Theta$ is a (2,2) tensor. To compute the component $(\nabla_k \Theta)^{ij}_m$: 
+    \begin{align*}
+        (\nabla_k \Theta)_{m}^{ij} :=& (\nabla_{\frac{\partial}{\partial x^k}} \Theta)(dx^i, dx^j, \frac{\partial}{\partial x^m}) \\
+        =& \frac{\partial}{\partial x^k} \Theta(dx^i, dx^j, \frac{\partial}{\partial x^m}) \\
+        & - \Theta(\nabla_{\frac{\partial}{\partial x^k}} dx^i, dx^j, \frac{\partial}{\partial x^m}) \\
+        & - \Theta(dx^i, \nabla_{\frac{\partial}{\partial x^k}} dx^j, \frac{\partial}{\partial x^m}) \\
+        & - \Theta(dx^i, dx^j, \nabla_{\frac{\partial}{\partial x^k}} \frac{\partial}{\partial x^m})
+    \end{align*} 
+\end{frame}
+
+\begin{frame}{Covariant Derivatives in Local Charts}
+    Using $\nabla_{\frac{\partial}{\partial x^k}} \frac{\partial}{\partial x^m} = \Gamma^\sigma_{km} \frac{\partial}{\partial x^\sigma}$ and $(\nabla_{\frac{\partial}{\partial x^k}} dx^\beta) = - \Gamma^\beta_{\gamma k} dx^\gamma$: 
+    $$ (\nabla_k \Theta)_{m}^{ij} = \partial_k \Theta^{ij}_m + \Gamma^i_{k\sigma} \Theta^{\sigma j}_m + \Gamma^j_{k\sigma} \Theta^{i\sigma}_m - \Gamma^\sigma_{km} \Theta^{ij}_\sigma $$ 
+\end{frame}
+
+\section{Curvature} 
+
+\begin{frame}{Riemann Curvature Tensor: Motivation}
+    \begin{itemize}
+        \item \textbf{Motivation:} To detect the curvature on a manifold. 
+        \item Parallel transporting a vector along different paths may result in different vectors.
+        \item It is natural to detect curvature by studying the non-commutativity of the covariant derivative: 
+        $$ \nabla_X \nabla_Y - \nabla_Y \nabla_X $$
+    \end{itemize}
+    
+    \begin{definition}[Riemann Curvature tensor]
+        $R: \Gamma(TM) \times \Gamma(TM) \times \Gamma(TM) \to \Gamma(TM)$ 
+        $$ R(X,Y)Z := \nabla_X \nabla_Y Z - \nabla_Y \nabla_X Z - \nabla_{[X,Y]} Z $$ 
+    \end{definition}
+\end{frame}
+
+\begin{frame}{Why R is a Tensor}
+    \begin{itemize}
+        \item \textbf{Question:} Why the extra term $-\nabla_{[X,Y]} Z$? 
+        \item \textbf{Answer:} We add this term to make $R$ a tensor (i.e., $C^\infty(M)$-linear in all arguments).
+        \item Consider the non-tensorial part:
+            $$ \nabla_{fX} \nabla_Y Z - \nabla_Y \nabla_{fX} Z $$ 
+            \begin{align*}
+                =& f(\nabla_X \nabla_Y Z) - \nabla_Y (f \nabla_X Z) \\
+                =& f(\nabla_X \nabla_Y Z) - (Yf)(\nabla_X Z) - f(\nabla_Y \nabla_X Z) \\
+                =& f(\nabla_X \nabla_Y Z - \nabla_Y \nabla_X Z) - (Yf)(\nabla_X Z)
+            \end{align*} 
+        \item This has an extra non-linear term $-(Yf)(\nabla_X Z)$. 
+        \item The term $-\nabla_{[fX,Y]} Z = -\nabla_{f[X,Y] - (Yf)X} Z = -f\nabla_{[X,Y]}Z + (Yf)\nabla_X Z$
+        \item This second part $(Yf)\nabla_X Z$ precisely cancels the non-tensorial term, making $R(fX, Y)Z = f R(X,Y)Z$.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Curvature Tensor in Local Charts}
+    \begin{itemize}
+        \item As $R$ is a (1,3) tensor , we can compute its components.
+        \item Since $[\partial_k, \partial_j] = 0$, the definition simplifies:
+            $$ R(\partial_k, \partial_j) \partial_l = \nabla_k \nabla_j \partial_l - \nabla_j \nabla_k \partial_l $$ 
+        \item Writing $R(\partial_k, \partial_j) \partial_l = {R^i}_{l k j} \partial_i$, we can expand to find:
+            $$ {R^i}_{l k j} = \partial_k \Gamma^i_{l j} - \partial_j \Gamma^i_{l k} + \Gamma^i_{k m} \Gamma^m_{l j} - \Gamma^i_{j m} \Gamma^m_{l k} $$ 
+    \end{itemize}
+    
+    \begin{block}{The (0,4) Curvature Tensor} 
+        We can "lower the index" to create a (0,4) tensor: 
+        $$ R(X,Y,Z,T) := \langle R(X,Y)Z, T \rangle $$ 
+        In local coordinates:
+        $$ R_{i l k j} = g_{m i} {R^m}_{l k j} $$ 
+    \end{block}
+\end{frame}
+
+\begin{frame}{Symmetries of R and Bianchi Identity}
+    The (0,4) tensor $R_{ijks}$ has the following symmetries:
+    \begin{itemize}
+        \item $R_{ijks} = -R_{jiks}$ 
+        \item $R_{ijks} = -R_{ijsk}$ 
+        \item $R_{ijks} = R_{ksij}$ 
+    \end{itemize}
+    
+    \begin{theorem}[First Bianchi Identity] 
+        $$ R(X,Y,Z,T) + R(Y,Z,X,T) + R(Z,X,Y,T) = 0 $$ 
+        In local charts, this is the cyclic sum:
+        $$ R_{ijks} + R_{ikjs} + R_{kijs} = 0 $$ 
+    \end{theorem}
+\end{frame}
+
+\begin{frame}{Sectional Curvature}
+    \begin{definition}[Sectional Curvature]
+        \begin{itemize}
+            \item Let $p \in M$ and $\sigma$ be a 2-dim plane in $T_pM$.
+            \item Let $\{X, Y\}$ be a basis for $\sigma$. 
+            \item The sectional curvature $K(\sigma)$ is:
+                $$ K(\sigma) := K(X,Y) := \frac{\langle R(X,Y)Y, X \rangle}{|X \wedge Y|^2} = \frac{R(X,Y,Y,X)}{|X|^2|Y|^2 - \langle X,Y \rangle^2} $$
+        \end{itemize}
+    \end{definition}
+    
+    \begin{lemma}[13.3]
+        The sectional curvature $K(\sigma)$ for all planes $\sigma$ completely determines the Riemann Curvature tensor $R$. 
+    \end{lemma}
+\end{frame}
+
+\begin{frame}{Ricci and Scalar Curvature}
+    \begin{definition}[Ricci Curvature]
+        The Ricci tensor is a (0,2) tensor defined as the trace of the Riemann tensor. Let $\{e_i\}$ be an orthonormal basis.
+        $$ Ric(X,Y) = \sum_{i=1}^n R(e_i, X, e_i, Y) $$ 
+        In local charts:
+        $$ R_{ij} = g^{kl} R_{k i l j} $$ 
+        
+        The Ricci curvature in the direction $X$ (unit vector) is: 
+        $$ Ric(X,X) = \sum_{i=1}^n R(e_i, X, e_i, X) $$ 
+    \end{definition}
+\end{frame}
+
+\begin{frame}{Ricci and Scalar Curvature}    
+    \begin{definition}[Scalar Curvature]
+        The scalar curvature $S$ is the trace of the Ricci tensor: 
+        $$ S = \text{tr}_g(Ric) $$ 
+        In local charts:
+        $$ S = g^{ij} R_{ij} $$ 
+    \end{definition}
+\end{frame}
+
+\section{Historical Remark} 
+
+\begin{frame}{Historical Remarks}
+    \begin{itemize}
+        \item For a surface $S \subseteq \mathbb{R}^3$, there is only one sectional curvature, $K$.
+        \item In this 2D case: $Ric = K g$ and $S = 2K$. 
+        \item This $K$ is exactly the Gaussian curvature $K = \frac{eg-f^2}{EG-F^2}$ we defined earlier.
+        \item \textbf{Theorema Egregium:} Gauss also showed (assuming $F=0$):
+            $$ K = -\frac{1}{2\sqrt{EG}}\left( \frac{\partial}{\partial u}\left(\frac{G_u}{\sqrt{EG}}\right) + \frac{\partial}{\partial v}\left(\frac{E_v}{\sqrt{EG}}\right) \right) $$ 
+        \item This shows $K$ is determined *only* by the metric ($E,F,G$).
+        \item This is the origin of \textbf{Intrinsic Geometry}. 
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{General Relativity}
+    \begin{itemize}
+        \item In Einstein's General Relativity, spacetime is a 4-manifold. 
+        \item Particles move along "straight" lines (geodesics).
+        \item \textbf{"The curvature of space-time tells matters how to move."} 
+        \item \textbf{"Matter tells space how to curve."} 
+        \item This is described by the Einstein Field Equations:
+            $$ R_{\mu\nu} - \frac{1}{2} \Lambda g_{\mu\nu} = 8\pi T_{\mu\nu} $$
+        \item The left side is geometry (curvature), and the right side is matter (stress-energy tensor). 
+        \item Gravity is now described by the curvature of the space instead of mysterious distant action.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{The Classical Limit}
+    The goal is to show that Einstein's theory of gravity contains Newton's theory. We do this by applying two "classical" approximations:
+    
+    \begin{block}{1. Weak Gravitational Field}
+        The gravitational field is weak, so spacetime is "almost flat". We can write the metric $g_{\mu\nu}$ as the flat Minkowski metric $\eta_{\mu\nu}$ plus a small perturbation $h_{\mu\nu}$:
+        $$ g_{\mu\nu} \approx \eta_{\mu\nu} + h_{\mu\nu}, \quad |h_{\mu\nu}| \ll 1 $$
+    \end{block}
+\end{frame}
+\begin{frame}   
+    \begin{block}{2. Low Velocity (Non-Relativistic Matter)}
+        Particles are moving much slower than the speed of light ($v \ll c$).
+        \begin{itemize}
+            \item This implies that pressure and momentum are negligible compared to mass-energy.
+            \item The Stress-Energy Tensor $T_{\mu\nu}$ is dominated by its first component, the mass density $\rho$:
+            $$ T_{00} \approx \rho c^2 \quad \text{and all other } T_{\mu\nu} \approx 0 $$
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+\begin{frame}{The Two Equations}
+    We need to show that the EFE  simplifies into Poisson's equation under our approximations.
+
+    Poisson Equation can be viewed as the equivalent description of the Newtonian Gravity Law
+\end{frame}
+\begin{frame}  
+    \begin{block}{Einstein's Field Equation}
+    This describes how matter-energy curves spacetime. (Using $S$ for the scalar curvature as in your notes).
+    $$ R_{\mu\nu} - \frac{1}{2} S g_{\mu\nu} = \frac{8\pi G}{c^4} T_{\mu\nu} $$
+    \end{block}
+    
+    \begin{block}{Newton's (Poisson's) Equation}
+    This describes the Newtonian potential $\Phi$ generated by a mass density $\rho$.
+    $$ \nabla^2 \Phi = 4\pi G \rho $$
+    \end{block}
+\end{frame}
+
+\begin{frame}{Connecting Potential and Geometry}
+    How do we get from the metric $g_{\mu\nu}$ to the potential $\Phi$?
+    \begin{itemize}
+        \item We look at the \textbf{geodesic equation} (how particles move) in the same low-velocity limit.
+        \item The geodesic equation $\frac{d^2 x^\mu}{d\tau^2} + \Gamma^\mu_{\alpha\beta} U^\alpha U^\beta = 0$ simplifies to:
+        $$ \frac{d^2 \mathbf{x}}{dt^2} \approx -\mathbf{\nabla} \Phi \quad \text{(Newton's Law)} $$
+        \item This comparison reveals a direct link between the Newtonian potential $\Phi$ and the $g_{00}$ component of the metric:
+    \end{itemize}
+\end{frame}
+\begin{frame}
+    \begin{block}{The Key Link}
+    $$ g_{00} \approx -\left(1 + \frac{2\Phi}{c^2}\right) \quad \text{or} \quad h_{00} \approx -\frac{2\Phi}{c^2} $$
+    The Newtonian potential is just the small perturbation in the time-time component of the metric.
+    \end{block}
+\end{frame}
+
+\begin{frame}{Recovering Newtonian Gravity}
+    Now we apply our approximations to the $00$-component of the EFE:
+    
+    \begin{alertblock}{EFE $00$-Component}
+    $$ R_{00} \approx \frac{8\pi G}{c^4} \left( T_{00} - \frac{1}{2} T g_{00} \right) $$
+    (Using the trace-reversed form, where $T$ is the trace of $T_{\mu\nu}$)
+    \end{alertblock}
+    
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            \textbf{Left Side (Geometry):}
+            \begin{itemize}
+                \item $R_{00}$ simplifies in a static, weak field.
+                \item Using $g_{00} \approx -1 - 2\Phi/c^2$:
+                \item $R_{00} \approx -\frac{1}{2} \nabla^2 g_{00}$
+                \item $R_{00} \approx \frac{1}{c^2} \nabla^2 \Phi$
+            \end{itemize}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            \textbf{Right Side (Matter):}
+            \begin{itemize}
+                \item $T_{00} \approx \rho c^2$
+                \item $T \approx T^0_0 \approx -\rho c^2$
+                \item $\approx \frac{8\pi G}{c^4} \left( \rho c^2 - \frac{1}{2}(-\rho c^2)(-1) \right)$
+                \item $\approx \frac{4\pi G \rho}{c^2}$
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
+\begin{frame}
+    \begin{block}{The Result}
+    Equating the two sides:
+    $$ \frac{1}{c^2} \nabla^2 \Phi \approx \frac{4\pi G \rho}{c^2} $$
+    Canceling $c^2$, we recover Poisson's equation:
+    $$ \nabla^2 \Phi = 4\pi G \rho $$
+    \end{block}
+\end{frame}
+
+\end{document}
+
