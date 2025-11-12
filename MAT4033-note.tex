@@ -104,7 +104,7 @@
 \newtcbenvironment{problem}{colframe=WildStrawberry!30, colback=WildStrawberry!5}
 
 %Exercise Environment
-\newtheorem*{exercise}{Exercise}
+\newtheorem{exercise}{Exercise}
 
 \title{MAT4033 Differential Geometry}
 \author{Zihan Ke}
@@ -251,6 +251,10 @@ The following Proposition provides us a formula to compute the curvature when ou
 \begin{proof}
     left as an exercise (Hint: by direct computation and chain rule, it takes about 20-30 minutes work)
 \end{proof}
+
+\begin{exercise}
+    Complete the proof of the above proposition
+\end{exercise}
 
 It seems that for a regular plane curve, the configuration of the curve is uniquely determined by its curvature. In fact we have the following theorem
 
@@ -1605,8 +1609,8 @@ A differentiable fcn of local charts.
 except possible at pt where $H^2 = K$
 we define these as "umbilical pts"
 
-\begin{exercise}[HW]
-prove A planar or sphere is the only totally "umbilical pts" surface
+\begin{exercise}
+Prove A planar or sphere is the only totally "umbilical pts" surface
 Here "totally umbilical" means every pt is umbilical in $\mathbb{R}^3$.
 \end{exercise}
 
@@ -2256,6 +2260,81 @@ The above formula is called \textbf{Gauss-Weingarten Equation}.
 \end{proof}
 
 
+\noindent \textbf{Recall}: Let $\{X_u, X_v, N\}$ be the moving frame. We have the Gauss-Weingarten Equations:
+\[ \Phi_u = \Phi \Lambda, \quad \Phi_v = \Phi \Theta \]
+The compatibility condition comes from $X_{ikj} = X_{ijk}$ (where $X_1 = X_u, X_2 = X_v$).
+\[
+\frac{\partial}{\partial x_{j}}(X_{ik}) = \frac{\partial}{\partial x_{k}}(X_{ij})
+\]
+
+\begin{remark}[Einstein Notation]
+    We adopt the Einstein Notation: repeated indices imply summation automatically.
+\end{remark}
+
+Now we write out the derivative explicitly:
+\[
+\frac{\partial}{\partial x_{j}}(\Gamma_{ik}^{l}X_{l}+\Pi_{ik}N) = \frac{\partial}{\partial x_{k}}(\Gamma_{ij}^{l}X_{l}+\Pi_{ij}N)
+\]
+\[
+\Gamma_{ik,j}^{l}X_{l} + \Gamma_{ik}^{l}X_{lj} + \Pi_{ik,j}N + \Pi_{ik}N_{j} = \Gamma_{ij,k}^{l}X_{l} + \Gamma_{ij}^{l}X_{lk} + \Pi_{ij,k}N + \Pi_{ij}N_{k}
+\]
+Also note that $N_{j} = a_{ij}X_{i}$ (matrix representation of Weingarten Operator, which we take here to be $dN_p$). We substitute $N_j$ and $X_{lj} = \Gamma_{lj}^r X_r + \Pi_{lj} N$ back in:
+\[
+(\Gamma_{ik,j}^{l} + \Gamma_{ik}^{r}\Gamma_{rj}^{l} + \Pi_{ik}a_{lj})X_{l} + (\Pi_{ik,j} + \Gamma_{ik}^{l}\Pi_{lj})N
+\]
+\[
+= (\Gamma_{ij,k}^{l} + \Gamma_{ij}^{r}\Gamma_{rk}^{l} + \Pi_{ij}a_{lk})X_{l} + (\Pi_{ij,k} + \Gamma_{ij}^{r}\Pi_{rk})N
+\]
+
+\subsubsection{Gauss Equation (Tangential Part)}
+The tangential parts must be equal:
+\[
+\Gamma_{ik,j}^{l} + \Gamma_{ik}^{r}\Gamma_{rj}^{l} + \Pi_{ik}a_{lj} = \Gamma_{ij,k}^{l} + \Gamma_{ij}^{r}\Gamma_{rk}^{l} + \Pi_{ij}a_{lk}
+\]
+Rearranging gives the \textbf{Gauss Equation}:
+\[
+\Gamma_{ik,j}^{l} - \Gamma_{ij,k}^{l} + \Gamma_{ik}^{r}\Gamma_{rj}^{l} - \Gamma_{ij}^{r}\Gamma_{rk}^{l} = \Pi_{ij}a_{lk} - \Pi_{ik}a_{lj}
+\]
+The LHS is the definition of the Riemann Curvature Tensor $R^l_{kij}$ in local charts.
+\[
+R^l_{kij} := \Gamma_{ik,j}^{l} - \Gamma_{ij,k}^{l} + \Gamma_{ik}^{r}\Gamma_{rj}^{l} - \Gamma_{ij}^{r}\Gamma_{rk}^{l}
+\]
+So we have $R^l_{kij} = \Pi_{ij}a_{lk} - \Pi_{ik}a_{lj}$.
+
+Let's compute the component $R^2_{121}$ (i.e., $l=2, i=1, j=2, k=1$):
+\begin{align*}
+    R^2_{121} &= \Pi_{12}a_{21} - \Pi_{11}a_{22} \\
+    &= f \left( \frac{eF - fE}{EG-F^2} \right) - e \left( \frac{fF - gE}{EG-F^2} \right) \\
+    &= \frac{f(eF - fE) - e(fF - gE)}{EG-F^2} \\
+    &= \frac{feF - f^2E - efF + egE}{EG-F^2} \\
+    &= \frac{E(eg - f^2)}{EG - F^2} = E K
+\end{align*}
+\[ \Rightarrow K = \frac{R^2_{121}}{E} \]
+
+\begin{theorem}[Theorema Egregium (Gauss)]
+    The Gaussian curvature $K$ is given by the First Fundamental Form (and its derivatives, which determine $R^l_{kij}$). Thus, $K$ is \textbf{intrinsic} and depends only on the metric.
+\end{theorem}
+
+\subsubsection{Codazzi-Mainardi Equations (Normal Part)}
+When we compare the normal components:
+\[
+\Pi_{ik,j} + \Gamma_{ik}^{r}\Pi_{rj} = \Pi_{ij,k} + \Gamma_{ij}^{r}\Pi_{rk}
+\]
+\[
+\Rightarrow \Pi_{ik,j} - \Pi_{ij,k} + \Gamma_{ik}^{r}\Pi_{rj} - \Gamma_{ij}^{r}\Pi_{rk} = 0
+\]
+This is the \textbf{Codazzi-Mainardi Equation}. The Gauss and Codazzi equations together are the \textbf{Gauss-Codazzi Equations}.
+
+\begin{exercise}
+     Show that the Codazzi-Mainardi Equation is equivalent to the compatibility condition $N_{uv} = N_{vu}$.
+\end{exercise}
+
+\begin{theorem}[Bonnet's Theorem]
+    Given symmetric tensors $I_{ij}=A_{ij}$ (positive definite) and $II_{ij}=B_{ij}$ on an open set $U \subseteq \mathbb{R}^3$, which satisfy the Gauss-Codazzi equations. Then there exists a unique (up to rigid motion) parametrization $X: U \to \mathbb{R}^3$ with $I_{ij}$ as its first fundamental form and $II_{ij}$ as its second fundamental form.
+\end{theorem}
+\begin{remark}
+    This gives the existence of a surface if the Gauss-Codazzi equations are satisfied.
+\end{remark}
 
 
 
