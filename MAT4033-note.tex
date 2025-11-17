@@ -41,7 +41,7 @@
 }
 \lstset{style=simpleStyle}
 
-\usepackage[colorlinks=true,linkcolor=,urlcolor=magenta,citecolor=violet]{hyperref}
+\usepackage[colorlinks=true, linkcolor=, urlcolor=magenta, citecolor=violet]{hyperref}
 
 \renewcommand*{\proofname}{\normalfont\bfseries Proof}
 
@@ -388,7 +388,7 @@ An important question in geometry is the following. Suppose we know the local pr
 Suppose $\alpha$ is a simple closed curve, then its rotation index must be equal to $\pm 1$. Moreover, since we have $\theta'(s)=\kappa(s)$, we have $\int\kappa(s)ds=\pm2\pi$.    
 \end{theorem}
 \begin{proof}
-Let the curve $\alpha: [0, L] \to \mathbb{R}^2$ be a simple closed curve parameterized by arc length $s$. The unit tangent vector is $T(s) = \alpha'(s)$, and its angle with a fixed axis is $\theta(s)$. The total curvature is the net change in this angle, $\theta(L) - \theta(0)$. Since the curve is closed, $T(L) = T(0)$, which implies $\theta(L) - \theta(0) = 2\pi n$ for some integer $n$. We will show that $n = \pm 1$.
+Let the curve $\alpha: [0, L] \to \mathbb{R}^2$ be a simple closed curve parameterized by arc length $s$. The unit tangent vector is $T(s) = \alpha'(s)$, and its angle with a fixed axis is $\theta(s)$. The total curvature is the net change in this angle, $\theta(L) - \theta(0)$. Since the curve is closed, $T(L) = T(0)$, which implies $\theta(L) - \theta(0) = 2\pi $ for some integer $n$. We will show that $n = \pm 1$.
 
 As suggested by the proof sketch, we introduce the unit secant vector field, which maps two points on the curve to the unit vector connecting them:
 \[ u(s_1, s_2) = \frac{\alpha(s_2) - \alpha(s_1)}{||\alpha(s_2) - \alpha(s_1)||} \]
@@ -2336,7 +2336,183 @@ This is the \textbf{Codazzi-Mainardi Equation}. The Gauss and Codazzi equations 
     This gives the existence of a surface if the Gauss-Codazzi equations are satisfied.
 \end{remark}
 
+\begin{proposition}[Christoffel Symbols for Orthogonal Coordinates]
+    If the coordinate patch $X(u,v)$ is orthogonal (i.e., $F=0$, so $g_{12}=0$), the Christoffel symbols are given by:
+    \begin{align*}
+        \Gamma^1_{11} &= \frac{E_u}{2E} & \Gamma^2_{11} &= -\frac{E_v}{2G} \\
+        \Gamma^1_{12} &= \Gamma^1_{21} = \frac{E_v}{2E} & \Gamma^2_{12} &= \Gamma^2_{21} = \frac{G_u}{2G} \\
+        \Gamma^1_{22} &= -\frac{G_u}{2E} & \Gamma^2_{22} &= \frac{G_v}{2G}
+    \end{align*}
+    where $E_u = \partial E/\partial u$, $G_u = \partial G/\partial u$, etc.
+\end{proposition}
 
+\begin{remark}
+Note that we have $K=R^2_{121}/E$. And if we have a coordinate such that $F=0$, then we can simplify the computation of $\Gamma$ and then get the formula:
+\[
+K = -\frac{1}{2\sqrt{EG}} \left\{ \frac{\partial}{\partial u} \left( \frac{G_u}{\sqrt{EG}} \right) + \frac{\partial}{\partial v} \left( \frac{E_v}{\sqrt{EG}} \right) \right\}
+\]
+\end{remark}
+
+\newpage
+\section{Global Theory of Surfaces}
+
+\subsection{Gauss-Bonnet Theorem}
+Recall in the past we have Hopf's Umlaufsatz:
+\[
+\int_{\alpha} \kappa(s) ds = \pm 2\pi  \quad \text{for any simple closed curve.}
+\]
+A small generalization: Suppose $\alpha$ is a \textbf{piecewise smooth closed curve}. Let $\theta_i$ be the exterior angle at the $i$-th corner.
+Then we have
+\[
+\sum_{i=1}^{n} \int_{\alpha_i} \kappa(s) ds + \sum_{i=1}^{n} \theta_i = \pm 2\pi 
+\]
+
+\begin{proposition}
+Can we do this on a regular surface?
+Let $X: U \to S$ be an orthogonal coordinate patch (i.e. $F=0$) such that the map $X$ is compatible with the orientation $N$.
+Suppose $\beta: [a,b] \to U$ is a periodic curve, with $\beta$ injective on $[a,b)$ and positively oriented.
+Then $\alpha = X \circ \beta$ is also periodic and positively oriented.
+Suppose $\alpha$ is chosen such that it is p.a.l (parameterized by arc length). Then:
+\[
+\int_{\alpha} k_g(s) ds + \iint_{R} K \, dA = 2\pi 
+\]
+Where $R$ is the region bounded by the curve $\alpha$.
+\end{proposition}
+
+\begin{remark}
+On a plane, $K=0$. $k_g = \kappa$. Hence this recovers Hopf's Umlaufsatz.
+\end{remark}
+
+\begin{lemma}
+Let $X: U \to S$ be an orthogonal parametrization ($F=0$). Let $\beta(s) = \{u(s), v(s)\}$ be a periodic simple curve.
+Then the geodesic curvature of $\alpha = X \circ \beta$ is:
+\[
+k_g(s) = \frac{1}{2\sqrt{EG}} \left( G_u \frac{dv}{ds} - E_v \frac{du}{ds} \right) + \theta'(s)
+\]
+\end{lemma}
+
+\begin{proof}
+Let $Y=\frac{X_u}{\sqrt{E}}$ and $Z=\frac{X_v}{\sqrt{G}}$. Then $\{Y, Z, N\}$ is an orthonormal frame.
+\[
+\alpha'(s) = \cos(\theta(s)) Y + \sin(\theta(s)) Z = t(s)
+\]
+\[
+\alpha''(s) = -\theta'\sin\theta Y + \cos\theta Y' + \theta'\cos\theta Z + \sin\theta Z'
+\]
+Using the definition $k_g(s) = \langle N \times \alpha', \alpha'' \rangle$:
+\[
+k_g(s) = \langle -\sin\theta Y + \cos\theta Z, \alpha''(s) \rangle = \theta'(s) + \langle Y, Z' \rangle
+\]
+We compute the term $\langle Y, Z' \rangle$:
+\[
+\langle Y, Z' \rangle = \left\langle \frac{X_u}{\sqrt{E}}, \left( \frac{X_v}{\sqrt{G}} \right)' \right\rangle
+\]
+where $\left( \frac{X_v}{\sqrt{G}} \right)' = \left( \frac{X_v}{\sqrt{G}} \right)_u u' + \left( \frac{X_v}{\sqrt{G}} \right)_v v'$.
+The dot products are:
+\[
+\left\langle \frac{X_u}{\sqrt{E}}, \left( \frac{X_v}{\sqrt{G}} \right)_u \right\rangle = -\frac{1}{2\sqrt{EG}} E_v
+\]
+\[
+\left\langle \frac{X_u}{\sqrt{E}}, \left( \frac{X_v}{\sqrt{G}} \right)_v \right\rangle = \frac{1}{2\sqrt{EG}} G_u
+\]
+Then we have
+\[
+\langle Y, Z' \rangle = \frac{1}{2\sqrt{EG}} (G_u v' - E_v u')
+\]
+Hence
+\[
+k_g(s) = \theta'(s) - \langle Y, Z' \rangle = \theta'(s) - \frac{1}{2\sqrt{EG}} (G_u v' - E_v u')
+\]
+\[
+\Rightarrow k_g(s) = \frac{1}{2\sqrt{EG}} (G_u v' - E_v u') + \theta'(s)
+\]
+\end{proof}
+
+\begin{remark}
+Note $\theta(s)$ is the angle between $X_u$ and $\alpha'(s)$ in $T_p S$.
+\end{remark}
+
+We integrate $k_g(s)$ around the curve $\alpha$:
+\begin{align*}
+    \int_{\alpha} k_g(s) ds &= \int_{\alpha} \left( \frac{G_u}{2\sqrt{EG}} \frac{dv}{ds} - \frac{E_v}{2\sqrt{EG}} \frac{du}{ds} \right) ds + \int_{\alpha} \theta'(s) ds \\
+    &= \oint_{\alpha} \left( \frac{G_u}{2\sqrt{EG}} dv - \frac{E_v}{2\sqrt{EG}} du \right) + \int_{\alpha} \theta'(s) ds
+\end{align*}
+Applying Green's Theorem (Stokes' Theorem in $\mathbb{R}^2$) to the line integral over the region $R$:
+\begin{align*}
+    \int_{\alpha} k_g(s) ds &= \iint_{R} \left( \frac{\partial}{\partial u} \left( \frac{G_u}{2\sqrt{EG}} \right) + \frac{\partial}{\partial v} \left( \frac{E_v}{2\sqrt{EG}} \right) \right) du dv + \int_{\alpha} \theta'(s) ds \\
+    &= -\iint_{R} \sqrt{EG} K \, du dv + \int_{\alpha} \theta'(s) ds \\
+    &= -\iint_{R} K \, dA + 2\pi 
+\end{align*}
+Rearranging gives the Gauss-Bonnet formula for a simple closed curve:
+\[
+\int_{\alpha} k_g ds + \iint_{R} K \, dA = 2\pi 
+\]
+
+\begin{corollary}
+Suppose $\alpha$ is a piecewise smooth closed curve on $S$ that is injective and positively oriented. Let $R$ be the region bounded by $\alpha$. Let $\theta_i$ be the exterior angle at the $i$-th corner. Then:
+\[
+\sum_{i=1}^{n} \int_{\alpha_i} k_g ds + \iint_{R} K \, dA + \sum_{i=1}^{n} \theta_i = 2\pi 
+\]
+\end{corollary}
+
+\begin{example}[Polygon on a Plane]
+Straight lines are geodesics, so $k_g=0$ and $K=0$. The formula reduces to $\sum \theta_i = 2\pi $. For a simple polygon ($n=1$), $\sum \theta_i = 2\pi$.
+\end{example}
+
+\begin{example}[Geodesic Polygon]
+Suppose we construct a polygon using geodesics ($k_g=0$) on a surface $S$. Let $\Phi_i$ be the internal angle at the $i$-th vertex. The internal angle $\Phi_i$ and the external angle $\theta_i$ are related by $\Phi_i + \theta_i = \pi$.
+The Gauss-Bonnet formula becomes:
+\[
+\iint_{R} K \, dA + \sum_{i=1}^{n} \theta_i = 2\pi
+\]
+Substituting $\theta_i = \pi - \Phi_i$:
+\[
+\iint_{R} K \, dA + \sum_{i=1}^{n} (\pi - \Phi_i) = 2\pi
+\]
+\[
+\iint_{R} K \, dA + n\pi - \sum_{i=1}^{n} \Phi_i = 2\pi
+\]
+\[
+\sum_{i=1}^{n} \Phi_i = n\pi - 2\pi + \iint_{R} K \, dA
+\]
+\[
+\sum_{i=1}^{n} \Phi_i = (n-2)\pi + \iint_{R} K \, dA
+\]
+
+For $K>0$ (e.g., a sphere), the sum of internal angles is \textbf{larger} than on a plane.
+For $n=3$ (a geodesic triangle $T$):
+\[
+\Phi_1 + \Phi_2 + \Phi_3 = \pi + \iint_{T} K \, dA
+\]
+If $K>0$, $\alpha+\beta+\gamma > \pi$.
+If $K<0$, $\alpha+\beta+\gamma < \pi$.
+(Here $\alpha, \beta, \gamma$ are the internal angles).
+\end{example}
+
+\begin{example}[Geodesic Triangle on a Sphere]
+For a sphere of radius $R$, $K = 1/R^2$.
+The area $A$ of the geodesic triangle $T$ is given by $A = R^2 (\alpha + \beta + \gamma - \pi)$ (where $\alpha, \beta, \gamma$ are internal angles).
+Note that
+\[
+\iint_{T} K \, dA = \iint_{T} \frac{1}{R^2} dA = \frac{1}{R^2} \operatorname{area}(T) = \alpha + \beta + \gamma - \pi
+\]
+Then the full Gauss-Bonnet formula for this triangle (where $\int k_g ds = 0$ and $\sum \theta_i = 3\pi - (\alpha+\beta+\gamma)$):
+\[
+\iint_{T} K \, dA + \sum \theta_i + \sum \int k_g ds = (\alpha+\beta+\gamma-\pi) + (3\pi - (\alpha+\beta+\gamma)) + 0 = 2\pi
+\]
+\end{example}
+
+\begin{definition}[Triangle]
+A region $T \subseteq S$ which consists of three piecewise smooth parts with external angles $\theta_1, \theta_2, \theta_3$ is called a \textbf{triangle} (3 vertices, 3 edges, 1 face).
+\end{definition}
+
+\begin{definition}[Triangulation]
+A \textbf{triangulation} of a surface $S$ is a family $\mathcal{T}$ of triangles $\{T_i\}$ such that:
+\begin{enumerate}
+    \item $\bigcup T_i = S$
+    \item $T_i \cap T_j \neq \emptyset$, the intersection is either a common edge or a common vertex.
+\end{enumerate}
+\end{definition}
 
 
 

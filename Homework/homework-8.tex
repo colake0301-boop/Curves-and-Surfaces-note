@@ -1,0 +1,400 @@
+\documentclass[12pt, a4paper, oneside]{article}
+\usepackage{amsmath, amsthm, amssymb, bm, color, framed, graphicx, hyperref, mathrsfs}
+\usepackage{tikz-cd}
+
+% Update the title to match the specific homework sheet
+\title{\textbf{MAT 4033 Homework 8}}
+\author{Cola}
+\date{\today}
+\linespread{1.5}
+\definecolor{shadecolor}{RGB}{241, 241, 255}
+\newcounter{problemname}
+
+% Problem environment
+\newenvironment{problem}
+  {\begin{shaded}\stepcounter{problemname}\par\noindent\textbf{Problem \arabic{problemname}.}\newline}
+  {\end{shaded}\par}
+
+% Solution environment
+\newenvironment{solution}
+  {\par\noindent\textbf{Solution. }\newline}
+  {\par}
+
+% Note environment
+\newenvironment{note}
+  {\par\noindent\textbf{Note for Problem \arabic{problemname}.}\newline}
+  {\par}
+
+% Definition environment
+\newtheorem*{definition}{Definition}
+\newtheorem{proposition}{Proposition}
+
+\begin{document}
+
+\maketitle
+
+% Problem 1
+\begin{problem}
+Consider a surface of revolution
+\[
+X(u,v) = (f(v)\cos u, f(v)\sin u, g(v)).
+\]
+Show that the geodesic equation becomes:
+\begin{align}
+    u'' + \frac{2ff'}{f^2}u'v' &= 0 \label{eq:1} \\
+    v'' - \frac{ff'}{(f')^2 + (g')^2}(u')^2 + \frac{f'f'' + g'g''}{(f')^2 + (g')^2}(v')^2 &= 0 \label{eq:2}
+\end{align}
+\end{problem}
+
+\begin{solution}
+First, we compute the partial derivatives of the parametrization $X(u,v)$:
+\begin{align*}
+    X_u &= (-f\sin u, f\cos u, 0) \\
+    X_v &= (f'\cos u, f'\sin u, g')
+\end{align*}
+We compute the coefficients of the First Fundamental Form:
+\begin{align*}
+    E &= \langle X_u, X_u \rangle = f^2\sin^2 u + f^2\cos^2 u = f^2 \\
+    F &= \langle X_u, X_v \rangle = -ff'\sin u \cos u + ff'\sin u \cos u = 0 \\
+    G &= \langle X_v, X_v \rangle = (f')^2(\cos^2 u + \sin^2 u) + (g')^2 = (f')^2 + (g')^2
+\end{align*}
+Since $F=0$, the metric is orthogonal. Note that $E$ and $G$ are functions of $v$ only, so $E_u = G_u = 0$. The derivatives with respect to $v$ are:
+\[ E_v = 2ff', \quad G_v = 2f'f'' + 2g'g'' \]
+We compute the non-zero Christoffel symbols:
+\begin{align*}
+    \Gamma_{12}^1 &= \frac{E_v}{2E} = \frac{2ff'}{2f^2} = \frac{f'}{f} \\
+    \Gamma_{11}^2 &= -\frac{E_v}{2G} = -\frac{ff'}{(f')^2 + (g')^2} \\
+    \Gamma_{22}^2 &= \frac{G_v}{2G} = \frac{f'f'' + g'g''}{(f')^2 + (g')^2}
+\end{align*}
+The geodesic equations are given by:
+\[ (u^k)'' + \sum_{i,j} \Gamma_{ij}^k (u^i)' (u^j)' = 0 \]
+For $k=1$ (the $u$-equation):
+\[ u'' + 2\Gamma_{12}^1 u'v' = 0 \implies u'' + \frac{2ff'}{f^2} u'v' = 0 \]
+For $k=2$ (the $v$-equation):
+\[ v'' + \Gamma_{11}^2 (u')^2 + \Gamma_{22}^2 (v')^2 = 0 \implies v'' - \frac{ff'}{(f')^2+(g')^2}(u')^2 + \frac{f'f''+g'g''}{(f')^2+(g')^2}(v')^2 = 0 \]
+This matches the required equations.
+\end{solution}
+\newpage
+% Problem 2
+\begin{problem}
+Use Equations \eqref{eq:1} and \eqref{eq:2} to describe which parallels $v=\text{const}$, $u=u(s)$ parametrized by arc length are geodesics.
+\end{problem}
+
+\begin{solution}
+Let the curve be a parallel $v = v_0$, where $v_0$ is a constant. Since the curve is parametrized by arc length $s$, we have the following conditions:
+\begin{enumerate}
+    \item $v(s) = v_0 \implies v' = 0$ and $v'' = 0$.
+    \item The speed is 1: $\langle \alpha', \alpha' \rangle = E(u')^2 + G(v')^2 = 1$. Substituting $v'=0$ and $E=f^2$, we get:
+    \[ f(v_0)^2 (u')^2 = 1 \implies (u')^2 = \frac{1}{f(v_0)^2}. \]
+    Since $v_0$ is constant, $u'$ is constant, which implies $u'' = 0$.
+\end{enumerate}
+
+Now we substitute these values into the geodesic equations derived in Problem 1.
+
+\textbf{Equation (1):}
+\[ u'' + \frac{2ff'}{f^2}u'v' = 0 \implies 0 + \frac{2ff'}{f^2}u'(0) = 0 \]
+This equation is trivially satisfied for any parallel.
+
+\textbf{Equation (2):}
+\[ v'' - \frac{ff'}{(f')^2+(g')^2}(u')^2 + \frac{f'f''+g'g''}{(f')^2+(g')^2}(v')^2 = 0 \]
+Substituting $v''=0, v'=0$, and $(u')^2 = 1/f^2$:
+\[ 0 - \frac{f(v_0)f'(v_0)}{(f'(v_0))^2+(g'(v_0))^2} \cdot \frac{1}{f(v_0)^2} + 0 = 0 \]
+Simplifying the term:
+\[ -\frac{f'(v_0)}{f(v_0) [ (f'(v_0))^2+(g'(v_0))^2 ]} = 0 \]
+Assuming the surface is regular ($f \neq 0$), this equality holds if and only if:
+\[ f'(v_0) = 0 \]
+Thus, the parallels $v=v_0$ that are geodesics are exactly those for which $f'(v_0)=0$. Geometrically, these correspond to the circles on the surface of revolution where the distance from the axis of rotation is critical (e.g., the equator of a sphere, or the "neck" of a hyperboloid).
+\end{solution}
+\newpage
+
+% Problem 3
+\begin{problem}
+\begin{enumerate}
+    \item Show that the curve $X(u(t), v(t))$ on our surface of revolution is travelled at constant speed if and only if:
+    \begin{equation}
+        u'' f^2 u' + v'' ((f')^2 + (g')^2) v' + (f'f'' + g'g'') (v')^3 + ff' (u')^2 v' = 0 \label{eq:3}
+    \end{equation}
+    \item Show that if $v' \neq 0$, then equations \eqref{eq:1} and \eqref{eq:3} together imply equation \eqref{eq:2}. So to get a geodesic, just satisfy equation \eqref{eq:1} and make sure you travel at constant speed.
+\end{enumerate}
+\end{problem}
+
+\begin{solution}
+\textbf{Part (a)}
+The curve $\alpha(t) = X(u(t), v(t))$ is travelled at constant speed if and only if the squared norm of its velocity vector is constant. That is:
+\[ \frac{d}{dt} \langle \alpha'(t), \alpha'(t) \rangle = 0 \]
+Using the coefficients of the first fundamental form derived in Problem 1 ($E=f^2, F=0, G=(f')^2+(g')^2$), we have:
+\[ \langle \alpha', \alpha' \rangle = f^2 (u')^2 + \left( (f')^2 + (g')^2 \right) (v')^2 \]
+Differentiating this with respect to $t$:
+\begin{align*}
+    \frac{d}{dt} \left( f^2 (u')^2 \right) + \frac{d}{dt} \left( ((f')^2 + (g')^2) (v')^2 \right) &= 0 \\
+    \left[ 2f f' v' (u')^2 + f^2 2 u' u'' \right] + \left[ (2f'f'' v' + 2g'g'' v') (v')^2 + ((f')^2 + (g')^2) 2 v' v'' \right] &= 0
+\end{align*}
+Dividing the entire equation by 2, we get:
+\[ ff' v' (u')^2 + f^2 u' u'' + (f'f'' + g'g'') (v')^3 + ((f')^2 + (g')^2) v' v'' = 0 \]
+Rearranging the terms to match the prompt:
+\[ u'' f^2 u' + v'' ((f')^2 + (g')^2) v' + (f'f'' + g'g'') (v')^3 + ff' (u')^2 v' = 0 \]
+This is exactly Equation (3).
+
+\vspace{1em}
+\textbf{Part (b)}
+Assume $v' \neq 0$. We want to show that Equation (1) and Equation (3) imply Equation (2).
+From Equation (1), we can isolate $u''$:
+\[ u'' = - \frac{2ff'}{f^2}u'v' \]
+Substitute this expression for $u''$ into the first term of Equation (3):
+\[ \left( - \frac{2ff'}{f^2}u'v' \right) f^2 u' + v'' ((f')^2 + (g')^2) v' + (f'f'' + g'g'') (v')^3 + ff' (u')^2 v' = 0 \]
+Simplify the first term:
+\[ -2ff' (u')^2 v' + v'' ((f')^2 + (g')^2) v' + (f'f'' + g'g'') (v')^3 + ff' (u')^2 v' = 0 \]
+Combine the terms with $(u')^2 v'$:
+\[ -ff' (u')^2 v' + v'' ((f')^2 + (g')^2) v' + (f'f'' + g'g'') (v')^3 = 0 \]
+Since $v' \neq 0$, we can divide the entire equation by $v'$:
+\[ -ff' (u')^2 + v'' ((f')^2 + (g')^2) + (f'f'' + g'g'') (v')^2 = 0 \]
+Now, we isolate the term with $v''$:
+\[ v'' ((f')^2 + (g')^2) = ff' (u')^2 - (f'f'' + g'g'') (v')^2 \]
+Dividing by $((f')^2 + (g')^2)$ (which is non-zero for a regular surface):
+\[ v'' = \frac{ff'}{(f')^2 + (g')^2}(u')^2 - \frac{f'f'' + g'g''}{(f')^2 + (g')^2}(v')^2 \]
+Rearranging to set the equation to zero:
+\[ v'' - \frac{ff'}{(f')^2 + (g')^2}(u')^2 + \frac{f'f'' + g'g''}{(f')^2 + (g')^2}(v')^2 = 0 \]
+This is exactly Equation (2). Thus, for a curve with $v' \neq 0$, satisfying the first geodesic equation and travelling at constant speed automatically ensures the second geodesic equation is satisfied.
+\end{solution}
+\newpage
+
+% Problem 4
+\begin{problem}
+Does there exist a parametrization $X(u,v): U \to \mathbb{R}^3$ of a surface $S$ such that the first and second fundamental forms are given by:
+\begin{enumerate}
+    \item $I = \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix}$ and $II = \begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix}$
+    \item $I = \begin{pmatrix} 1 & 0 \\ 0 & \cos^2 u \end{pmatrix}$ and $II = \begin{pmatrix} \cos^2 u & 0 \\ 0 & 1 \end{pmatrix}$
+\end{enumerate}
+
+\end{problem}
+
+\begin{solution}
+By the Fundamental Theorem of Surfaces, a parametrization exists if and only if the First and Second Fundamental Forms satisfy the Gauss and Mainardi-Codazzi equations.
+
+\textbf{Part (a)}
+Given $I = \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix}$ and $II = \begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix}$.
+\begin{itemize}
+    \item \textbf{Intrinsic Curvature:} The metric is the standard Euclidean metric ($E=1, G=1$). Since the coefficients are constant, all Christoffel symbols are zero, and the intrinsic Gaussian curvature is $K_{\text{int}} = 0$.
+    \item \textbf{Extrinsic Curvature:} Using the determinant formula:
+    \[ K_{\text{ext}} = \frac{\det(II)}{\det(I)} = \frac{(1)(-1) - 0}{1 - 0} = -1. \]
+\end{itemize}
+Since $K_{\text{int}} \neq K_{\text{ext}}$ ($0 \neq -1$), the Gauss equation is violated. Thus, \textbf{no such surface exists}.
+
+\vspace{1em}
+\textbf{Part (b)}
+Given $I = \begin{pmatrix} 1 & 0 \\ 0 & \cos^2 u \end{pmatrix}$ and $II = \begin{pmatrix} \cos^2 u & 0 \\ 0 & 1 \end{pmatrix}$.
+\begin{itemize}
+    \item \textbf{Intrinsic Curvature:} Here $E=1, G=\cos^2 u$. We compute the intrinsic curvature:
+    \[ K_{\text{int}} = -\frac{1}{2\sqrt{EG}} \left( \frac{G_u}{\sqrt{EG}} \right)_u = -\frac{1}{2\cos u} \left( \frac{-2\sin u \cos u}{\cos u} \right)_u = -\frac{1}{2\cos u} (-2\cos u) = 1. \]
+    \item \textbf{Extrinsic Curvature:}
+    \[ K_{\text{ext}} = \frac{\det(II)}{\det(I)} = \frac{(\cos^2 u)(1) - 0}{\cos^2 u} = 1. \]
+\end{itemize}
+The curvatures match ($K=1$), so the Gauss equation is satisfied. We must now check the Mainardi-Codazzi equations.
+The Christoffel symbols for this metric are:
+\[ \Gamma_{22}^1 = -\frac{G_u}{2E} = \sin u \cos u, \quad \Gamma_{12}^2 = \frac{G_u}{2G} = -\tan u. \]
+The second Codazzi equation is:
+\[ f_v - g_u = e\Gamma_{22}^1 + f(\Gamma_{22}^2 - \Gamma_{12}^1) - g\Gamma_{12}^2 \]
+Substituting $e=\cos^2 u, f=0, g=1$:
+\[ 0 - 0 = (\cos^2 u)(\sin u \cos u) + 0 - (1)(-\tan u) \]
+\[ 0 = \sin u \cos^3 u + \tan u \]
+This equation implies $\sin u(\cos^3 u + \sec u) = 0$, which is not identically true for all $u$ in an open set $U$. The Codazzi equations are violated. Thus, \textbf{no such surface exists}.
+\end{solution}
+
+\begin{note}
+We have gauss equation and codazzi equation (which is given in the note). In fact we have a equivalent relationship for those two equations. One is that Gauss equation is equivalent to (Extrinsic expression of curvature(given by fisrt and second fundamental form) equals the intrinsic expression of curvature), this is because the riemann curvature tensor is uniquely determined by its sectional curvature. The other one is that codazzi equation is equivalent to $N_{uv}=N_{vu}$
+\end{note}
+\newpage
+
+% Problem 5
+\begin{problem}
+Let $\alpha(s)$ be a curve parametrized by arc length lying on the unit sphere. Let $\kappa$ be the curvature of $\alpha$ as a space curve.
+\begin{enumerate}
+    \item Prove that $\kappa \ge 1$ everywhere.
+    \item If $\kappa \equiv 1$, then $\alpha$ is a geodesic.
+\end{enumerate}
+\end{problem}
+
+\begin{solution}
+\textbf{Part (a)}
+Since the curve $\alpha(s)$ lies on the unit sphere centered at the origin, we have the geometric constraint:
+\[ \langle \alpha(s), \alpha(s) \rangle = 1 \]
+Differentiating this with respect to arc length $s$, we get:
+\[ 2 \langle \alpha'(s), \alpha(s) \rangle = 0 \implies \langle \alpha', \alpha \rangle = 0 \]
+This shows that the position vector $\alpha$ is orthogonal to the tangent vector $\alpha'$. Differentiating a second time:
+\[ \langle \alpha''(s), \alpha(s) \rangle + \langle \alpha'(s), \alpha'(s) \rangle = 0 \]
+Since the curve is parametrized by arc length, the speed is unit, i.e., $\langle \alpha', \alpha' \rangle = 1$. Substituting this into the equation:
+\[ \langle \alpha'', \alpha \rangle + 1 = 0 \implies \langle \alpha'', \alpha \rangle = -1 \]
+The curvature $\kappa$ is the magnitude of the acceleration vector, $\kappa = |\alpha''|$.
+By the Cauchy-Schwarz inequality (or simply because the length of a vector is at least the magnitude of its projection onto any unit vector):
+\[ \kappa = |\alpha''| \ge |\langle \alpha'', \alpha \rangle| = |-1| = 1 \]
+Thus, $\kappa \ge 1$ everywhere.
+
+\vspace{1em}
+\textbf{Part (b)}
+If $\kappa \equiv 1$, then $|\alpha''| = 1$.
+We established above that the normal component of acceleration is $\langle \alpha'', \alpha \rangle = -1$.
+Decomposing the acceleration into tangential and normal components relative to the sphere surface:
+\[ \alpha'' = (\alpha''_{\text{tangential}}) + (\alpha''_{\text{normal}}) \]
+The squared magnitude is:
+\[ |\alpha''|^2 = |\alpha''_{\text{tangential}}|^2 + |\alpha''_{\text{normal}}|^2 \]
+Substituting known values:
+\[ 1^2 = \kappa_g^2 + (-1)^2 \implies 1 = \kappa_g^2 + 1 \implies \kappa_g = 0 \]
+Since the geodesic curvature $\kappa_g$ is identically zero, the curve $\alpha$ is a geodesic.
+\end{solution}
+\newpage
+% Problem 6
+\begin{problem}[Calaculational details in the lecture note]
+Let $X: U \to M$, $(u_1, u_2) \to X(u_1, u_2)$ be a coordinate parametrization, with $U$ being an open set in $\mathbb{R}^2$. Suppose the first fundamental form in the coordinate satisfies $g_{12}=0$.
+\begin{enumerate}
+    \item Let $g_{11}=E, g_{22}=G$. Find the equations of the geodesic and find $\Gamma_{ij}^k$ in terms of $E, G$ and their derivatives.
+    \item Suppose $g_{11}=g_{22}=\exp(2f)$ for some smooth function $f$. Find $\Gamma_{ij}^k$ in terms of $f$ and their derivatives.
+    \item Denote $X_i = X_{u_i}$ and let $e_1 = X_1/|X_1|$, $e_2 = X_2/|X_2|$ and $N = e_1 \times e_2$. Let $\alpha(s) = X(u_1(s), u_2(s))$ be a smooth curve on $M$ such that $\alpha'(s) = e_1 \cos \theta(s) + e_2 \sin \theta(s)$. Show that:
+    \[
+    a := N \times \alpha' = -e_1(s)\sin\theta(s) + e_2(s)\cos\theta(s)
+    \]
+    \item Show also that the geodesic curvature is:
+    \[
+    k_g = \langle \alpha'', a \rangle = \left( -u_1' \frac{\partial f}{\partial u_2} + u_2' \frac{\partial f}{\partial u_1} \right) + \theta'
+    \]
+    (Note: If $f=1$, i.e., $M$ is a plane, then $k_g = \theta'$).
+\end{enumerate}
+\end{problem}
+
+\begin{solution}
+\textbf{Part (a)}
+Since the metric is orthogonal ($g_{12}=0$), the inverse metric is diagonal with $g^{11}=1/E$ and $g^{22}=1/G$. The Christoffel symbols are:
+\begin{align*}
+    \Gamma_{11}^1 &= \frac{E_{u_1}}{2E} & \Gamma_{12}^1 &= \frac{E_{u_2}}{2E} & \Gamma_{22}^1 &= -\frac{G_{u_1}}{2E} \\
+    \Gamma_{11}^2 &= -\frac{E_{u_2}}{2G} & \Gamma_{12}^2 &= \frac{G_{u_1}}{2G} & \Gamma_{22}^2 &= \frac{G_{u_2}}{2G}
+\end{align*}
+The geodesic equations are:
+\[ u_k'' + \sum_{i,j} \Gamma_{ij}^k u_i' u_j' = 0 \quad \text{for } k=1,2. \]
+
+\vspace{1em}
+\textbf{Part (b)}
+Let $E = G = \exp(2f)$. The derivatives are $E_{u_i} = 2f_{u_i} e^{2f}$. Substituting these into the formulas from (a):
+\begin{align*}
+    \Gamma_{11}^1 &= \frac{2f_{u_1}e^{2f}}{2e^{2f}} = f_{u_1} & \Gamma_{12}^1 &= f_{u_2} & \Gamma_{22}^1 &= -f_{u_1} \\
+    \Gamma_{11}^2 &= -f_{u_2} & \Gamma_{12}^2 &= f_{u_1} & \Gamma_{22}^2 &= f_{u_2}
+\end{align*}
+
+\vspace{1em}
+\textbf{Part (c)}
+We are given the frame $e_1 = X_1/|X_1|, e_2 = X_2/|X_2|$ and $N = e_1 \times e_2$.
+The tangent vector is $\alpha' = \cos\theta e_1 + \sin\theta e_2$.
+We compute $a := N \times \alpha'$:
+\[ a = N \times (\cos\theta e_1 + \sin\theta e_2) = \cos\theta (N \times e_1) + \sin\theta (N \times e_2). \]
+Using the right-hand rule for the orthonormal frame $\{e_1, e_2, N\}$:
+\[ N \times e_1 = e_2 \quad \text{and} \quad N \times e_2 = -e_1. \]
+Substituting these back:
+\[ a = \cos\theta(e_2) + \sin\theta(-e_1) = -e_1 \sin\theta + e_2 \cos\theta. \]
+
+\vspace{1em}
+\textbf{Part (d)}
+We compute the derivative of the tangent vector $\alpha'(s)$ with respect to the arc length parameter $s$.
+Given $\alpha'(s) = \cos\theta(s) e_1(s) + \sin\theta(s) e_2(s)$, we apply the product rule:
+\[ \alpha''(s) = (-\sin\theta \cdot \theta') e_1 + (\cos\theta \cdot \theta') e_2 + \cos\theta \frac{d e_1}{ds} + \sin\theta \frac{d e_2}{ds} \]
+We need to find $\frac{d e_1}{ds}$ and $\frac{d e_2}{ds}$. By the Chain Rule:
+\[ \frac{d e_1}{ds} = \frac{\partial e_1}{\partial u_1} \frac{du_1}{ds} + \frac{\partial e_1}{\partial u_2} \frac{du_2}{ds} \]
+Recall that $e_1 = e^{-f} X_1$. We compute the partial derivatives using the Gauss formulas for $X_{ij}$ (where $X_{ij}$ involves the Christoffel symbols derived in Part (b)):
+\begin{align*}
+    \frac{\partial e_1}{\partial u_1} &= \frac{\partial}{\partial u_1}(e^{-f} X_1) = -f_{u_1} e^{-f} X_1 + e^{-f} X_{11} \\
+    &= -f_{u_1} e_1 + e^{-f}(\Gamma_{11}^1 X_1 + \Gamma_{11}^2 X_2 + L N) \\
+    &= -f_{u_1} e_1 + e^{-f}(f_{u_1} X_1 - f_{u_2} X_2 + L N) \\
+    &= -f_{u_1} e_1 + f_{u_1} e_1 - f_{u_2} e_2 + (\dots)N = -f_{u_2} e_2 + (\dots)N
+\end{align*}
+Similarly for the second partial derivative:
+\begin{align*}
+    \frac{\partial e_1}{\partial u_2} &= \frac{\partial}{\partial u_2}(e^{-f} X_1) = -f_{u_2} e^{-f} X_1 + e^{-f} X_{12} \\
+    &= -f_{u_2} e_1 + e^{-f}(\Gamma_{12}^1 X_1 + \Gamma_{12}^2 X_2 + M N) \\
+    &= -f_{u_2} e_1 + e^{-f}(f_{u_2} X_1 + f_{u_1} X_2 + M N) \\
+    &= -f_{u_2} e_1 + f_{u_2} e_1 + f_{u_1} e_2 + (\dots)N = f_{u_1} e_2 + (\dots)N
+\end{align*}
+Combining these into the total derivative (ignoring the normal components as they vanish in the scalar product with $a$):
+\[ \frac{d e_1}{ds} = (-f_{u_2} u_1' + f_{u_1} u_2') e_2 \]
+Since $\{e_1, e_2\}$ is orthonormal, $\langle e_1, e_2 \rangle = 0 \implies \langle e_1', e_2 \rangle = -\langle e_1, e_2' \rangle$. Thus:
+\[ \frac{d e_2}{ds} = -(-f_{u_2} u_1' + f_{u_1} u_2') e_1 = (f_{u_2} u_1' - f_{u_1} u_2') e_1 \]
+Now substitute these back into the expression for $\alpha''(s)$:
+\begin{align*}
+    \alpha'' &= \theta'(-\sin\theta e_1 + \cos\theta e_2) + \cos\theta (f_{u_1} u_2' - f_{u_2} u_1') e_2 + \sin\theta (f_{u_2} u_1' - f_{u_1} u_2') e_1 \\
+    &= \theta'(-\sin\theta e_1 + \cos\theta e_2) + (f_{u_1} u_2' - f_{u_2} u_1')(\cos\theta e_2 - \sin\theta e_1)
+\end{align*}
+Recall from Part (c) that $a = -\sin\theta e_1 + \cos\theta e_2$. We can factor $a$ out:
+\[ \alpha'' = \theta' a + (f_{u_1} u_2' - f_{u_2} u_1') a + (\text{normal term}) \]
+Finally, the geodesic curvature is the projection onto $a$:
+\[ k_g = \langle \alpha'', a \rangle = \theta' + u_2' f_{u_1} - u_1' f_{u_2} = \theta' + \left( u_2' \frac{\partial f}{\partial u_1} - u_1' \frac{\partial f}{\partial u_2} \right) \]
+\end{solution}
+
+\newpage
+% Problem 7
+\begin{problem}
+    The exercise is also a reformulaitng of the lecture note for deriving the Gauss codazzi equations. In fact the notation we use in the lecture notes are much more compact and modern.
+\begin{enumerate}
+    \item Consider the equation $C_1=0$ which comes from the equation $(X_{uu})_v - (X_{uv})_u = 0$ by setting the coefficient of $N$ equal to 0. Show that this yields:
+    \[
+    e_v - f_u = e\Gamma_{12}^1 + f(\Gamma_{12}^2 - \Gamma_{11}^1) - g\Gamma_{11}^2
+    \]
+    This is one of the two Mainardi-Codazzi equations.
+    \item Consider the equation $C_2=0$ which comes from the equation $(X_{vv})_u - (X_{uv})_v = 0$ by setting the coefficient of $N$ equal to 0. Show that this yields:
+    \[
+    f_v - g_u = e\Gamma_{22}^1 + f(\Gamma_{22}^2 - \Gamma_{12}^1) - g\Gamma_{12}^2
+    \]
+    This is the second of the two Mainardi-Codazzi equations.
+\end{enumerate}
+\end{problem}
+
+\begin{solution}
+Recall the Gauss formulas which express the second derivatives of $X$ in the basis $\{X_u, X_v, N\}$:
+\begin{align*}
+    X_{uu} &= \Gamma_{11}^1 X_u + \Gamma_{11}^2 X_v + eN \\
+    X_{uv} &= \Gamma_{12}^1 X_u + \Gamma_{12}^2 X_v + fN \\
+    X_{vv} &= \Gamma_{22}^1 X_u + \Gamma_{22}^2 X_v + gN
+\end{align*}
+Also note that the derivatives of the normal vector, $N_u$ and $N_v$, lie in the tangent plane (Weingarten equations), so they have no component along $N$.
+
+\textbf{Part (a)}
+We compute the mixed derivative $(X_{uu})_v$ and focus only on the coefficient of $N$.
+\begin{align*}
+    (X_{uu})_v &= (\Gamma_{11}^1 X_u + \Gamma_{11}^2 X_v + eN)_v \\
+    &= \dots + \Gamma_{11}^1 X_{uv} + \Gamma_{11}^2 X_{vv} + e_v N + e N_v \\
+    &= \dots + \Gamma_{11}^1 (\dots + fN) + \Gamma_{11}^2 (\dots + gN) + e_v N + (\text{tangential})
+\end{align*}
+The coefficient of $N$ in $(X_{uu})_v$ is: $e_v + \Gamma_{11}^1 f + \Gamma_{11}^2 g$.
+
+Now we compute $(X_{uv})_u$:
+\begin{align*}
+    (X_{uv})_u &= (\Gamma_{12}^1 X_u + \Gamma_{12}^2 X_v + fN)_u \\
+    &= \dots + \Gamma_{12}^1 X_{uu} + \Gamma_{12}^2 X_{uv} + f_u N + f N_u \\
+    &= \dots + \Gamma_{12}^1 (\dots + eN) + \Gamma_{12}^2 (\dots + fN) + f_u N + (\text{tangential})
+\end{align*}
+The coefficient of $N$ in $(X_{uv})_u$ is: $f_u + \Gamma_{12}^1 e + \Gamma_{12}^2 f$.
+
+Equating the $N$-components from $(X_{uu})_v = (X_{uv})_u$:
+\[ e_v + f\Gamma_{11}^1 + g\Gamma_{11}^2 = f_u + e\Gamma_{12}^1 + f\Gamma_{12}^2 \]
+Rearranging to solve for $e_v - f_u$:
+\[ e_v - f_u = e\Gamma_{12}^1 + f\Gamma_{12}^2 - f\Gamma_{11}^1 - g\Gamma_{11}^2 \]
+Grouping the $f$ terms:
+\[ e_v - f_u = e\Gamma_{12}^1 + f(\Gamma_{12}^2 - \Gamma_{11}^1) - g\Gamma_{11}^2 \]
+
+\vspace{1em}
+\textbf{Part (b)}
+We consider the compatibility equation $(X_{vv})_u - (X_{uv})_v = 0$.
+The coefficient of $N$ in $(X_{vv})_u$:
+\begin{align*}
+    (X_{vv})_u &= (\dots + gN)_u = \dots + \Gamma_{22}^1 X_{uu} + \Gamma_{22}^2 X_{uv} + g_u N \\
+    &\implies \text{Coeff} = g_u + \Gamma_{22}^1 e + \Gamma_{22}^2 f
+\end{align*}
+The coefficient of $N$ in $(X_{uv})_v$:
+\begin{align*}
+    (X_{uv})_v &= (\dots + fN)_v = \dots + \Gamma_{12}^1 X_{uv} + \Gamma_{12}^2 X_{vv} + f_v N \\
+    &\implies \text{Coeff} = f_v + \Gamma_{12}^1 f + \Gamma_{12}^2 g
+\end{align*}
+Equating the coefficients:
+\[ g_u + e\Gamma_{22}^1 + f\Gamma_{22}^2 = f_v + f\Gamma_{12}^1 + g\Gamma_{12}^2 \]
+Rearranging for $f_v - g_u$:
+\[ f_v - g_u = e\Gamma_{22}^1 + f\Gamma_{22}^2 - f\Gamma_{12}^1 - g\Gamma_{12}^2 \]
+Grouping the $f$ terms:
+\[ f_v - g_u = e\Gamma_{22}^1 + f(\Gamma_{22}^2 - \Gamma_{12}^1) - g\Gamma_{12}^2 \]
+\end{solution}
+
+\end{document}
