@@ -115,7 +115,9 @@
 \tableofcontents
 \newpage
 \section*{Foreward}
+The note is the typed notes for the course MAT4033 Differential Geometry,in CUHKSZ, taught by Professor Hou. The course mainly focus on curves and surfaces in the 3-dimensional Euclidean Space. We explore the concepts like Gaussian Curvature, Geodesics, etc. The course is wrapped up by the Gauss-Bonnet Theorem.
 
+A special Remark on the Exercise: all the exercises appear in the note are the exercises left by Professot Hou during each class. The exerises usually asked you to check something for yourselves. It is beneficial to go thorough them if you are preparing for the exam.
 \newpage
 \section*{Introduction}
 \noindent In this course we study curves and surfaces in $\mathbb{R^3}$
@@ -135,243 +137,239 @@ What are we interested in?
 \end{itemize}
 \newpage
 \section{Local Theory of Curves}
-\begin{definition}[regular curve]
-    $\alpha: [c,d]\to \mathbb{R}^3$ is called a regular curve if $|\alpha'|\neq0$, ($\alpha$ is taken to be differentiable (smooth))
+
+\begin{definition}[Regular Curve]
+    A parameterized differentiable curve $\alpha: I \to \mathbb{R}^3$ is called \textbf{regular} if $\alpha'(t) \neq 0$ for all $t \in I$.
 \end{definition}
 
 \begin{proposition}
-    Let $\alpha:[c,d]\to \mathbb{R}^3$ be a given curve with partition $P=\{c=t_0<t_1<\cdots <t_n=b\}$. Let $l(\alpha,P):=\sum |\alpha(t_{i+1})-\alpha(t_{i})|$, then we can have \[\int_c^d |\frac{d\alpha}{dt}|dt=\operatorname{sup}\{l(\alpha,P)| \text{P any partition}\}\]
+    Let $\alpha:[a,b]\to \mathbb{R}^3$ be a continuously differentiable curve. Let $P=\{a=t_0<t_1<\cdots <t_n=b\}$ be a partition of $[a,b]$.
+    Let $l(\alpha,P):=\sum_{i=0}^{n-1} |\alpha(t_{i+1})-\alpha(t_{i})|$. Then the arc length is given by:
+    \[ \int_a^b |\alpha'(t)| dt = \sup_P \{ l(\alpha,P) \} \]
 \end{proposition}
+
 \begin{proof}
-The proof is straight forward.
+    For any partition $P$, by the Fundamental Theorem of Calculus, $\alpha(t_{i+1}) - \alpha(t_i) = \int_{t_i}^{t_{i+1}} \alpha'(t) dt$.
+    By the triangle inequality for integrals, $|\alpha(t_{i+1}) - \alpha(t_i)| \le \int_{t_i}^{t_{i+1}} |\alpha'(t)| dt$.
+    Summing over $i$, we get $l(\alpha, P) \le \int_a^b |\alpha'(t)| dt$. Thus, $\sup_P l(\alpha, P) \le \int_a^b |\alpha'(t)| dt$.
+    
+    Conversely, since $\alpha'$ is continuous on a closed interval, it is uniformly continuous. For any $\epsilon > 0$, there exists $\delta > 0$ such that $|s-t| < \delta \implies |\alpha'(s) - \alpha'(t)| < \epsilon$.
+    Choose a partition $P$ with mesh size less than $\delta$. Then:
+    \[ \left| \sum |\alpha(t_{i+1}) - \alpha(t_i)| - \int_a^b |\alpha'(t)| dt \right| \le \sum \int_{t_i}^{t_{i+1}} |\alpha'(t) - \frac{\alpha(t_{i+1})-\alpha(t_i)}{\Delta t_i}| dt \]
+    By the Mean Value Theorem applied to components (or direct estimation using uniform continuity), the difference inside the integral can be bounded by $\epsilon$. Thus the Riemann sum approximates the integral arbitrarily well.
 \end{proof}
 
-\begin{proposition}[length is invariant under reparametriazation]
-   Given a differntiable curve $\alpha:[a,b]\to \mathbb{R}^3$ and a $g:[c,d] \to [a,b] $ with $\beta=\alpha\circ g$, then \[\int_a^b |\frac{d\alpha}{dt}|dt=\int_c^d|\frac{d\beta}{ds}|ds\] 
+\begin{proposition}[Length is Invariant under Reparametrization]
+   Given a differentiable curve $\alpha:[a,b]\to \mathbb{R}^3$ and a reparametrization map $g:[c,d] \to [a,b]$ with $g(c)=a, g(d)=b$ (orientation preserving) or $g(c)=b, g(d)=a$ (orientation reversing), let $\beta = \alpha \circ g$. Then:
+   \[ \int_a^b |\alpha'(t)| dt = \int_c^d |\beta'(u)| du \]
 \end{proposition}
+
 \begin{proof}
-    also straight forward, by simple chain rule.
+    Let $t = g(u)$. By the Chain Rule, $\beta'(u) = (\alpha \circ g)'(u) = \alpha'(g(u)) g'(u)$.
+    Therefore, $|\beta'(u)| = |\alpha'(g(u))| |g'(u)|$.
+    
+    If $g$ is orientation preserving ($g' > 0$), then $|g'(u)| = g'(u)$. By the change of variables formula for integrals:
+    \[ \int_c^d |\beta'(u)| du = \int_c^d |\alpha'(g(u))| g'(u) du = \int_{g(c)}^{g(d)} |\alpha'(t)| dt = \int_a^b |\alpha'(t)| dt. \]
+    If $g$ is orientation reversing ($g' < 0$), then $|g'(u)| = -g'(u)$.
+    \[ \int_c^d |\beta'(u)| du = -\int_c^d |\alpha'(g(u))| g'(u) du = -\int_{b}^{a} |\alpha'(t)| dt = \int_a^b |\alpha'(t)| dt. \]
 \end{proof}
-There are many ways to parametrize the curves. But we always want to pick one such that the \textit{pointers} is unit.
+
 \begin{remark}
-    The cusp is not a regular curve since $\alpha'(0)=0$, but we allow self-intersections, in which case a regular curve may have different tangent at the same point.    
+    The cusp (e.g., $\alpha(t) = (t^3, t^2)$ at $t=0$) is not a regular curve since $\alpha'(0)=0$. Regularity ensures the curve has a well-defined tangent line everywhere.
 \end{remark}
 
 \subsection{Reparametrization}
-Consider $\alpha_1(t)=(\cos t,\sin t), \alpha_2(t)=(\cos(2t),\sin(2t))$, both give the same trace with different parameters.
+
 \begin{definition}
-    A reparametrizastion of a curve $\alpha:(a,b)\to \mathbb{R}^3 $ is a bijective function $g:(c,d)\to (a,b)$ such that $g$ is $C^{\infty}$ and $g^{-1}$ is $C^1$. Given a raparametrization $g$, one can define a new "curve" $\beta:(c,d)\to \mathbb{R}^3$ by $\beta=\alpha\circ g$
+    A \textbf{reparametrization} of a curve $\alpha: I \to \mathbb{R}^3$ is a bijective map $g: J \to I$ such that $g$ is smooth and $g^{-1}$ is smooth (which implies $g'(u) \neq 0$ everywhere). The new curve is $\beta = \alpha \circ g$.
 \end{definition}
 
-\begin{example}[nonexample]
-    $g(s)=s^3$, we can check that $g^{-1}$ is not continuously differentiable in any interval contain 0.
-\end{example}
+\begin{proposition}
+    If $\alpha$ is a regular curve and $g$ is a reparametrization, then $\beta = \alpha \circ g$ is also regular.
+\end{proposition}
+
+\begin{proof}
+    By the Chain Rule, $\beta'(u) = \alpha'(g(u)) g'(u)$.
+    Since $\alpha$ is regular, $\alpha'(g(u)) \neq 0$. Since $g$ is a diffeomorphism, $g'(u) \neq 0$.
+    The product of a non-zero vector and a non-zero scalar is a non-zero vector. Thus $\beta'(u) \neq 0$.
+\end{proof}
 
 \begin{proposition}
-    If $\alpha $ is a regular curve and g is a reparametrization, then $\beta(s)=\alpha(g(s))$ is also regular.
+    The unit tangent vector is invariant (up to sign) under reparametrization.
 \end{proposition}
+
 \begin{proof}
-    left as an exercise.
+    Let $T_\alpha(t) = \frac{\alpha'(t)}{|\alpha'(t)|}$. Let $\beta(u) = \alpha(g(u))$.
+    \[ T_\beta(u) = \frac{\beta'(u)}{|\beta'(u)|} = \frac{\alpha'(g(u)) g'(u)}{|\alpha'(g(u)) g'(u)|} = \frac{\alpha'(g(u))}{|\alpha'(g(u))|} \frac{g'(u)}{|g'(u)|} = \text{sgn}(g') T_\alpha(g(u)) \]
+    Thus, the tangent vector direction depends only on the geometric trace, not the speed.
 \end{proof}
-\begin{remark}
-    To check whether the given smooth g is a reparametrization or not, one only needs to check if g' is nonzero or not by Implicit Function Theorem(IVT).
-\end{remark}
-\begin{proposition}
-    The tangent vector of a regular curve is invariant (possibly reverse its direction) under any parametrization.
-\end{proposition}
-\begin{proof}
-    left as an exercise.
-\end{proof}
-\subsection{Arc-length}
-\begin{definition}
-    The length of the curve segment $[c,d]\subseteq I$ for $\alpha:I\to \mathbb{R}^3  $ regular is iven by \[\int_{\alpha} ds = \int_c^d |\alpha'(t)|dt\]
+
+\subsection{Arc-length Parametrization}
+
+To develop the theory of curves, it is convenient to eliminate the dependency on "speed" and parameterize by distance traveled.
+
+\begin{definition}[Arc-length function]
+    Let $\alpha: [a,b] \to \mathbb{R}^3$ be regular. Fix $t_0 \in [a,b]$. The arc-length function $s(t)$ is:
+    \[ s(t) = \int_{t_0}^t |\alpha'(\tau)| d\tau \]
 \end{definition}
-\begin{proposition}
-    Reparametrization does not affect the arc-length
-\end{proposition}
-\begin{proof}
-    left as an exercise
-\end{proof}
-
-To develop the theory of curves, we always want our curves to be parametrized by arc-length(p.a.l), or in other words, it is more convenient to work with curves with unit "pointers". The following discussion shows that we can always assumed the curve to be a p.a.l curve.
 
 \begin{lemma}
-    Let $\alpha:[a,b]\to \mathbb{R}^3$ regular and $t_0\in [a,b]$ consider $h(t)=\int_{t_0}^t |\alpha'(t)|dt$.Then h is a reparametrizaton.
+    The map $s: [a,b] \to [0, L]$ is a valid reparametrization map.
 \end{lemma}
+
 \begin{proof}
-    left as an exercise
+    Since $\alpha$ is regular, $|\alpha'(t)| > 0$. By the Fundamental Theorem of Calculus, $\frac{ds}{dt} = |\alpha'(t)| > 0$.
+    Since the derivative is strictly positive, $s(t)$ is strictly increasing and therefore bijective. Since $s'(t) \neq 0$, by the Inverse Function Theorem, the inverse map $t(s)$ is also differentiable.
 \end{proof}
 
-\begin{definition}[arc-length parametrization]
-Let $\alpha:[a,b]\to \mathbb{R}^3 $ be regular curve and $t_0\in I$ with $g=h^{-1}$ with h is given in the lemma above. Then $\beta=\alpha\circ g :[c,d]\to \mathbb{R^3}$ is parametrization by arc-length    
+\begin{definition}
+    A curve $\beta(s)$ is \textbf{parameterized by arc-length} (p.a.l.) if $|\beta'(s)| = 1$ for all $s$.
 \end{definition}
 
 \begin{proposition}
-    $\beta $ the curve defined as above, then $\beta'(s)$ is of unit length.
-\end{proposition}
-
-\begin{remark}
-    In theory, there is a reparametrization by arc length for a regualr curves. However, it can be hard to explicitly find such a parameter.
-    \begin{itemize}
-        \item The formula s=h(t) may not have a closed formula
-        \item Even we have a closed formula for h(t) in some cases, the inverse of g is hard to find.
-    \end{itemize}
-\end{remark}
-\subsection{Frenet Frames of Plane curves}
-In this section, we assume $\alpha$ to be p.a.l, and alpha is a plane curve mapped from an interval to $\mathbb{R}^2$. Recall we have $\alpha'(s)=t(s)$
-\begin{definition}
-    The normal vector $n(s)$ of a plane curve at t=s is the vector $n(s):=J(t(s))$, where J is the 90 degree counterclockwise rotation. The set \{t(s),n(s)\} forms an ordered, oriented basis of $\mathbb{R^2}$ which is orthonormal. It is called the Frenet Frame of $\alpha$.
-\end{definition}
-\begin{remark}
-    We will have a slightly different definition of normal vector for general space curve.
-\end{remark}
-Note that $\langle t(s),t(s)\rangle=1 \Rightarrow\langle t'(s),t(s)\rangle$, which implies $t'(s)=k(s)n(s)$ for some scalar $k(s)$
-
-\begin{definition}
-    The curvature of $\alpha$ at s is the value k(s)
-\end{definition}
-\begin{remark}
-    \begin{itemize}
-        \item $k(s)$ records the change of t(s)
-        \item $k(s)>0$, $t(s)$ is turning towards n(s)
-        \item $k(s)<0$, $t(s)$ is turning away form n(s)
-    \end{itemize}
-    For space curves, it is not natural to define the ordered basis in this manner.
-\end{remark}
-\begin{example}[circle]
-    $\alpha(s)=u+r(\cos(\frac{s}{r}),\sin(\frac{s}{r}))$, do the computation we will see the curvature of $\alpha(s)$ is $\frac{1}{r}$
-
-    Note that if we raparametrize the curve with -t then the curvature will change its sign.
-\end{example}
-The following Proposition provides us a formula to compute the curvature when our curve is not parametrized by arc length initially. (Also, one can show that curvature is independent of choice (up to a sign) of parameter using the formula)
-\begin{proposition}[Formula to compute the curvature]
-    Let $\alpha: I\to \mathbb{R}^3$ regular plane curve with $\beta=\alpha\circ g$ p.a.l, then the curvature of $\alpha$ (whcih is defined to be the curvature of $\beta$ is \[k_{\alpha}(t)=\frac{det|\alpha'(t),\alpha''(t)|}{|\alpha'(t)|^3}\]
+    If we reparametrize $\alpha$ by the inverse of its arc-length function, the resulting curve is p.a.l.
 \end{proposition}
 
 \begin{proof}
-    left as an exercise (Hint: by direct computation and chain rule, it takes about 20-30 minutes work)
+    Let $t = t(s)$ be the inverse of $s(t)$. Let $\beta(s) = \alpha(t(s))$.
+    \[ \beta'(s) = \alpha'(t(s)) \frac{dt}{ds} = \alpha'(t) \frac{1}{s'(t)} = \alpha'(t) \frac{1}{|\alpha'(t)|} \]
+    Therefore, $|\beta'(s)| = \frac{|\alpha'(t)|}{|\alpha'(t)|} = 1$.
 \end{proof}
 
+\subsection{Frenet Frames of Plane Curves}
+
+Assume $\alpha: I \to \mathbb{R}^2$ is a plane curve parameterized by arc length $s$.
+We have the unit tangent $t(s) = \alpha'(s)$. Since $|t(s)|^2 = 1$, differentiating gives $2\langle t'(s), t(s) \rangle = 0$, so $t'(s) \perp t(s)$.
+
+\begin{definition}
+    Define the \textbf{normal vector} $n(s)$ by rotating $t(s)$ by $90^\circ$ counter-clockwise (i.e., applying the complex map $J(x,y) = (-y, x)$).
+    $\{t(s), n(s)\}$ is a positively oriented orthonormal basis.
+    Since $t'(s) \perp t(s)$, it must be parallel to $n(s)$. We define the \textbf{curvature} $k(s)$ by:
+    \[ t'(s) = k(s) n(s) \]
+\end{definition}
+
+\begin{proposition}[Formula for arbitrary parametrization]
+    Let $\alpha(t)$ be a regular plane curve (not necessarily p.a.l.). The curvature is:
+    \[ k(t) = \frac{\det(\alpha'(t), \alpha''(t))}{|\alpha'(t)|^3} \]
+\end{proposition}
+
+\begin{proof}
+    Let $s$ be the arc-length parameter and $v = \frac{ds}{dt} = |\alpha'(t)|$. We have $\alpha'(t) = v t(s)$.
+    Differentiating again with respect to $t$ (using chain rule $\frac{d}{dt} = v \frac{d}{ds}$):
+    \[ \alpha''(t) = \frac{d}{dt}(v t(s)) = v' t(s) + v \frac{d}{dt}(t(s)) = v' t(s) + v^2 t'(s) \]
+    Using the definition $t'(s) = k n(s)$, we get:
+    \[ \alpha''(t) = v' t(s) + k v^2 n(s) \]
+    Now compute the determinant (in $\mathbb{R}^2$, $\det(a,b)$ is the signed area of the parallelogram):
+    \[ \det(\alpha', \alpha'') = \det(v t, v' t + k v^2 n) = v v' \det(t, t) + k v^3 \det(t, n) \]
+    Since $\det(t,t)=0$ and $\det(t,n)=1$ (orthonormal basis):
+    \[ \det(\alpha', \alpha'') = k v^3 = k |\alpha'|^3 \]
+    Rearranging gives $k = \frac{\det(\alpha', \alpha'')}{|\alpha'|^3}$.
+\end{proof}
+
+\begin{theorem}[Fundamental Theorem of Plane Curves]
+    Given a smooth function $k: I \to \mathbb{R}$, there exists a p.a.l. curve $\alpha: I \to \mathbb{R}^2$, unique up to rigid motion, having $k(s)$ as its curvature.
+\end{theorem}
+
+\begin{proof}
+    Let $\theta(s)$ be the angle of the tangent vector. We must have $\theta'(s) = k(s)$.
+    Define $\theta(s) = \int_{s_0}^s k(u) du + \theta_0$.
+    Define $\alpha(s) = (\int_{s_0}^s \cos\theta(u) du + x_0, \int_{s_0}^s \sin\theta(u) du + y_0)$.
+    Then $\alpha'(s) = (\cos\theta, \sin\theta)$, which is unit length.
+    $t'(s) = (-\sin\theta \cdot \theta', \cos\theta \cdot \theta') = \theta' n(s) = k(s) n(s)$.
+    Thus $\alpha$ has the desired curvature.
+    Uniqueness follows from the uniqueness of ODE solutions (or simple integration as shown above).
+\end{proof}
+
+\subsection{Space Curves}
+
+Let $\alpha(s)$ be a p.a.l. curve in $\mathbb{R}^3$. $t(s) = \alpha'(s)$.
+Since $t' \perp t$, if $t'(s) \neq 0$, we define the \textbf{curvature} $\kappa(s) = |t'(s)|$ and the \textbf{principal normal} $n(s) = \frac{t'(s)}{\kappa(s)}$.
+Define the \textbf{binormal} $b(s) = t(s) \times n(s)$.
+
+\begin{proposition}[Frenet-Serret Formulas]
+    \[
+    \frac{d}{ds} \begin{pmatrix} t \\ n \\ b \end{pmatrix} = \begin{pmatrix} 0 & \kappa & 0 \\ -\kappa & 0 & -\tau \\ 0 & \tau & 0 \end{pmatrix} \begin{pmatrix} t \\ n \\ b \end{pmatrix}
+    \]
+\end{proposition}
+
+\begin{proof}
+    1. By definition, $t' = \kappa n$.
+    2. Since $b = t \times n$, $b' = t' \times n + t \times n' = \kappa n \times n + t \times n' = t \times n'$.
+    Thus $b' \perp t$. Also $|b|=1 \implies b' \perp b$. So $b'$ must be parallel to $n$.
+    Define $\tau(s)$ such that $b'(s) = -\tau(s) n(s)$. (The sign is convention).
+    3. Since $\{t,n,b\}$ is orthonormal, $n = b \times t$.
+    $n' = b' \times t + b \times t' = -\tau n \times t + b \times \kappa n = -\tau (-b) + \kappa (-t) = -\kappa t + \tau b$.
+\end{proof}
+
+Now we present some applications of Frenet-Serret Formulas.
+
+\begin{example}
+    Let $\alpha$ be a regular curve with $\kappa > 0$. Then $\alpha$ is a plane curve if and only if $\tau \equiv 0$.
+\end{example}
+
+\begin{proof}
+    ($\Rightarrow$) Suppose $\alpha$ lies in a plane defined by $v \cdot (x - x_0) = 0$ ($v$ is constant unit normal).
+    Differentiating $\alpha(s) \cdot v = \text{const}$ gives $t(s) \cdot v = 0$.
+    Differentiating again: $t' \cdot v = \kappa n \cdot v = 0$. Since $\kappa \neq 0$, $n \cdot v = 0$.
+    Since $t \perp v$ and $n \perp v$, $b = t \times n$ must be parallel to $v$.
+    Thus $b(s) = \pm v = \text{const}$. Hence $b'(s) = 0$. By Frenet formulas, $-\tau n = 0 \implies \tau = 0$.
+
+    ($\Leftarrow$) Suppose $\tau \equiv 0$. Then $b'(s) = 0$, so $b(s) = b_0$ (constant).
+    Consider the function $f(s) = \langle \alpha(s) - \alpha(0), b_0 \rangle$.
+    $f'(s) = \langle t(s), b_0 \rangle$. Since $b_0 = t \times n$, $b_0 \perp t$, so $f'(s) = 0$.
+    Thus $f(s) = 0$ for all $s$. $\alpha(s)$ lies in the plane passing through $\alpha(0)$ with normal $b_0$.
+\end{proof}
+
+\begin{example}
+    $\alpha$ is a straight line if and only if all tangent lines pass through a fixed point $x_0$.
+\end{example}
+
+\begin{proof}
+    ($\Rightarrow$) Trivial.
+    ($\Leftarrow$) Assume $\alpha(s) + \lambda(s) t(s) = x_0$ for some scalar function $\lambda(s)$.
+    Differentiate: $t(s) + \lambda'(s) t(s) + \lambda(s) \kappa(s) n(s) = 0$.
+    Taking inner product with $n(s)$: $\lambda(s) \kappa(s) = 0$.
+    If $\lambda(s) = 0$, then $\alpha(s) = x_0$ (not a regular curve). Thus $\lambda \neq 0$, implying $\kappa(s) = 0$.
+    $\kappa = 0 \implies t'(s) = 0 \implies t(s) = \text{const} \implies \alpha(s)$ is a line.
+\end{proof}
+
+\begin{example}
+    Let $\alpha$ be a curve such that every normal plane passes through a fixed point $x_0$. Then $\alpha$ lies on a sphere.
+\end{example}
+
+\begin{proof}
+    The normal plane at $s$ is spanned by $n(s), b(s)$. The condition implies $x_0 - \alpha(s)$ lies in this plane.
+    Thus $x_0 - \alpha(s) \perp t(s)$.
+    $\langle \alpha(s) - x_0, t(s) \rangle = 0$.
+    Consider $f(s) = |\alpha(s) - x_0|^2 = \langle \alpha(s) - x_0, \alpha(s) - x_0 \rangle$.
+    $f'(s) = 2 \langle \alpha'(s), \alpha(s) - x_0 \rangle = 2 \langle t(s), \alpha(s) - x_0 \rangle = 0$.
+    Thus $|\alpha(s) - x_0|^2$ is constant, so $\alpha$ lies on a sphere centered at $x_0$.
+\end{proof}
 \begin{exercise}
-    Complete the proof of the above proposition
+    Prove the above three examples (it is left as an exeercise in class, I include the proof here).
 \end{exercise}
-
-It seems that for a regular plane curve, the configuration of the curve is uniquely determined by its curvature. In fact we have the following theorem
-
-\begin{theorem}[Fundamental theorem of Plane curve]
-\begin{itemize}
-    \item For any $C^{\infty}$ function $k: I\to \mathbb{R}^3 $, there exists a p.a.l curve $\alpha: I\to \mathbb{R}^3 $ such that 
-    $k_{\alpha}(s)=k(s)$ and $\alpha(0)=x_0$
-    \item The curve satisfy the $k_{\alpha}(s)=k(s)$ is unique up to a \textit{rigid motion}.
-\end{itemize}
-\end{theorem}
-You may wonder what is a rigid motion, We have the following definition
-\begin{definition}[rigid motion]
-We say a map $\mathbb{R}^n\to \mathbb{R}^n$ is a rigid motion if it is of the form $x \to Ax+b$ with $A\in O(n)$. If A is in the special orthogonal group, we called the rigid motion orientation preserving.
-    \end{definition}
-In fact, one can show that the isometry in the Euclidean space is exactly all the rigid motion.
-
-\begin{proof}
-    
-\end{proof}
-
-\subsection{Space Curve}
-
-\begin{definition}[curvature]
-    
-\end{definition}
-\begin{remark}
-    n(s) is simply along the same direction of $t'$ unlike the case of plane curves.
-\end{remark}
-The Frenet-Serret Frames of a space curve is the orthonormal basis $\{t,n,b\}$, where $b$ is the derivative of n.
-
-As in the plane curve, we want to study the derivatives of $\{t,n,b\}$ where b is defined to be the cross product of t and n.
-\begin{itemize}
-    \item $\langle n',n\rangle=0 \Rightarrow n'=at+kb$
-    \item $\langle b',b\rangle=0 \Rightarrow b'=ct+dn$
-    \item and then note that $b=t \times n \Rightarrow b'\perp b, b'\perp t$
-    \item hence we have $b'(s)=\tau(s)n(s)$
-\end{itemize}
-\begin{definition}[torsion]
-    Let $\alpha$ regular p.a.l curve, with $k(s)\neq0$, the torsion of $\alpha $ is given by the above discussion.
-\end{definition}
-\begin{remark}
-    $\tau(s)$ tells us how far the curve is away from a plane curve.
-\end{remark}
-\begin{proposition}[Frenet Serret Frame]
-Like the plane curve case, we have a formula to connect $t,n,b$ and the derivative $t',n',b'$
-\[
-\frac{d}{ds}
-\begin{bmatrix}
-T \\[6pt]
-N \\[6pt]
-B
-\end{bmatrix}
-=
-\begin{bmatrix}
-0 & \kappa & 0 \\[6pt]
--\kappa & 0 & -\tau \\[6pt]
-0 & \tau & 0
-\end{bmatrix}
-\begin{bmatrix}
-T \\[6pt]
-N \\[6pt]
-B
-\end{bmatrix},
-\]
-where $\kappa(s)$ is the curvature of the curve,$\tau(s)$ is the torsion of the curve.  
-\end{proposition}
-\begin{remark}
-    Note that there is two conventions on the sign of the torsion $\tau$
-\end{remark}
-\begin{definition}
-    If $\alpha$ is any regular cuve, then the Frennet-Serret Frame is obtained by that of $\beta=\alpha \circ s$( (the arc-length reparamatrization)
-\end{definition}
+\subsection{Fundamental Theorem of Space Curves}
 
 \begin{theorem}
-    Let $\alpha$ be regular curve p.a.l with $\kappa(s)\neq 0$ then the following are equivalent
-    \begin{enumerate}
-        \item $\alpha$ is a plane curve 
-        \item $b$ is a constant
-        \item $\tau(s)=0$
-\end{enumerate}
+    Given smooth functions $\kappa(s) > 0$ and $\tau(s)$, there exists a space curve $\alpha(s)$, unique up to rigid motion, with curvature $\kappa$ and torsion $\tau$.
 \end{theorem}
-\begin{proof}
-    \begin{itemize}
-        \item $(2) \Leftrightarrow (3)$ follows from the frenet serret equation.
-        \item $(1)\Leftrightarrow (2)$ Suppose $\alpha$ be a plane curve, then b(s) is clearly a constant. Conversely, if b is a constant, then $b'=0$, consider $\langle \alpha(s)-\alpha(0),b\rangle '=0$ now since b is a constant, then $\alpha$ is indeed a plane curve.
-    \end{itemize}
-\end{proof}
-We end by applying the Frenet Serret Equation.
-\begin{example}
-    $\alpha$ is a straight line if and only if $\exists x_0\in \mathbb{R}^3$, such that every tangent line to $\alpha $ passes through $x_o$
-\end{example}
-\begin{proof}
-    left as homework
-\end{proof}
-\begin{example}
-    Let the normal plane of $\alpha(s)$ be the plane perpendicular to $t(s)$. Let $\alpha$ be a regular curve p..a.l such that every normal plane of $\alpha(s)$ passes through a fixed point of $x_0$. Then $\alpha(s)$ lie s on a sphere.
-\end{example}
-\begin{proof}
-    The normal plane of $\alpha(s)$ has the equation $\langle t(s), x-\alpha(s)\rangle =0$, since the $x_0$ lies on the plane and hence we have  $\langle t(s), x_0-\alpha(s)\rangle =0$ Consider taking the derivative of $\langle x_0-\alpha(s),x_0-\alpha(s)\rangle$, eh derivative is zero andhence this is a constatn, andthen we are done.
-\end{proof}
 
-\subsection{Fundamental Theorem of Curves}
-Recall that all plane curves are determined by its curvature up to orientation preserving its rigid motion. The same goes for regular space curves $\alpha (s)$ with $\kappa(s)>0$
-
-\begin{theorem}
-    Given two functions $\kappa(s), \tau(s)$ defined on an interval, with $\kappa(s)>0$, $x_0\in \mathbb{R}^3$ fixed.$\{D,E,F\}$ be an orthonormal basis of $\mathbb{R}^3$, then there exists a p.a.l curve such that the curvature and torsion of $\alpha$ is exactly the given function $\kappa(s)$  $\tau(s)$. What's more, $\alpha$ is completely determined by its curvature and torsion, in the sense that any curve with the same curvature and torsion differs only be a rigid motion.
-\end{theorem}
 \begin{proof}
-    For detailed proof, see Do carmo's appendix. Here we sketch the proof.
-    \begin{itemize}
-        \item Existence:\begin{enumerate}
-            \item First construct the differential equation according to the Frenet Serret Formula, and get a candidate for the tangent vector, normal vector, and the binormal vector.
-            \item Now check that the $t,n,b$ we get from the above equation is orthonormal for all s. This is equivalent to $\langle t,t\rangle,\langle t,n\rangle,\langle t,b\rangle,\langle n,n\rangle, \langle n, b\rangle,\langle b,b\rangle$ is equal to 1,0,0,1,0,1. To  conclude this, we consider another differential equation and use the uniqueness of the ode.
-            \item Then we consider the curve $\alpha(s)=x_0+\int t(s)ds$, and check it indeed have the two given function as curvature and torsion.
-        \end{enumerate}
-        \item Uniqueness: we move one of the curve $\alpha'$ by rigid motion to $\alpha$ with the same starting point and the same initial tangent vector, and then we are done by the uniqueness of ode.
-    \end{itemize}
+    \textbf{Existence:} Consider the system of linear ODEs for a $3 \times 3$ matrix function $F(s) = (t(s) | n(s) | b(s))$:
+    \[ F'(s) = F(s) \begin{pmatrix} 0 & -\kappa & 0 \\ \kappa & 0 & -\tau \\ 0 & \tau & 0 \end{pmatrix} \]
+    (Note: This is the transpose of the usual form if vectors are columns).
+    By the Existence Theorem for ODEs, there exists a unique solution $F(s)$ with $F(0) = I$.
+    We must show the columns remain orthonormal. Let $M = F^T F$.
+    $M' = (F')^T F + F^T F' = (F A)^T F + F^T (F A) = A^T (F^T F) + (F^T F) A = A^T M + M A$.
+    Since $A$ is skew-symmetric ($A^T = -A$), $M(s) = I$ is a solution to this differential equation ($I' = 0$ and $A^T I + I A = -A + A = 0$). By uniqueness, $M(s) = I$ for all $s$.
+    Thus $\{t,n,b\}$ are orthonormal.
+    Define $\alpha(s) = \int_0^s t(u) du$. Then $\alpha' = t$, so it is p.a.l.
+    $t' = \kappa n$ (matches curvature).
+    $n' = -\kappa t + \tau b$ (matches torsion).
+
+    \textbf{Uniqueness:} Let $\alpha, \tilde{\alpha}$ be two such curves. Align their initial positions and frames by a rigid motion. Let $f(s) = |t - \tilde{t}|^2 + |n - \tilde{n}|^2 + |b - \tilde{b}|^2$.
+    Using the Frenet equations, one shows $f'(s) = 0$. Since $f(0)=0$, $f(s) \equiv 0$.
+    Thus $t(s) = \tilde{t}(s)$, so $\alpha(s) = \tilde{\alpha}(s)$ after integration.
 \end{proof}
 \newpage
 \section{Global Theory of Curves}
@@ -1953,24 +1951,56 @@ Show the third proposition above.
 \end{example}
 
 \begin{example}[Catenoid-Helicoid Family]
-    Let $f(z)=e^{-i\theta}e^z$ and $g(z)=e^{-z}$.
-    \[ \phi^1 = \frac{1}{2}f(1-g^2) = \frac{1}{2}e^{-i\theta}e^z(1-e^{-2z}) = \frac{1}{2}e^{-i\theta}(e^z - e^{-z}) = e^{-i\theta} \sinh z \]
-    \[ \phi^2 = \frac{i}{2}f(1+g^2) = \frac{i}{2}e^{-i\theta}e^z(1+e^{-2z}) = \frac{i}{2}e^{-i\theta}(e^z + e^{-z}) = i e^{-i\theta} \cosh z \]
-    \[ \phi^3 = fg = (e^{-i\theta}e^z)(e^{-z}) = e^{-i\theta} \]
-    So, $\phi(z) = (e^{-i\theta} \sinh z, i e^{-i\theta} \cosh z, e^{-i\theta})$.
-    
-    \begin{itemize}
-        \item If $\theta = 0$, $\phi = (\sinh z, i \cosh z, 1)$. Integrating gives the \textbf{Catenoid}.
-        \item If $\theta = \frac{\pi}{2}$, $\phi = (-i \sinh z, \cosh z, -i)$. Integrating gives the \textbf{Helicoid}.
-    \end{itemize}
+The coordinate functions $X(u,v) : \Omega \to \mathbb{R}^3$ are obtained by the Weierstrass representation formula:
+\[
+    X(z) = \operatorname{Re} \int \phi \, dz = \operatorname{Re} \Phi(z),
+\]
+where $\phi = (\phi^1, \phi^2, \phi^3)$. Integrating the 1-forms derived in Example 4.13:
+\begin{align*}
+    \Phi^1(z) &= \int e^{-i\theta} \sinh z \, dz = e^{-i\theta} \cosh z, \\
+    \Phi^2(z) &= \int i e^{-i\theta} \cosh z \, dz = i e^{-i\theta} \sinh z, \\
+    \Phi^3(z) &= \int e^{-i\theta} \, dz = e^{-i\theta} z.
+\end{align*}
+Thus, the holomorphic map is $\Phi(z) = (e^{-i\theta}\cosh z, \; i e^{-i\theta}\sinh z, \; e^{-i\theta}z)$. Let $z = u + iv$. We now compute the real parts for specific values of $\theta$.
+
+\subsubsection*{1. The Catenoid ($\theta = 0$)}
+Substituting $\theta = 0$, we have $\Phi(z) = (\cosh z, \; i \sinh z, \; z)$.
+Using the addition formulas $\cosh(u+iv) = \cosh u \cos v + i \sinh u \sin v$ and $\sinh(u+iv) = \sinh u \cos v + i \cosh u \sin v$:
+\begin{align*}
+    x(u,v) &= \operatorname{Re}(\cosh z) = \cosh u \cos v, \\
+    y(u,v) &= \operatorname{Re}(i \sinh z) = \operatorname{Re}(i(\sinh u \cos v + i \cosh u \sin v)) = -\cosh u \sin v, \\
+    z(u,v) &= \operatorname{Re}(z) = u.
+\end{align*}
+This yields the parametrization of the \textbf{Catenoid}:
+\[
+    X(u,v) = (\cosh u \cos v, \, -\cosh u \sin v, \, u).
+\]
+
+\subsubsection*{2. The Helicoid ($\theta = \frac{\pi}{2}$)}
+Substituting $\theta = \frac{\pi}{2}$, we have $e^{-i\theta} = -i$. Thus, $\Phi(z) = (-i \cosh z, \; \sinh z, \; -iz)$.
+\begin{align*}
+    x(u,v) &= \operatorname{Re}(-i \cosh z) = \operatorname{Re}(-i(\cosh u \cos v + i \sinh u \sin v)) = \sinh u \sin v, \\
+    y(u,v) &= \operatorname{Re}(\sinh z) = \sinh u \cos v, \\
+    z(u,v) &= \operatorname{Re}(-i(u+iv)) = \operatorname{Re}(-iu + v) = v.
+\end{align*}
+This yields the parametrization of the \textbf{Helicoid}:
+\[
+    X(u,v) = (\sinh u \sin v, \, \sinh u \cos v, \, v).
+\]
 \end{example}
 
 \begin{remark}
     This provides a continuous deformation from the Catenoid to the Helicoid by varying the parameter $\theta$.
 \end{remark}
 
-% New content from 251110
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.7\textwidth]{Catenoid_Helicoid_Family.png}
+    \caption{The continuous isometric deformation from the Catenoid ($\theta=0$) to the Helicoid ($\theta=\pi/2$).}
+    \label{fig:catenoid_helicoid_deformation}
+\end{figure}
 
+\newpage
 \subsection{Geodesics}
 \noindent \textbf{Recall}:
 \[
@@ -2197,11 +2227,12 @@ The Christoffel symbol can be given by the first fundamental form (i.e. the metr
     Then $f^2 u' = \text{const}$ is the same as $f \cos \theta = \text{const}$.
 \end{example}
 
+\begin{exercise}
+    Check the Clairaut's relations.
+\end{exercise}
 \begin{remark}
-    One can refer this to Do Carmo Chap 3. Exercise.
+    One can refer this to Do Carmo \textit{Riemannian Geometry} Chap 3. Exercise.
 \end{remark}
-
-\noindent \textbf{Riemannian Geometry}
 
 \subsection{Fundamental Theorem of Surfaces}
 Let $\{X_u, X_v, N\}$ be the moving frame.
@@ -2354,9 +2385,9 @@ K = -\frac{1}{2\sqrt{EG}} \left\{ \frac{\partial}{\partial u} \left( \frac{G_u}{
 \end{remark}
 
 \newpage
-\section{Global Theory of Surfaces}
+\section{Global Theory of Surfaces: Gauss-Bonnet Theorem}
 
-\subsection{Gauss-Bonnet Theorem}
+\subsection{Local Gauss-Bonnet Theorem}
 Recall in the past we have Hopf's Umlaufsatz:
 \[
 \int_{\alpha} \kappa(s) ds = \pm 2\pi  \quad \text{for any simple closed curve.}
@@ -2455,6 +2486,57 @@ Suppose $\alpha$ is a piecewise smooth closed curve on $S$ that is injective and
 \]
 \end{corollary}
 
+\begin{proof}[Proof of Corollary 5.3]
+    Let $\alpha$ be a piecewise smooth simple closed curve bounding a region $R$ in a coordinate patch $X: U \to S$. Let $\alpha$ be composed of $n$ smooth arcs $\alpha_1, \dots, \alpha_n$.
+
+    Recall from the proof of the Gauss-Bonnet Theorem for smooth curves (Lemma 5.1), if we choose an orthogonal parametrization (or an orthonormal frame $\{e_1, e_2\}$), the geodesic curvature on a smooth segment is given by:
+    \[
+    k_g(s) = \frac{d\varphi}{ds} + \psi(s)
+    \]
+    where $\varphi(s)$ is the angle between the tangent vector $\alpha'(s)$ and the basis vector $e_1$, and $\psi(s)$ is a term involving the first fundamental form (specifically related to the connection form $\omega_{12}$).
+
+    Integrating $k_g$ over the piecewise smooth curve $\alpha = \bigcup_{i=1}^n \alpha_i$:
+    \[
+    \sum_{i=1}^n \int_{\alpha_i} k_g(s) ds = \sum_{i=1}^n \int_{\alpha_i} \frac{d\varphi}{ds} ds + \sum_{i=1}^n \int_{\alpha_i} \psi(s) ds
+    \]
+    
+    \noindent \textbf{Step 1: The Connection Term} \\
+    The term involving $\psi(s)$ corresponds to the line integral of the connection form along the boundary. By Green's Theorem (as used in the smooth case), this integral converts to the area integral of the Gaussian curvature:
+    \[
+    \oint_{\alpha} \psi(s) ds = -\iint_{R} K dA
+    \]
+    (Note: The sign depends on the specific definition of $\psi$, but the combination $\frac{d\varphi}{ds} - k_g$ yields the Gaussian curvature term).
+
+    \noindent \textbf{Step 2: The Angle Term} \\
+    The term $\sum_{i=1}^n \int_{\alpha_i} d\varphi$ represents the total variation of the angle of the tangent vector along the smooth segments.
+    Let $\Delta \varphi_i$ be the change in angle along the arc $\alpha_i$.
+    \[
+    \sum_{i=1}^n \int_{\alpha_i} \frac{d\varphi}{ds} ds = \sum_{i=1}^n \Delta \varphi_i
+    \]
+    Since $\alpha$ is a simple closed curve, the total rotation of the tangent vector must be $2\pi$. However, at each corner $p_i$, the tangent vector jumps discontinuously. The exterior angle $\theta_i$ is defined precisely as this jump:
+    \[
+    \theta_i = \varphi(s_i^+) - \varphi(s_i^-)
+    \]
+    Therefore, the total turning $2\pi$ is the sum of the turning along the smooth segments and the jumps at the corners:
+    \[
+    2\pi = \sum_{i=1}^n \Delta \varphi_i + \sum_{i=1}^n \theta_i
+    \]
+    Rearranging for the smooth turning term:
+    \[
+    \sum_{i=1}^n \Delta \varphi_i = 2\pi - \sum_{i=1}^n \theta_i
+    \]
+
+    \noindent \textbf{Conclusion} \\
+    Substituting these back into the expression for $\int k_g$:
+    \[
+    \sum_{i=1}^n \int_{\alpha_i} k_g ds = \left( 2\pi - \sum_{i=1}^n \theta_i \right) - \iint_{R} K dA
+    \]
+    Rearranging the terms gives the desired formula:
+    \[
+    \sum_{i=1}^n \int_{\alpha_i} k_g ds + \iint_{R} K dA + \sum_{i=1}^n \theta_i = 2\pi
+    \]
+\end{proof}
+
 \begin{example}[Polygon on a Plane]
 Straight lines are geodesics, so $k_g=0$ and $K=0$. The formula reduces to $\sum \theta_i = 2\pi $. For a simple polygon ($n=1$), $\sum \theta_i = 2\pi$.
 \end{example}
@@ -2502,6 +2584,15 @@ Then the full Gauss-Bonnet formula for this triangle (where $\int k_g ds = 0$ an
 \]
 \end{example}
 
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{geodesic-triangle.png}
+    \caption{The relationship between Gaussian curvature and the sum of geodesic triangle angles.}
+\end{figure}
+
+
+\subsection{Euler Characteristic}
+
 \begin{definition}[Triangle]
 A region $T \subseteq S$ which consists of three piecewise smooth parts with external angles $\theta_1, \theta_2, \theta_3$ is called a \textbf{triangle} (3 vertices, 3 edges, 1 face).
 \end{definition}
@@ -2513,6 +2604,204 @@ A \textbf{triangulation} of a surface $S$ is a family $\mathcal{T}$ of triangles
     \item $T_i \cap T_j \neq \emptyset$, the intersection is either a common edge or a common vertex.
 \end{enumerate}
 \end{definition}
+
+\begin{definition}[Connected Sum]
+    The connected sum of two surfaces $S_1$ and $S_2$, denoted $S_1 \# S_2$, is formed by removing a small disk (triangle) from each surface and gluing them together along the boundary of the removed regions.
+\end{definition}
+
+\begin{proposition}[Euler Characteristic of Connected Sum]
+    The Euler characteristic satisfies:
+    \[
+    \chi(S_1 \# S_2) = \chi(S_1) + \chi(S_2) - \chi(S^2) = \chi(S_1) + \chi(S_2) - 2.
+    \]
+\end{proposition}
+
+\begin{example}
+    For a torus $T^2$, $\chi(T^2) = 0$.
+    \[
+    \chi(T^2 \# T^2) = 0 + 0 - 2 = -2.
+    \]
+    In general, for a surface of genus $g$, $T_g$, we have $\chi(T_g) = 2 - 2g$.
+\end{example}
+
+% New content from Lec16 & Lec17 (Reorganized for clarity)
+
+\subsection{Discrete Gauss-Bonnet Theorem}
+
+We begin by looking at the topology and curvature of polyhedral surfaces.
+
+\subsubsection{Curvature on Polyhedral Surfaces}
+
+We wish to "derive"(or define if you like) the Gaussian curvature $K(v)$ for a vertex on a polyhedral surface. We deduce it from the Gauss-Bonnet formula for geodesic polygons (Example 5.2).
+
+\begin{theorem}[Recalling Example 5.2]
+    For a geodesic polygon $R$ on a smooth surface, with internal angles $\Phi_i$:
+    \[ \iint_{R} K \, dA + \sum_{i=1}^n (\pi - \Phi_i) = 2\pi \]
+    Rearranging this for the total curvature:
+    \[ \iint_{R} K \, dA = 2\pi - \sum_{i=1}^n (\pi - \Phi_i) = 2\pi - \sum \theta_{ext} \]
+\end{theorem}
+
+\noindent \textbf{Motivation for Discrete Curvature:}
+Consider a vertex $v$ on a polyhedral surface. The surface is flat ($K=0$) on the faces and edges, so the curvature is concentrated entirely at the vertices.
+Let us apply the formula above to a small polygonal region $R$ containing the vertex $v$.
+\begin{itemize}
+    \item The integral $\iint_R K \, dA$ becomes the point curvature $K(v)$.
+    \item As we contract the region $R$ to the vertex $v$, the sum of the turning angles along the boundary corresponds to the "missing angle" needed to close the surface flatly around the vertex.
+    \item Geometrically, if we "unroll" the faces meeting at $v$ onto a plane, the sum of the angles $\sum \alpha_i$ at the tip will not equal $2\pi$ if the vertex has curvature. The defect is precisely $2\pi - \sum \alpha_i$.
+\end{itemize}
+Thus, consistent with the smooth case, we define/derive the following:
+
+\begin{proposition}[Discrete Gaussian Curvature]
+    For a vertex $v$ on a polyhedral surface, the Gaussian curvature is the \textbf{angle defect}:
+    \[ K(v) = 2\pi - \sum_{F \ni v} \alpha_i \]
+    where $\alpha_i$ are the internal angles of the faces at vertex $v$.
+\end{proposition}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.4\textwidth]{Gaussian_Curvatur_ at_vertex.png}
+    \caption{Gaussiann Curvature at a vertex=angle defect}
+\end{figure}
+
+\begin{theorem}[Discrete Gauss-Bonnet for Closed Surfaces]
+    Let $S$ be a closed polyhedral surface in $\mathbb{R}^3$. Then:
+    \[
+    \sum_{v \in S} K(v) = 2\pi \chi(S)
+    \]
+\end{theorem}
+
+
+
+\begin{proof}
+    We sum the curvature over all vertices:
+    \begin{align*}
+        \sum_{v \in S} K(v) &= \sum_{v} \left( 2\pi - \sum_{F \ni v} \theta_{i}(v) \right) \\
+        &= 2\pi V - \sum_{v} \sum_{F \ni v} \theta_{i}(v)
+    \end{align*}
+    The double sum $\sum_{v} \sum_{F} \theta_{i}$ represents the sum of all internal angles of all faces (triangles) in the polyhedron. For a triangulation with $F$ faces:
+    \[
+    \sum \text{angles} = F \times \pi
+    \]
+    Thus:
+    \[
+    \sum K(v) = 2\pi V - \pi F
+    \]
+    We know that for a triangulation, $3F = 2E$ (since each face has 3 edges and each edge is shared by 2 faces). Therefore $-\pi F = -3\pi F + 2\pi F = -2\pi E + 2\pi F$.
+    Substituting this back:
+    \[
+    \sum K(v) = 2\pi V - 2\pi E + 2\pi F = 2\pi (V - E + F) = 2\pi \chi(S).
+    \]
+\end{proof}
+
+\begin{theorem}[Discrete Gauss-Bonnet with Boundary]
+    For a polyhedral surface $S$ with boundary $\partial S$ in $\mathbb{R}^3$:
+    \[
+    \sum_{v \in S_{int}} K(v) + \sum_{v \in \partial S} \theta_{ext}(v) = 2\pi \chi(S)
+    \]
+    where for boundary vertices, the turning angle is $\theta_{ext}(v) = \pi - \theta_{int}(v)$.
+\end{theorem}
+
+\begin{proof}
+    We use the "doubling trick". Glue two copies of $S$ along their boundary $\partial S$ to form a closed surface $2S$.
+    \begin{enumerate}
+        \item \textbf{Euler Characteristic:} 
+        \[ \chi(2S) = 2\chi(S) - \chi(\partial S) \]
+        Since the boundary consists of simple closed curves, $\chi(\partial S) = 0$, so $\chi(2S) = 2\chi(S)$.
+        \item \textbf{Total Curvature:} Applying the closed surface theorem to $2S$:
+        \[ \sum_{v \in 2S} K(v) = 2\pi \chi(2S) = 4\pi \chi(S) \]
+        The vertices of $2S$ consist of two copies of the internal vertices of $S$ and the boundary vertices (where the two copies join). The contribution at the boundary relates to the external angles.
+        \[ 2 \left( \sum_{v \in S} K(v) + \sum_{v \in \partial S} \theta_{ext}(v) \right) = 4\pi \chi(S) \]
+        Dividing by 2 yields the result.
+    \end{enumerate}
+\end{proof}
+
+\begin{example}[Octahedron]
+    For a regular octahedron, we have $V=6, F=8, E=12$. $\chi(S)=2$.
+    At each vertex, 4 equilateral triangles meet. The internal angle of each is $\pi/3$.
+    \[
+    K(v) = 2\pi - 4\left(\frac{\pi}{3}\right) = 2\pi - \frac{4\pi}{3} = \frac{2\pi}{3}
+    \]
+    Total Curvature:
+    \[
+    \sum_{v} K(v) = 6 \times \frac{2\pi}{3} = 4\pi = 2\pi(2).
+    \]
+\end{example}
+
+\begin{example}[Square Torus Frame]
+    Consider a torus constructed from square plates.
+    \begin{itemize}
+        \item \textbf{Inner vertices:} Suppose vertices where geometry creates a "saddle".
+        $K_{inner} = 2\pi - (\text{angles}) = -\frac{\pi}{2}$.
+        \item \textbf{Outer vertices:} 
+        $K_{outer} = 2\pi - (\text{angles}) = \frac{\pi}{2}$.
+    \end{itemize}
+    Summing these over the vertices (e.g., 8 of each type in a specific construction) yields $\sum K(v) = 0 = 2\pi(0)$.
+\end{example}
+
+\begin{example}[Cube with one face removed]
+    $S$ is a cube with the top face open. This is a surface with boundary.
+    One can verify $\sum K(v) + \sum \theta_{ext} = 2\pi \chi(S)$ holds.
+\end{example}
+
+\subsection{Global Gauss-Bonnet Theorem}
+
+We now generalize to smooth surfaces with boundary.
+
+\begin{proposition}[Global Gauss-Bonnet]
+    Let $R \subseteq S$ be a region bounded by a finite union of closed simple piecewise regular curves $C_i$. For any triangulation of $R$, one has:
+    \[
+    \sum_{i=1}^n \int_{C_i} k_g(s) ds + \iint_R K dA + \sum_{j} \theta_j^{ext} = 2\pi \chi(R)
+    \]
+\end{proposition}
+
+\begin{proof}
+    We proceed by triangulating the region $R$.
+    
+    \textbf{Step 1: Triangulation.} 
+    Triangulate $R$ into faces $\{T_k\}$ such that each triangle is small enough to be contained in a local coordinate chart.
+    
+    \textbf{Step 2: Apply Local Gauss-Bonnet.}
+    Apply the local theorem to each triangle $T_k$:
+    \[
+    \int_{\partial T_k} k_g ds + \iint_{T_k} K dA + \sum_{v \in T_k} \theta_{int}^{ext} = 2\pi
+    \]
+    We sum this equation over all $F$ faces.
+    
+    \textbf{Step 3: Edge Cancellation.}
+    \[
+    \sum_{k=1}^F \int_{\partial T_k} k_g ds = \int_{\partial R} k_g ds + \sum_{\text{interior edges}} \int k_g ds
+    \]
+    Each interior edge is traversed twice in opposite directions by adjacent triangles. Thus, the integrals of geodesic curvature along interior edges cancel out. We are left only with the boundary integral $\int_{\partial R} k_g ds$.
+    
+    \textbf{Step 4: Angle Summation.}
+    We sum the external turning angles of the triangles.
+    \[
+    \sum_{k} \left( \sum \text{ext angles of } T_k \right) = \sum_{k} (3\pi - \sum \text{int angles of } T_k) = 3\pi F - \sum_{all} \text{int angles}
+    \]
+    We relate the sum of all internal angles to the vertices:
+    \[
+    \sum_{all} \text{int angles} = 2\pi V_{int} + \pi V_{boundary} - \sum \theta^{ext}_{\partial R}
+    \]
+    (Internal vertices sum to $2\pi$; boundary vertices sum to $\pi - \theta^{ext}$).
+    
+    \textbf{Step 5: Euler Characteristic.}
+    Combining terms:
+    \[
+    \iint_R K dA + \int_{\partial R} k_g ds + \sum \theta^{ext} = 2\pi F - (3\pi F - (2\pi V_{int} + \pi V_{boundary}))
+    \]
+    Using the relations $V = V_{int} + V_{boundary}$ and $3F = 2E_{int} + E_{boundary}$:
+    \[
+    \text{RHS} = 2\pi V_{int} + \pi V_{boundary} - \pi F
+    \]
+    Using $E = E_{int} + E_{boundary}$, careful substitution shows this equals $2\pi(V - E + F) = 2\pi \chi(R)$.
+\end{proof}
+
+\begin{corollary}
+    For a closed surface $S$ (where $\partial S = \emptyset$), the formula simplifies to:
+    \[
+    \iint_S K dA = 2\pi \chi(S)
+    \]
+\end{corollary}
 
 
 
