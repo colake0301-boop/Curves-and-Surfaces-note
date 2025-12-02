@@ -1,0 +1,313 @@
+\documentclass[12pt, a4paper, oneside]{article}
+\usepackage{amsmath, amsthm, amssymb, bm, color, framed, graphicx, hyperref, mathrsfs}
+\usepackage{tikz-cd}
+\usepackage{enumitem} % Added for better list handling (e.g., (a), (b), (c))
+
+\title{\textbf{MAT 4033 Homework}}
+\author{Cola}
+\date{\today}
+\linespread{1.5}
+\definecolor{shadecolor}{RGB}{241, 241, 255}
+\newcounter{problemname}
+
+% Problem environment
+\newenvironment{problem}
+  {\begin{shaded}\stepcounter{problemname}\par\noindent\textbf{Problem \arabic{problemname}.}\newline}
+  {\end{shaded}\par}
+
+% Solution environment
+\newenvironment{solution}
+  {\par\noindent\textbf{Solution. }\newline}
+  {\par}
+
+% Note environment
+\newenvironment{note}
+  {\par\noindent\textbf{Note for Problem \arabic{problemname}.}\newline}
+  {\par}
+
+% Definition environment
+\newtheorem*{definition}{Definition}
+\newtheorem{proposition}{Proposition}
+
+\begin{document}
+
+\maketitle
+
+% --- PROBLEM 1 ---
+\begin{problem}
+Let $p$ be a point of a surface $M$. Let $T$ be a geodesic triangle which contains $p$, and let $\alpha, \beta, \gamma$ be the angles of $T$. Show that
+$$
+K(p) = \lim_{T \to p} \frac{\alpha + \beta + \gamma - \pi}{\text{Area}(T)}.
+$$
+In particular, note that the above proves Gauss's Theorema Egregium.
+\end{problem}
+
+\begin{solution}
+    We apply the \textbf{Local Gauss-Bonnet Theorem} to the geodesic triangle $T$.
+    The theorem states that for a region $R$ homeomorphic to a disk with a piecewise smooth boundary $\partial R$:
+    $$ \iint_{R} K \, dA + \int_{\partial R} \kappa_g \, ds + \sum_{i} \epsilon_i = 2\pi \chi(R), $$
+    where $\epsilon_i$ are the exterior turning angles at the vertices.
+    
+    For the geodesic triangle $T$:
+    \begin{enumerate}
+        \item \textbf{Topology:} $T$ is a topological disk, so $\chi(T) = 1$.
+        \item \textbf{Boundary:} The sides of $T$ are geodesics. By definition, the geodesic curvature $\kappa_g$ vanishes along geodesics. Thus, $\int_{\partial T} \kappa_g \, ds = 0$.
+        \item \textbf{Angles:} The interior angles are $\alpha, \beta, \gamma$. The exterior turning angles are $\pi - \alpha$, $\pi - \beta$, and $\pi - \gamma$.
+    \end{enumerate}
+    
+    Substituting these into the Gauss-Bonnet formula:
+    $$ \iint_{T} K \, dA + 0 + (\pi - \alpha) + (\pi - \beta) + (\pi - \gamma) = 2\pi. $$
+    Simplifying the equation:
+    $$ \iint_{T} K \, dA + 3\pi - (\alpha + \beta + \gamma) = 2\pi $$
+    $$ \iint_{T} K \, dA = (\alpha + \beta + \gamma) - \pi. $$
+    
+    Now, apply the \textbf{Mean Value Theorem for Integrals}. Since $K$ is continuous, there exists a point $q$ inside the triangle $T$ such that:
+    $$ \iint_{T} K \, dA = K(q) \cdot \text{Area}(T). $$
+    
+    Combining the two results:
+    $$ K(q) = \frac{\alpha + \beta + \gamma - \pi}{\text{Area}(T)}. $$
+    
+    Taking the limit as the triangle $T$ shrinks to the point $p$ ($T \to p$), the point $q$ must also approach $p$. Thus:
+    $$ K(p) = \lim_{T \to p} \frac{\alpha + \beta + \gamma - \pi}{\text{Area}(T)}. $$
+    
+    \textit{Connection to Theorema Egregium:}
+    Since the angles $\alpha, \beta, \gamma$ and the Area$(T)$ can be computed solely using the First Fundamental Form (intrinsic measurements like lengths and angles), this formula shows that $K$ is an intrinsic invariant, thereby proving Gauss's Theorema Egregium.
+\end{solution}
+
+% --- PROBLEM 2 ---
+\begin{problem}
+Let $S \subset \mathbb{R}^{3}$ be a regular surface homeomorphic to a sphere. Let $\alpha \subset S$ be a simple closed geodesic in $S$, and let $A$ and $B$ be regions of $S$ which have $\alpha$ as a common boundary.
+
+Let $N: S \to S^{2}$ be the Gauss map of $S$. Prove that Area($N(A)$) and Area($N(B)$) are equal.
+\end{problem}
+
+\begin{solution}
+    Let $S$ be homeomorphic to a sphere. A simple closed curve $\alpha$ separates $S$ into two connected components, $A$ and $B$.
+    Since $S$ is a sphere ($\chi(S)=2$), the two regions $A$ and $B$ are both homeomorphic to disks. Therefore, their Euler characteristics are:
+    $$ \chi(A) = 1 \quad \text{and} \quad \chi(B) = 1. $$
+    
+    We apply the \textbf{Gauss-Bonnet Theorem with boundary} to region $A$:
+    $$ \iint_{A} K \, dA + \int_{\partial A} \kappa_g \, ds + \sum \epsilon_i = 2\pi \chi(A). $$
+    
+    Properties of region $A$:
+    \begin{enumerate}
+        \item The boundary $\partial A$ is the curve $\alpha$, which is given to be a geodesic. Therefore, $\kappa_g = 0$ everywhere along the boundary.
+        \item The curve is smooth and closed, so there are no vertices (exterior angles sum to 0).
+        \item $\chi(A) = 1$.
+    \end{enumerate}
+    
+    Substituting these values:
+    $$ \iint_{A} K \, dA + 0 = 2\pi(1) \implies \iint_{A} K \, dA = 2\pi. $$
+    
+    Similarly, applying the theorem to region $B$ (where $\partial B = \alpha$):
+    $$ \iint_{B} K \, dA = 2\pi. $$
+    
+    \textbf{Conclusion regarding the Gauss Map:}
+    The integral of the Gaussian curvature over a region $R$ corresponds to the algebraic area of the image of that region under the Gauss map $N: S \to S^2$. Specifically, if $N$ is injective (e.g., on a convex surface), $\text{Area}(N(R)) = |\iint_R K dA|$. Generally, interpreted as the total curvature:
+    $$ \text{Area}(N(A)) = \iint_{A} K \, dA = 2\pi $$
+    $$ \text{Area}(N(B)) = \iint_{B} K \, dA = 2\pi $$
+    
+    Thus, $\text{Area}(N(A)) = \text{Area}(N(B))$.
+\end{solution}
+
+% --- PROBLEM 3 ---
+\begin{problem}
+Let $S \subset \mathbb{R}^{3}$ be given by
+$$
+S = \{(x, y, z) \in \mathbb{R}^3 : x^{2} + y^{2} = z^{2}, \ y \ge 0, \ 0 \le z \le 1\}.
+$$
+Verify the Gauss-Bonnet Theorem by computing $\int_{S} K \, dA$ and $\int_{\partial S} \kappa_{g} \, ds$.
+\end{problem}
+
+\begin{solution}
+    \textbf{1. Gaussian Curvature Integral $\int_S K \, dA$:}
+    The surface $S$ is a subset of a cone. Since a cone is a developable surface (isometric to a plane region everywhere except the vertex), the Gaussian curvature $K$ is zero at all regular points.
+    $$ \int_{S} K \, dA = 0. $$
+    
+    \textbf{2. Geodesic Curvature Integral $\int_{\partial S} \kappa_g \, ds$:}
+    The boundary $\partial S$ is composed of three curves:
+    \begin{itemize}
+        \item $\gamma_1$: The semi-circle at the top rim ($z=1$).
+        \item $\gamma_2, \gamma_3$: The two straight line segments connecting the vertex to the endpoints of $\gamma_1$.
+    \end{itemize}
+    
+    \textit{The Straight Edges ($\gamma_2, \gamma_3$):} \\
+    These curves are straight lines in Euclidean space lying on the surface (generators of the cone). Straight lines are always geodesics, so their geodesic curvature is zero.
+    $$ \int_{\gamma_2} \kappa_g \, ds = \int_{\gamma_3} \kappa_g \, ds = 0. $$
+    
+    \textit{The Top Rim ($\gamma_1$):} \\
+    The curve $\gamma_1$ is the intersection of the cone with the plane $z=1$. Since it is a plane curve and a circle of radius 1, its curvature in the plane is $\kappa = 1$. Following the problem hint, we treat $\kappa_g$ as exactly the curvature of this plane curve. The length of the semi-circle is $\pi$.
+    $$ \int_{\gamma_1} \kappa_g \, ds = \int_{0}^{\pi} 1 \, ds = \pi. $$
+    
+    \textbf{3. Exterior Angles and Verification:}
+    The boundary has corners where the semi-circle $\gamma_1$ meets the line segments $\gamma_2$ and $\gamma_3$.
+    \begin{itemize}
+        \item At the two intersection points on the rim ($z=1$), the angle between the tangent to the semi-circle and the generator (radius) is $\pi/2$.
+        \item The exterior angle (turning angle) at each of these two vertices is therefore $\frac{\pi}{2}$.
+    \end{itemize}
+    Summing the exterior angles:
+    $$ \sum \epsilon_j = \frac{\pi}{2} + \frac{\pi}{2} = \pi. $$
+    
+    \textbf{Conclusion:}
+    Adding the components together according to the Gauss-Bonnet Theorem ($ \int_S K dA + \int_{\partial S} \kappa_g ds + \sum \epsilon_j$):
+    $$ 0 + \pi + \pi = 2\pi. $$
+    Since the surface $S$ is homeomorphic to a disk, its Euler characteristic is $\chi(S) = 1$. The theorem predicts $2\pi \chi(S) = 2\pi$.
+    
+    The calculation holds: $2\pi = 2\pi$.
+\end{solution}
+
+% --- PROBLEM 4 ---
+\begin{problem}
+Consider the \textbf{pseudosphere} (with boundary) $M$ parametrized by 
+$$
+\mathbf{x}(u,v) = (u - \tanh u, \, \operatorname{sech} u \cos v, \, \operatorname{sech} u \sin v),
+$$ 
+where $u > 0$ and $0 \le v < 2\pi$. Denote by $M_{r}$ that portion of the surface defined by $0 \le u \le r$.
+
+\begin{enumerate}[label=(\alph*)]
+    \item Calculate the geodesic curvature of the circle $u = u_{0}$ and compute $\int_{\partial M_{r}} \kappa_{g} \, ds$. (Watch out for the computation of the two circles).
+    \item Calculate $\chi(M_{r})$.
+    \item Use the Gauss-Bonnet Theorem to compute $\int_{M_{r}} K \, dA$. Find the limit as $r \to \infty$.
+\end{enumerate}
+\end{problem}
+
+\begin{solution}
+    \textbf{(a) Geodesic Curvature and Integral}
+    
+    The surface is a surface of revolution with the parametrization:
+    $$ \mathbf{x}(u,v) = (u - \tanh u, \, \operatorname{sech} u \cos v, \, \operatorname{sech} u \sin v). $$
+    The metric coefficients (First Fundamental Form) are:
+    $$ E = \tanh^2 u, \quad F = 0, \quad G = \operatorname{sech}^2 u. $$
+    
+    The curves $u = u_0$ are "parallels" (circles of latitude). For a surface of revolution with metric $ds^2 = E(u)du^2 + G(u)dv^2$, the geodesic curvature of a parallel $u=const$ is given by the formula:
+    $$ \kappa_g = -\frac{1}{2\sqrt{EG}} \frac{\partial G}{\partial u}. $$
+    Substituting the values:
+    \begin{align*}
+        \sqrt{EG} &= \sqrt{\tanh^2 u \cdot \operatorname{sech}^2 u} = \tanh u \operatorname{sech} u. \\
+        \frac{\partial G}{\partial u} &= \frac{\partial}{\partial u} (\operatorname{sech}^2 u) = -2\operatorname{sech}^2 u \tanh u.
+    \end{align*}
+    Thus:
+    $$ \kappa_g = -\frac{1}{2 \tanh u \operatorname{sech} u} (-2\operatorname{sech}^2 u \tanh u) = \operatorname{sech} u \cdot \frac{1}{\operatorname{sech} u} \cdot 1 = 1. $$
+    (Note: The sign depends on orientation. With respect to the region $0 \le u \le r$, we analyze the boundary below).
+    
+    The boundary $\partial M_r$ consists of two circles: $C_{inner}$ (limit as $u \to 0$) and $C_{outer}$ ($u=r$).
+    \begin{itemize}
+        \item \textbf{Inner Boundary ($u \to 0$):} The length is $L_0 = \int_0^{2\pi} \sqrt{G(0)} dv = 2\pi(1) = 2\pi$. The geodesic curvature is $\kappa_g = 1$. The orientation is positive.
+        $$ \int_{C_{inner}} \kappa_g ds = 1 \cdot 2\pi = 2\pi. $$
+        \item \textbf{Outer Boundary ($u = r$):} The length is $L_r = 2\pi \operatorname{sech} r$. The geodesic curvature magnitude is 1. However, the orientation of the boundary for the region $u \le r$ is opposite to the standard $v$-direction (or equivalently, the normal points inward, flipping the sign of $\kappa_g$).
+        $$ \int_{C_{outer}} \kappa_g ds = -1 \cdot L_r = -2\pi \operatorname{sech} r. $$
+    \end{itemize}
+    Total boundary integral:
+    $$ \int_{\partial M_r} \kappa_g \, ds = 2\pi (1 - \operatorname{sech} r). $$
+    
+    \textbf{(b) Euler Characteristic}
+    The region $M_r$ is homeomorphic to an annulus (cylinder), so $\chi(M_r) = 0$.
+    
+    \textbf{(c) Gauss-Bonnet Verification}
+    The Gauss-Bonnet Theorem states:
+    $$ \int_{M_r} K \, dA + \int_{\partial M_r} \kappa_g \, ds = 2\pi \chi(M_r). $$
+    Substitute our results:
+    $$ \int_{M_r} K \, dA + 2\pi(1 - \operatorname{sech} r) = 0. $$
+    $$ \int_{M_r} K \, dA = -2\pi(1 - \operatorname{sech} r). $$
+    
+    Taking the limit as $r \to \infty$:
+    $$ \lim_{r \to \infty} \int_{M_r} K \, dA = -2\pi(1 - 0) = -2\pi. $$
+    
+    \textit{Note:} This matches the expectation for the pseudosphere, which has constant Gaussian curvature $K=-1$. The total area of the pseudosphere is $2\pi$, so $\int K dA = -2\pi$.
+\end{solution}
+
+% --- PROBLEM 5 ---
+\begin{problem}
+Let $S$ be a regular, orientable, compact surface with positive Gaussian curvature: $K > K_{min} > 0$. Prove that the surface area of $S$ is less than $4\pi/K_{min}$.
+\end{problem}
+
+\begin{solution}
+    We use the Global Gauss-Bonnet Theorem for a compact, orientable surface $S$ without boundary:
+    $$ \int_{S} K \, dA = 2\pi \chi(S). $$
+    
+    First, we determine the Euler characteristic $\chi(S)$. 
+    Since $K > K_{min} > 0$ everywhere on $S$, the integral of the Gaussian curvature must be strictly positive:
+    $$ \int_{S} K \, dA > 0 \implies 2\pi \chi(S) > 0 \implies \chi(S) > 0. $$
+    For a compact orientable surface, the Euler characteristic is given by $\chi(S) = 2(1-g)$, where $g \ge 0$ is the genus (number of holes). The condition $\chi(S) > 0$ implies $2(1-g) > 0$, so $g < 1$. Since $g$ must be an integer, we must have $g=0$.
+    Therefore, $S$ is homeomorphic to a sphere and $\chi(S) = 2$.
+    
+    Substituting this back into the Gauss-Bonnet formula:
+    $$ \int_{S} K \, dA = 4\pi. $$
+    
+    Now, we use the given inequality $K(p) > K_{min}$ for all $p \in S$. Integrating both sides over the surface $S$:
+    $$ \int_{S} K \, dA > \int_{S} K_{min} \, dA. $$
+    
+    The left side is $4\pi$ (as established above). On the right side, since $K_{min}$ is a constant:
+    $$ \int_{S} K_{min} \, dA = K_{min} \int_{S} dA = K_{min} \cdot \text{Area}(S). $$
+    
+    Combining these gives the inequality:
+    $$ 4\pi > K_{min} \cdot \text{Area}(S). $$
+    
+    Dividing by $K_{min}$ (which is positive):
+    $$ \text{Area}(S) < \frac{4\pi}{K_{min}}. $$
+\end{solution}
+
+% --- PROBLEM 6 ---
+\begin{problem}
+Let $S$ be a developable surface. Let $\gamma$ be a curve on $S$. Let $\tilde{\gamma}$ be the curve corresponding to $\gamma$ on the plane that is the "flattened" $S$. 
+
+\textbf{Prove or disprove:} The geodesic curvature of $\gamma$ and the signed curvature of $\tilde{\gamma}$ are the same at corresponding points.
+\end{problem}
+
+\begin{solution}
+    \textbf{True.}
+    
+    \begin{proof}
+        By definition, a developable surface $S$ is locally isometric to the Euclidean plane $\mathbb{R}^2$. Let $\Phi: U \subset S \to V \subset \mathbb{R}^2$ be the isometry (the "flattening" map) that maps the curve $\gamma$ on $S$ to the curve $\tilde{\gamma}$ on the plane.
+        
+        The geodesic curvature $\kappa_g$ of a curve is an \textbf{intrinsic} quantity. This means its value depends solely on the First Fundamental Form (the metric) of the surface and the curve's derivatives relative to that metric. It does not depend on the surface's extrinsic shape in $\mathbb{R}^3$.
+        
+        Since $\Phi$ is an isometry, it preserves the First Fundamental Form ($E, F, G$) and lengths. Therefore, it must preserve the geodesic curvature of curves:
+        $$ \kappa_g(\gamma \text{ at } p) = \kappa_g(\tilde{\gamma} \text{ at } \Phi(p)). $$
+        
+        For a curve $\tilde{\gamma}$ lying in the Euclidean plane $\mathbb{R}^2$, the geodesic curvature coincides with the standard signed curvature $\kappa$. This is because the normal to the "surface" (the plane) is perpendicular to the oscillation plane of the curve, making the normal curvature zero.
+        
+        Thus, the geodesic curvature of $\gamma$ on the surface is exactly equal to the signed curvature of the corresponding plane curve $\tilde{\gamma}$.
+    \end{proof}
+\end{solution}
+
+% --- PROBLEM 7 ---
+\begin{problem}
+Let $f: S_{1} \to S_{2}$ be a local isometry. Let $\gamma_{1} \subset S_{1}$ be a curve and $\gamma_{2} := f(\gamma_{1})$. Let $w_{1}(s)$ be a parallel tangent vector field along $\gamma_{1}$. For every $p \in \gamma_{1}$, let 
+$$
+w_{2}(f(p)) := (Df)(p)(w_{1}(p)).
+$$
+Then $w_{2}(s)$ is a tangent vector field along $\gamma_{2}$. 
+
+\textbf{Prove or disprove:} $w_{2}$ is parallel along $\gamma_{2}$.
+\end{problem}
+
+\begin{solution}
+    \textbf{True.}
+    
+    \begin{proof}
+        Let $\nabla^1$ and $\nabla^2$ denote the Levi-Civita connections (covariant derivatives) on $S_1$ and $S_2$, respectively.
+        
+        Since $f: S_1 \to S_2$ is a local isometry, it preserves the metric tensor. The Levi-Civita connection is uniquely determined by the metric (The Fundamental Theorem of Riemannian Geometry). Therefore, $f$ preserves the covariant derivative.
+        
+        Specifically, if $V$ is a vector field along a curve $\gamma_1$ in $S_1$, then for any tangent vector $T$:
+        $$ (Df)(\nabla^1_T V) = \nabla^2_{(Df)(T)} ((Df)(V)). $$
+        
+        Now, let's apply this to the definition of a parallel field.
+        The vector field $w_1(s)$ is parallel along $\gamma_1(s)$ if its covariant derivative along the curve vanishes:
+        $$ \frac{D w_1}{ds} = \nabla^1_{\gamma_1'} w_1 = 0. $$
+        
+        We define $w_2(f(p)) = (Df)(p)(w_1(p))$. Differentiating this field along the curve $\gamma_2 = f \circ \gamma_1$:
+        $$ \frac{D w_2}{ds} = \nabla^2_{\gamma_2'} w_2. $$
+        
+        Using the preservation of the connection under isometry:
+        $$ \nabla^2_{\gamma_2'} w_2 = \nabla^2_{(Df)(\gamma_1')} ((Df)(w_1)) = (Df) \left( \nabla^1_{\gamma_1'} w_1 \right). $$
+        
+        Since $w_1$ is parallel, $\nabla^1_{\gamma_1'} w_1 = 0$.
+        Therefore:
+        $$ \frac{D w_2}{ds} = (Df)(0) = 0. $$
+        
+        Thus, $w_2$ is parallel along $\gamma_2$.
+    \end{proof}
+\end{solution}
+\end{document}

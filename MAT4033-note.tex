@@ -2397,9 +2397,8 @@ Then we have
 \[
 \sum_{i=1}^{n} \int_{\alpha_i} \kappa(s) ds + \sum_{i=1}^{n} \theta_i = \pm 2\pi 
 \]
-
-\begin{proposition}
 Can we do this on a regular surface?
+\begin{proposition}
 Let $X: U \to S$ be an orthogonal coordinate patch (i.e. $F=0$) such that the map $X$ is compatible with the orientation $N$.
 Suppose $\beta: [a,b] \to U$ is a periodic curve, with $\beta$ injective on $[a,b)$ and positively oriented.
 Then $\alpha = X \circ \beta$ is also periodic and positively oriented.
@@ -2407,7 +2406,7 @@ Suppose $\alpha$ is chosen such that it is p.a.l (parameterized by arc length). 
 \[
 \int_{\alpha} k_g(s) ds + \iint_{R} K \, dA = 2\pi 
 \]
-Where $R$ is the region bounded by the curve $\alpha$.
+Where $R$ is the region bounded by the curve $\alpha$ and $\theta(s)$ is the angle between $X_u$ and $\alpha'(s)$ in $T_p S$.
 \end{proposition}
 
 \begin{remark}
@@ -2432,7 +2431,7 @@ Let $Y=\frac{X_u}{\sqrt{E}}$ and $Z=\frac{X_v}{\sqrt{G}}$. Then $\{Y, Z, N\}$ is
 \]
 Using the definition $k_g(s) = \langle N \times \alpha', \alpha'' \rangle$:
 \[
-k_g(s) = \langle -\sin\theta Y + \cos\theta Z, \alpha''(s) \rangle = \theta'(s) + \langle Y, Z' \rangle
+k_g(s) = \langle -\sin\theta Y + \cos\theta Z, \alpha''(s) \rangle = \theta'(s) - \langle Y, Z' \rangle
 \]
 We compute the term $\langle Y, Z' \rangle$:
 \[
@@ -2441,14 +2440,14 @@ We compute the term $\langle Y, Z' \rangle$:
 where $\left( \frac{X_v}{\sqrt{G}} \right)' = \left( \frac{X_v}{\sqrt{G}} \right)_u u' + \left( \frac{X_v}{\sqrt{G}} \right)_v v'$.
 The dot products are:
 \[
-\left\langle \frac{X_u}{\sqrt{E}}, \left( \frac{X_v}{\sqrt{G}} \right)_u \right\rangle = -\frac{1}{2\sqrt{EG}} E_v
+\left\langle \frac{X_u}{\sqrt{E}}, \left( \frac{X_v}{\sqrt{G}} \right)_u \right\rangle = \frac{1}{2\sqrt{EG}} E_v
 \]
 \[
-\left\langle \frac{X_u}{\sqrt{E}}, \left( \frac{X_v}{\sqrt{G}} \right)_v \right\rangle = \frac{1}{2\sqrt{EG}} G_u
+\left\langle \frac{X_u}{\sqrt{E}}, \left( \frac{X_v}{\sqrt{G}} \right)_v \right\rangle = -\frac{1}{2\sqrt{EG}} G_u
 \]
 Then we have
 \[
-\langle Y, Z' \rangle = \frac{1}{2\sqrt{EG}} (G_u v' - E_v u')
+\langle Y, Z' \rangle = \frac{1}{2\sqrt{EG}} (E_v u' - G_u v')
 \]
 Hence
 \[
@@ -2458,10 +2457,6 @@ k_g(s) = \theta'(s) - \langle Y, Z' \rangle = \theta'(s) - \frac{1}{2\sqrt{EG}} 
 \Rightarrow k_g(s) = \frac{1}{2\sqrt{EG}} (G_u v' - E_v u') + \theta'(s)
 \]
 \end{proof}
-
-\begin{remark}
-Note $\theta(s)$ is the angle between $X_u$ and $\alpha'(s)$ in $T_p S$.
-\end{remark}
 
 We integrate $k_g(s)$ around the curve $\alpha$:
 \begin{align*}
@@ -2479,6 +2474,9 @@ Rearranging gives the Gauss-Bonnet formula for a simple closed curve:
 \int_{\alpha} k_g ds + \iint_{R} K \, dA = 2\pi 
 \]
 
+\begin{exercise}
+    Show $\int_{\alpha} \theta'(s) ds = 2\pi$ in the proof of the proposition above. Note that here $\alpha$ is a curve on the surface, not a plane curve.
+\end{exercise}
 \begin{corollary}
 Suppose $\alpha$ is a piecewise smooth closed curve on $S$ that is injective and positively oriented. Let $R$ be the region bounded by $\alpha$. Let $\theta_i$ be the exterior angle at the $i$-th corner. Then:
 \[
@@ -2583,6 +2581,10 @@ Then the full Gauss-Bonnet formula for this triangle (where $\int k_g ds = 0$ an
 \iint_{T} K \, dA + \sum \theta_i + \sum \int k_g ds = (\alpha+\beta+\gamma-\pi) + (3\pi - (\alpha+\beta+\gamma)) + 0 = 2\pi
 \]
 \end{example}
+
+\begin{exercise}
+Check that for the area for the geodesic triangle in the unit sphere is sum of internal angles minus $\pi$.
+\end{exercise}
 
 \begin{figure}[h!]
     \centering
@@ -2744,7 +2746,7 @@ Thus, consistent with the smooth case, we define/derive the following:
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.6\textwidth]{discrete Guassian.png}
+    \includegraphics[width=0.8\textwidth]{discrete Guassian.png}
     \caption{Examples of Discrete Gauss-Bonnet Theorem}
 \end{figure}
 
@@ -2810,7 +2812,76 @@ We now generalize to smooth surfaces with boundary.
     \]
 \end{corollary}
 
+% New content from Lec18_251126
+\begin{example}
+    Consider a region $R$ on the unit sphere $S^2$. Let the boundary be $\partial R = \gamma_1 \cup \gamma_2$.
+    Suppose $\gamma_1$ is a geodesic. Find $\int_{\gamma_2} k_g ds$.
 
+    \noindent \textbf{Solution:}
+    By the Global Gauss-Bonnet Theorem:
+    \[ \int_{\partial R} k_g ds + \iint_R K dA = 2\pi \chi(R) \]
+    Here $\partial R = \gamma_1 \cup \gamma_2$. Since $\gamma_1$ is a geodesic, $\int_{\gamma_1} k_g ds = 0$.
+    
+    Consider the parametrization $X(\theta, \varphi) = (\cos\theta \cos\varphi, \cos\theta \sin\varphi, \sin\theta)$ with $\theta \in [0, \frac{\pi}{4}]$ and $\varphi \in [0, 2\pi]$.
+    \begin{itemize}
+        \item This region $R$ is an annulus (a cylinder topologically) bounded by the equator ($\theta=0$) and the parallel $\theta = \pi/4$.
+        \item Therefore, $\chi(R) = 0$.
+    \end{itemize}
+    The Gauss-Bonnet formula becomes:
+    \[ \int_{\gamma_2} k_g ds + \iint_R K dA = 0 \implies \int_{\gamma_2} k_g ds = - \iint_R K dA \]
+    We compute the area integral. For the sphere, $K=1$.
+    Using the first fundamental form for this parametrization:
+    \[ X_\theta = (-\sin\theta\cos\varphi, -\sin\theta\sin\varphi, \cos\theta) \implies E = \langle X_\theta, X_\theta \rangle = 1 \]
+    \[ X_\varphi = (-\cos\theta\sin\varphi, \cos\theta\cos\varphi, 0) \implies G = \langle X_\varphi, X_\varphi \rangle = \cos^2\theta \]
+    \[ F = 0 \]
+    The area element is $\sqrt{EG-F^2} d\theta d\varphi = \cos\theta d\theta d\varphi$.
+    \[ \iint_R K dA = \int_0^{2\pi} \int_0^{\pi/4} 1 \cdot \cos\theta \, d\theta \, d\varphi = 2\pi [\sin\theta]_0^{\pi/4} = 2\pi \left(\frac{\sqrt{2}}{2}\right) = \sqrt{2}\pi \]
+    Therefore:
+    \[ \int_{\gamma_2} k_g ds = -\sqrt{2}\pi \]
+\end{example}
+\begin{example}[Uniqueness of Closed Geodesics on Catenoid]
+    For the Catenoid, it has a unique closed geodesic (the central circle at the neck).
+    We can prove that no other closed geodesics exist and that this geodesic does not intersect itself or others in a way that forms a bounded region.
+    
+    Let $\gamma_1$ and $\gamma_2$ be two closed geodesics.
+    \begin{enumerate}
+        \item \textbf{Case 1: $\gamma_1$ and $\gamma_2$ do not intersect.}
+        In this case, the two geodesics bound a region $R$ which is topologically a cylinder ($\chi(R)=0$).
+        Applying Gauss-Bonnet:
+        \[ \int_{\gamma_1} k_g ds + \int_{\gamma_2} k_g ds + \iint_R K dA = 2\pi \chi(R) = 0 \]
+        Since $\gamma_i$ are geodesics, $k_g = 0$. Thus:
+        \[ \iint_R K dA = 0 \]
+        However, for a Catenoid (a minimal surface that is not a plane), $K < 0$ everywhere. Since the area of $R$ is positive, $\iint_R K dA < 0$.
+        This is a contradiction. Thus, two closed geodesics cannot be disjoint.
+
+        \item \textbf{Case 2: Intersect at one point.}
+        (This configuration is generally not possible for simple closed geodesics on such surfaces without self-intersection).
+
+        \item \textbf{Case 3: Intersect at more than 1 point.}
+        If they intersect at two points, the geodesics bound a region $R$ which is a "bi-gon" (topologically a disk, $\chi(R)=1$).
+        
+        % [Simple TikZ diagram of two intersecting curves forming a lune/bi-gon]
+        \begin{center}
+        \begin{tikzpicture}
+            \draw[smooth, tension=1] (0,0) to [out=45,in=135] (4,0);
+            \draw[smooth, tension=1] (0,0) to [out=-45,in=-135] (4,0);
+            \fill (0,0) circle (2pt) node[left] {$p_1$};
+            \fill (4,0) circle (2pt) node[right] {$p_2$};
+            \node at (2,0) {$R$};
+        \end{tikzpicture}
+        \end{center}
+
+        Consider the Gauss-Bonnet theorem on this disk $R$. Let the internal angles at the vertices be $\alpha_1, \alpha_2$.
+        \[ \iint_R K dA + \sum \theta_{ext} = 2\pi \chi(R) = 2\pi \]
+        The external angles are $\pi - \alpha_i$. Thus:
+        \[ \iint_R K dA + (\pi - \alpha_1) + (\pi - \alpha_2) = 2\pi \]
+        \[ \iint_R K dA = \alpha_1 + \alpha_2 \]
+        Since the curves are geodesics coming from the same point, the internal angles $\alpha_i > 0$. Thus RHS $> 0$.
+        However, since $K < 0$ everywhere on the Catenoid, $\iint_R K dA < 0$.
+        This is a contradiction.
+    \end{enumerate}
+    Therefore, such closed geodesics cannot exist.
+\end{example}
 
 
 
