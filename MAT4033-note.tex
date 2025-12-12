@@ -1737,6 +1737,9 @@ $\Rightarrow \text{div} \left(\frac{\nabla f}{\sqrt{1 + |\nabla f|^2}}\right) = 
 then we can verify this is our PDE.
 \end{proof}
 
+\begin{exercise}
+    Check the equality $\int_D \frac{\langle \nabla f, \nabla h \rangle}{\sqrt{1 + |\nabla f|^2}} du dv = \int_D -h \text{ div} \left(\frac{\nabla f}{\sqrt{1 + |\nabla f|^2}}\right) du dv$
+\end{exercise}
 % New content from Lec13
 \begin{example}
     Suppose a solution of form
@@ -1754,6 +1757,12 @@ then we can verify this is our PDE.
     % [Complex diagram placeholder: Picture of Scherk's first surface]
     This is "Scherk's" first surface.
 \end{example}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.6\textwidth]{Scherk's First Surface.jpg}
+    \caption{Scherk's First Surface}
+\end{figure}
 
 \begin{definition}[Isothermal Coordinates]
     A coordinate patch $X(u,v)$ provides \textbf{isothermal coordinates} if the first fundamental form satisfies $E=G$ and $F=0$.
@@ -1899,11 +1908,37 @@ then we can verify this is our PDE.
         Therefore, $\Phi^2 = 0$ if and only if $E=G$ and $F=0$, which is the definition of an isothermal parametrization.
         
         \item (Homework) Regularity means $X_u \times X_v \ne 0$, which is equivalent to $EG-F^2 \ne 0$. For an isothermal patch, this is $E^2 \ne 0$ or $E \ne 0$. $E = \langle X_u, X_u \rangle$. One must relate this to $\sum |\phi^j|^2$.
+        Recall the definition of the complex vector $\phi$:
+\[
+\phi = \frac{\partial X}{\partial z} = \frac{1}{2} (X_u - i X_v).
+\]
+We compute the sum of the squared moduli of its components:
+\[
+\sum_{j=1}^3 |\phi^j|^2 = \langle \phi, \bar{\phi} \rangle = \left\langle \frac{1}{2}(X_u - i X_v), \frac{1}{2}(X_u + i X_v) \right\rangle.
+\]
+Expanding the inner product using linearity (and noting that $X_u, X_v$ are real vectors):
+\begin{align*}
+\sum_{j=1}^3 |\phi^j|^2 &= \frac{1}{4} \left( \langle X_u, X_u \rangle + i\langle X_u, X_v \rangle - i\langle X_v, X_u \rangle + \langle X_v, X_v \rangle \right) \\
+&= \frac{1}{4} \left( |X_u|^2 + |X_v|^2 \right) \\
+&= \frac{1}{4} (E + G).
+\end{align*}
+Since $X$ is isothermal, we have $E = G$ and $F = 0$. The equation above simplifies to:
+\[
+\sum_{j=1}^3 |\phi^j|^2 = \frac{1}{4} (2E) = \frac{1}{2} E.
+\]
+A surface is \textbf{regular} if and only if $X_u \times X_v \neq 0$, which is equivalent to $EG - F^2 > 0$. Under the isothermal assumption ($E=G, F=0$), the regularity condition becomes:
+\[
+EG - F^2 = E^2 > 0 \iff E \neq 0.
+\]
+Combining these results:
+\[
+\sum_{j=1}^3 |\phi^j|^2 \neq 0 \iff \frac{1}{2}E \neq 0 \iff E \neq 0 \iff S \text{ is regular}.
+\]
     \end{enumerate}
 \end{proof}
 
 \begin{exercise}
-Show the third proposition above.
+Show the third proposition above. (The solution has been added in the typed notes, but you can try this anyway)
 \end{exercise}
 
 \begin{theorem}[Weierstrass-Enneper Integral Representation]
@@ -1919,21 +1954,58 @@ Show the third proposition above.
     Conversely, any non-planar minimal surface can be locally represented in this way.
 \end{theorem}
 \begin{proof}
-    We have a map $\phi = (\phi^1, \phi^2, \phi^3)$ whose components are holomorphic by construction.
-    By Proposition 1, the resulting coordinate functions $X^j = \Re \int \phi^j dz$ are harmonic ($\Delta X^j = 0$).
-    By the Corollary to the previous theorem, if $X$ is isothermal, $H=0$, so $S$ is minimal.
-    We only need to check that $X$ is isothermal. By Proposition 2, this is equivalent to checking if $\Phi^2=0$.
-    
-    \[ \Phi^{2} = (\phi^{1})^{2}+(\phi^{2})^{2}+(\phi^{3})^{2} \]
-    \[ = \left(\frac{1}{2}f(1-g^2)\right)^2 + \left(\frac{i}{2}f(1+g^2)\right)^2 + (fg)^2 \]
-    \[ = \frac{1}{4}f^2(1-2g^2+g^4) - \frac{1}{4}f^2(1+2g^2+g^4) + f^2g^2 \]
-    \[ = \frac{f^2}{4}(1-2g^2+g^4 - (1+2g^2+g^4)) + f^2g^2 \]
-    \[ = \frac{f^2}{4}(-4g^2) + f^2g^2 = -f^2g^2 + f^2g^2 = 0 \]
-    Since $\Phi^2 = 0$, the parametrization is isothermal.
-    Since $\phi^j$ are holomorphic, the $X^j$ are harmonic ($\Delta X = 0$).
-    Since $X$ is isothermal and $\Delta X = 0$, we have $2EHN = 0$. Assuming the surface is regular ($E \ne 0$), this implies $H=0$.
-    Thus, the surface is minimal.
+To prove that $S$ is a minimal surface ($H=0$) parameterized by isothermal coordinates, we must verify two properties established in the previous propositions:
+\begin{enumerate}
+    \item The coordinate functions $X^j$ are \textbf{harmonic} ($\Delta X^j = 0$).
+    \item The parametrization is \textbf{isothermal} ($\langle X_u, X_u \rangle = \langle X_v, X_v \rangle$ and $\langle X_u, X_v \rangle = 0$).
+\end{enumerate}
+
+\noindent \textbf{Step 1: Verify Harmonicity of $X^j$} \\
+We apply \textbf{Proposition 4.14 (1)}, which states: \textit{``The Wirtinger derivatives $\frac{\partial X^j}{\partial z}$ are holomorphic $\iff$ $X^j$ are harmonic.''}
+
+First, we compute the Wirtinger derivative of the coordinate functions. Let $\Psi^j(z) = \int_{z_0}^z \phi^j(\zeta) d\zeta$. Then $X^j = \Re(\Psi^j) = \frac{1}{2}(\Psi^j + \overline{\Psi^j})$.
+Differentiating with respect to $z$:
+\[
+\frac{\partial X^j}{\partial z} = \frac{\partial}{\partial z} \left[ \frac{1}{2} \left( \Psi^j(z) + \overline{\Psi^j(z)} \right) \right] = \frac{1}{2} \left( (\Psi^j)'(z) + 0 \right) = \frac{1}{2} \phi^j(z).
+\]
+\textit{Note:} Here we see a factor of $1/2$ difference between the geometric derivative $\frac{\partial X^j}{\partial z}$ and the integrand $\phi^j$.
+
+By construction, the functions $\phi^j(z)$ are holomorphic. Therefore, the derivatives $\frac{\partial X^j}{\partial z}$ are also holomorphic. By Proposition 4.14 (1), this implies that $\Delta X^j = 0$ (harmonic).
+
+\vspace{1em}
+\noindent \textbf{Step 2: Verify Isothermal Condition} \\
+We apply \textbf{Proposition 4.14 (2)}, which states: \textit{``$X$ is isothermal $\iff$ the complex scalar $\Phi^2 := \sum (\frac{\partial X^j}{\partial z})^2$ vanishes.''}
+
+Using the result from Step 1 ($\frac{\partial X^j}{\partial z} = \frac{1}{2}\phi^j$), we check this condition:
+\[
+\Phi^2 = \sum_{j=1}^3 \left( \frac{\partial X^j}{\partial z} \right)^2 = \sum_{j=1}^3 \left( \frac{1}{2}\phi^j(z) \right)^2 = \frac{1}{4} \sum_{j=1}^3 (\phi^j(z))^2.
+\]
+Thus, the condition simplifies to verifying that $\sum (\phi^j)^2 = 0$. We compute this explicitly using the definitions of $\phi^j$:
+\begin{align*}
+(\phi^1)^2 + (\phi^2)^2 + (\phi^3)^2 &= \left[ \frac{1}{2}f(1-g^2) \right]^2 + \left[ \frac{i}{2}f(1+g^2) \right]^2 + [fg]^2 \\
+&= \frac{f^2}{4}(1 - 2g^2 + g^4) + \frac{i^2 f^2}{4}(1 + 2g^2 + g^4) + f^2 g^2 \\
+&= \frac{f^2}{4}(1 - 2g^2 + g^4) - \frac{f^2}{4}(1 + 2g^2 + g^4) + f^2 g^2 \\
+&= \frac{f^2}{4} \Big( (1 - 2g^2 + g^4) - (1 + 2g^2 + g^4) \Big) + f^2 g^2 \\
+&= \frac{f^2}{4} (-4g^2) + f^2 g^2 \\
+&= -f^2 g^2 + f^2 g^2 = 0.
+\end{align*}
+Since the sum is zero, $\Phi^2 = 0$. By Proposition 4.14 (2), the parametrization is isothermal.
+
+\vspace{1em}
+\noindent \textbf{Conclusion} \\
+Since the coordinates are isothermal, the Laplacian is given by $\Delta X = 2E H \mathbf{n}$.
+From Step 1, we know $\Delta X = 0$.
+Assuming the surface is regular ($E \neq 0$), this forces the mean curvature $H$ to be zero.
+Therefore, $S$ is a minimal surface.
 \end{proof}
+
+\begin{remark}[Alternative Approach]
+One could also observe directly that $X^j$ is defined as the real part of a holomorphic function $\Psi^j(z)$. By the Cauchy-Riemann equations, the real and imaginary parts of any holomorphic function are automatically harmonic. 
+\end{remark}
+
+\begin{remark}
+The Minimal Surface part of the lecture notes is not so clear and misleading. You may find that $\phi^j$ is differ from $\frac{\partial X^j}{\partial z}$ by a factor of $\frac{1}{2}$ in the Eneeper's Theorem. So we should modify the definition of $\phi^j$ in the definition above as $\phi^j=2 \frac{\partial X^j}{\partial z}$. But anyway I want to reocord the Lectures faithfully. You may modify the structure of this part by yourselves.
+\end{remark}
 
 \begin{example}[Enneper's Surface]
     Let $f(z)=c$ (e.g., $f(z)=2$) and $g(z)=z$.
@@ -2188,48 +2260,68 @@ The Christoffel symbol can be given by the first fundamental form (i.e. the metr
     It's useful to memorize the formula, and also useful to perform the calculation in this two-dimensional surface case.
 \end{remark}
 
-\begin{example}[Geodesics of surface of Revolution]
-    $X(u, v) = (f(v) \cos u, f(v) \sin u, g(v))$
-    $X_u = (-f \sin u, f \cos u, 0)$
-    $X_v = (f' \cos u, f' \sin u, g')$
-    $\Rightarrow E = f^2, F = 0, G = f'^2 + g'^2$
-    
-    Then
-    $\Gamma_{11}^1 = 0$, $\Gamma_{12}^1 = \frac{f'}{f}$
-    $\Gamma_{11}^2 = \frac{-ff'}{f'^2 + g'^2}$
-    $\Gamma_{22}^1 = 0$
-    $\Gamma_{12}^2 = 0$
-    $\Gamma_{22}^2 = \frac{f'f'' + g'g''}{f'^2 + g'^2}$
-    
-    Geodesics Equation:
-    \[ u'' + 2 \left( \frac{f'}{f} \right) u'v' = 0 \]
-    \[ v'' + \left( \frac{-ff'}{f'^2 + g'^2} \right) (u')^2 + \left( \frac{f'f'' + g'g''}{f'^2 + g'^2} \right) (v')^2 = 0 \]
-    
-    \begin{itemize}
-        \item Any \textbf{meridian curve} ($u = \text{const}$) parametrized by constant speed is geodesic.
-        If $u = \text{const}$, $u' = 0, u'' = 0$. The first geodesic equation $0=0$ is satisfied.
-        The second equation becomes $v'' + \left( \frac{f'f'' + g'g''}{f'^2 + g'^2} \right) (v')^2 = 0$.
-        
-        \item $v = \text{const}$ (\textbf{parallel}).
-        Then $v' = 0, v'' = 0$. The second equation becomes $\left( \frac{-ff'}{f'^2 + g'^2} \right) (u')^2 = 0$.
-        This holds if $f' = 0$ (e.g., a cylinder) or $u' = 0$ (a point).
-        So, a parallel is a geodesic iff $f'(v) = 0$.
-    \end{itemize}
+\begin{example}[Geodesics of Surface of Revolution]
+Let the parametrization be:
+\[ X(u,v) = (f(v)\cos u, f(v)\sin u, g(v)) \]
+Then we obtain the geodesic equations.
 
-    For $\alpha = (u(t), v(t))$ constant speed, we have:
-    
-    \noindent \textbf{Clairaut's Relation:}
-    From the first geodesic equation: $u'' + 2(\frac{f'}{f})u'v' = 0$.
-    This can be rewritten as $(f^2 u')' = 0$.
-    \[ \Rightarrow f^2 u' = \text{const} \]
-    Note $\langle \alpha', X_u \rangle = \langle X_u u' + X_v v', X_u \rangle = E u' + F v' = f^2 u'$.
-    Let $\theta$ be the angle between $\alpha'$ and the parallel (spanned by $X_u$).
-    Then $f^2 u' = \text{const}$ is the same as $f \cos \theta = \text{const}$.
+\vspace{1em}
+\noindent \textbf{The Equations look like:}
+\begin{enumerate}
+    \item $\displaystyle \ddot{u} + \frac{2f'}{f}\dot{u}\dot{v} = 0$
+    \item $\displaystyle \ddot{v} - \frac{ff'}{(f')^2+(g')^2}(\dot{u})^2 + \left[ \frac{f'f''+g'g''}{(f')^2+(g')^2} \right] \dot{v}^2 = 0$
+\end{enumerate}
+
+\noindent Now we study the geodesics on a surface of revolution.
+
+\vspace{1em}
+\noindent \textbf{1. General Case ($\dot{u} \neq 0$)} \\
+If $\dot{u} \neq 0$ (that is, the curve is not a meridian), then:
+\[ \text{``}\alpha(t) = X(u(t), v(t)) \text{ is traveling on a constant speed''} + \text{Equation 1} \implies \text{Equation 2}. \]
+This means that for a general geodesic, it suffices to check Equation 1 and the constant speed condition.
+
+\vspace{1em}
+\noindent \textbf{2. The Equation 1 is equivalent to Clairaut's Relation} \\
+\begin{align*}
+    (\text{Eq 1}) &\iff f^2 \ddot{u} + 2ff' \dot{v} \dot{u} = 0 \\
+    &\iff \frac{d}{dt}(f^2 \dot{u}) = 0 \\
+    &\iff f^2 \dot{u} = \text{const}.
+\end{align*}
+Note that $\displaystyle \cos \theta = \frac{\langle \alpha', X_u \rangle}{|X_u|} = \frac{f^2 \dot{u}}{f} = f \dot{u}$.
+Then we have:
+\[ r \cos \theta = \text{const} \]
+This is the \textbf{Clairaut's relationship}.
+
+\vspace{1em}
+\noindent \textbf{3. If $\gamma$ is a Meridian} \\
+If $\gamma$ is a meridian and traveling at a constant speed, then it is a geodesic.
+\begin{itemize}
+    \item It satisfies Equation 1 (since $\dot{u}=0 \implies 0=0$).
+    \item We have $\dot{v} \neq 0$ (traveling at constant speed).
+\end{itemize}
+
+\vspace{1em}
+\noindent \textbf{4. If $\gamma$ is a Parallel} \\
+If $\gamma$ is a parallel, then we cannot use the argument in (1).
+Equation 1 holds naturally (since $\ddot{u}=0$ and $\dot{v}=0$).
+But it may not be a geodesic since $\dot{v} = 0$.
+Now we check Equation 2:
+\[ - \frac{f(v_0)f'(v_0)}{f'(v_0)^2 + g'(v_0)^2} (\dot{u})^2 + 0 = 0 \]
+Since $f(v_0) \neq 0$ and $\dot{u} \neq 0$, this implies:
+\[ f'(v_0) = 0 \]
+\textbf{Geometrically speaking}, it is the circle that contains the locally max/min radius.
+Then the discussion of geodesics on a revolution surface is complete.
 \end{example}
+
+\begin{exercise}
+If $v'\neq 0$,(that is the curve is not a parallel)
+Check equation (1) plus the condition that "$\gamma$ travels at a constant speed" implies the second equation. That is, for a non-parallel curve travelling on a constant speed, we only have to check equation 1 to conclude that $\gamma$ is a geodesics.
+\end{exercise}
 
 \begin{exercise}
     Check the Clairaut's relations.
 \end{exercise}
+
 \begin{remark}
     One can refer this to Do Carmo \textit{Riemannian Geometry} Chap 3. Exercise.
 \end{remark}
@@ -2883,16 +2975,114 @@ We now generalize to smooth surfaces with boundary.
     Therefore, such closed geodesics cannot exist.
 \end{example}
 
-
-
-
-
-
 \newpage
 \appendix
+% New content from 2025-12-12
+
+\appendix
+\section{Poincaré-Hopf Theorem}
+
+In this section, we discuss the Poincaré-Hopf Theorem as an application of the Gauss-Bonnet theorem. 
+
+\begin{definition}[Index at a singular point $p$]
+    Let $S \subseteq \mathbb{R}^3$ be a regular surface and $X: U \subseteq \mathbb{R}^2 \rightarrow S$ be a coordinate patch. Let $\vec{v}$ be a vector field on $S$. A point $p \in S$ is a \textbf{singular point} if $\vec{v}(p) = 0$. We define the index of $\vec{v}$ at $p$ as:
+    \[
+    \mathrm{index}_p(\vec{v}) \coloneqq \frac{1}{2\pi} \int_{\gamma} d\theta
+    \]
+    where $\theta$ is the angle between $\vec{v}(t)$ and $X_u$, and $\gamma$ is any simple closed curve around $p$ that contains only $p$ as the singular point.
+\end{definition}
+
+\begin{proposition}
+    The above definition is independent of the choice of curve $\gamma$.
+\end{proposition}
+
+\begin{proof}
+    Note that $\frac{1}{2\pi} \int_{\gamma} d\theta$ is always an integer. We can connect $\gamma_1$ and $\gamma_2$ (two simple closed curves around $p$ containing only $p$ as a singular point) through a continuous map. The value of the integral is constant when we deform a curve $\gamma_1$ to $\gamma_2$, hence it is independent of the choice of $\gamma$.
+\end{proof}
+
+\begin{proposition}
+    The definition is independent of the choice of coordinate patch.
+\end{proposition}
+
+\begin{proof}
+    Suppose $\{X_u, X_v\}$ and $\{Y_u, Y_v\}$ are two coordinate frames. Then we have the relationship between angles:
+    \[
+    \theta = \tilde{\theta} + \alpha
+    \]
+    where $\alpha = \angle(Y_u, X_u)$. Then we have $d\theta = d\tilde{\theta} + d\alpha$. Note that $\Delta \alpha = \int_{\gamma} d\alpha$. Since the frame is never zero on $\gamma$ and its interior, we can shrink $\gamma$ to a point and have $\Delta \alpha = 0$. By the above definition, we see that $\mathrm{index}_p(\vec{v})$ is well-defined and only depends on $p$ and $\vec{v}$.
+\end{proof}
+
+\begin{theorem}[Poincaré-Hopf Theorem]
+    Let $S$ be a compact connected surface in $\mathbb{R}^3$. Let $\vec{v}$ be a vector field on $S$ with a finite number of singular points. Then:
+    \[
+    \sum_{p \in \{q \mid \vec{v}(q)=0\}} \mathrm{index}_p(\vec{v}) = \chi(S)
+    \]
+    where $\chi(S)$ is the Euler Characteristic.
+\end{theorem}
+
+To establish the above astonishing theorem, we need some preparation.
+
+\begin{lemma}
+    Let $S$ be a regular surface. Let $\{e_1, e_2\}$ be an orthonormal frame on the surface $S \subseteq \mathbb{R}^3$, with $\{e_1, e_2\}_p \in T_p S$ and $N$ the normal vector to the surface. If $\gamma$ is a simple closed curve on $S$ and $\theta = \angle(\gamma', e_1)$, then:
+    \[
+    k_g = \dot{\theta} - \langle e_1', e_2 \rangle
+    \]
+\end{lemma}
+
+\begin{proof}
+    Suppose $\gamma' = \cos \theta e_1 + \sin \theta e_2$. Then:
+    \[
+    \gamma'' = -\sin \theta \dot{\theta} e_1 + \cos \theta \dot{\theta} e_2 + \cos \theta e_1' + \sin \theta e_2'
+    \]
+    Recall $k_g = \langle \gamma'', N \times \gamma' \rangle$. We have $N \times \gamma' = N \times (\cos \theta e_1 + \sin \theta e_2) = -\sin \theta e_1 + \cos \theta e_2$. Thus:
+    \begin{align*}
+        k_g &= \langle -\sin \theta \dot{\theta} e_1 + \cos \theta \dot{\theta} e_2 + \cos \theta e_1' + \sin \theta e_2', -\sin \theta e_1 + \cos \theta e_2 \rangle \\
+        &= \sin^2 \theta \dot{\theta} - \sin \theta \cos \theta \langle e_1', e_1 \rangle + \cos^2 \theta \dot{\theta} + \cos^2 \theta \langle e_1', e_2 \rangle - \sin^2 \theta \langle e_2', e_1 \rangle + \sin \theta \cos \theta \langle e_2', e_2 \rangle \\
+        &= \dot{\theta} - \langle e_1', e_2 \rangle
+    \end{align*}
+\end{proof}
+
+\begin{remark}
+    Recall that when we prove the Gauss-Bonnet theorem, we apply this to $e_1 = \frac{X_u}{\sqrt{E}}$, $e_2 = \frac{X_v}{\sqrt{G}}$ for an orthonormal coordinate system, and obtain $k_g = \dot{\theta} + \frac{1}{2\sqrt{EG}}(G_u \dot{u} - G_v \dot{v})$.
+\end{remark}
+
+\begin{proof}[Proof of Poincaré-Hopf theorem]
+    First, list all zeros of the vector field as $\{p_1, p_2, \dots, p_n\}$. Let $\{C_i\}_{i=1}^n$ be a collection of simple closed curves that wind around the singular points. Let $D_i$ be the region bounded by $C_i$. Let $X: U \subseteq \mathbb{R}^2 \rightarrow S \setminus \bigcup_{i=1}^n D_i$.
+    % [Complex diagram placeholder: Singular points p_i enclosed by curves C_i on a surface]
+    Denote $e_1 = \frac{\vec{v}}{\|\vec{v}\|}$ and $e_2$ such that $\{e_1, e_2, N\}$ is an orthonormal system. We claim:
+    \[
+    \iint_{S \setminus \bigcup_{i=1}^n D_i} K dA = \sum_{i=1}^n \oint_{C_i} \langle e_1, e_1' \rangle
+    \]
+    By the Lemma, we have $k_g^i = \dot{\theta}_i(s) - \langle e_1, e_1' \rangle$, so $\langle e_1, e_1' \rangle = \dot{\theta}_i(s) - k_g^i$. Also note that as $\mathrm{Area}(D_i) \to 0$ (or $C_i \to p_i$), we have $\oint_{C_i} k_g^i \to 2\pi$. The reason is by the following equations (Local Gauss Bonnet Theorem)
+    \[
+    \iint_{D_i} K dA + \oint_{C_i} k_g^i = 2\pi
+    \]
+    Hence we have:
+    \[
+    \sum_{i=1}^n \oint_{C_i} \langle e_1, e_1' \rangle \longrightarrow \sum_{i=1}^n 2\pi \cdot \mathrm{index}_{p_i}(\vec{v}) - 2\pi n
+    \]
+    By Gauss-Bonnet we also have:
+    \[
+    \iint_{S \setminus \bigcup_{i=1}^n D_i} K dA = 2\pi(\chi(S) - n)
+    \]
+    as $D_i \to 0$. Therefore:
+    \[
+    2\pi \sum_{i=1}^n \mathrm{index}_{p_i}(\vec{v}) - 2\pi n = 2\pi \chi(S) - 2\pi n
+    \]
+    Conclude that:
+    \[
+    \sum_{i=1}^n \mathrm{index}_{p_i}(\vec{v}) = \chi(S)
+    \]
+    This is the proof of the Poincaré-Hopf theorem by Gauss-Bonnet.
+\end{proof}
+
+\begin{remark}
+    If you read Liu's lecture notes or \textit{Differential Forms and Its Applications} by Do Carmo, you will find they use $\omega^1, \omega^2, \omega_1^2$ differential forms and the "moving frame" argument to reach this result. You can check this and learn the moving frame method.
+\end{remark}
+
 \section{Generalizing the Covariant Derivative to Tensor Fields}
 
-\subsection{From Vectors to Tensors: The Guiding Principles}
+\textbf{From Vectors to Tensors: The Guiding Principles}
 We have defined the covariant derivative $\nabla_X Y$ of a vector field $Y$ along $X$. Our goal is to extend this definition to an arbitrary tensor field $T$ of type $(r, s)$. We do this by enforcing two fundamental rules:
 
 \begin{enumerate}
@@ -2904,7 +3094,7 @@ We have defined the covariant derivative $\nabla_X Y$ of a vector field $Y$ alon
 \end{enumerate}
 From these rules, we can derive the action on all tensor types.
 
-\subsection{Step 1: Deriving the Action on 1-forms (Covectors)}
+\subsection*{Step 1: Deriving the Action on 1-forms (Covectors)}
 Let $\omega$ be a 1-form (a $(0,1)$ tensor) and $Y$ be a vector field (a $(1,0)$ tensor). Their contraction $\omega(Y)$ is a scalar.
 
 Let's apply our rules to this scalar:
@@ -2919,7 +3109,7 @@ Equating these two expressions gives us a definition for $(\nabla_X \omega)$:
 \]
 This defines how the covariant derivative acts on 1-forms.
 
-\subsection{Step 2: The General Rule for an (r, s) Tensor}
+\subsection*{Step 2: The General Rule for an (r, s) Tensor}
 We can generalize this idea. An $(r, s)$ tensor $\theta$ is a multilinear map that takes $r$ covectors ($\Omega^1, \dots, \Omega^r$) and $s$ vectors ($Y_1, \dots, Y_s$) to produce a scalar:
 \[
 f = \theta(\Omega^1, \dots, \Omega^r, Y_1, \dots, Y_s)
@@ -2931,7 +3121,7 @@ Applying the Leibniz rule repeatedly to this scalar defines the action of $\nabl
     &- \sum_{q=1}^s \theta(\Omega^1, \dots, Y_q, \dots, \nabla_X Y_q, \dots) \quad \text{(Terms for vector inputs)}
 \end{align*}
 
-\subsection{Step 3: Component Computation}
+\subsection*{Step 3: Component Computation}
 Now we find the components of $\nabla \theta$. An $(r,s)$ tensor $\theta$ can be written in a basis as:
 \[
 \theta = \theta^{i_1 \dots i_r}_{j_1 \dots j_s} \frac{\partial}{\partial x^{i_1}} \otimes \dots \otimes \frac{\partial}{\partial x^{i_r}} \otimes dx^{j_1} \otimes \dots \otimes dx^{j_s}
@@ -2984,7 +3174,7 @@ Let's evaluate these three terms (using $h$ as a dummy summation index):
     \]
 \end{enumerate}
 
-\subsubsection{Final Component Formula}
+\subsubsection*{Final Component Formula}
 Combining all three terms gives the complete formula for the components of the covariant derivative of a tensor $\theta$:
 
 \[
@@ -2999,14 +3189,14 @@ Now that we have this formula, we have successfully generalized the $\nabla$ ope
 
 \section{The Riemann Curvature Tensor}
 
-\subsection{Motivation: The Commutator of Derivatives}
+\subsection*{Motivation: The Commutator of Derivatives}
 In basic multivariable calculus, Schwarz's theorem guarantees that for a smooth function $f$, partial derivatives commute: $\partial_i \partial_j f = \partial_j \partial_i f$. This "flatness" of Euclidean space means the order of differentiation doesn't matter.
 
 On a general manifold with a covariant connection $\nabla$, we must ask the same question: Does the order of covariant differentiation matter? That is, for two vector fields $X, Y$ and a third vector field $Z$, is $\nabla_X (\nabla_Y Z)$ the same as $\nabla_Y (\nabla_X Z)$?
 
 It turns out that in general, they are not equal. Their failure to commute is precisely what defines the curvature of the manifold.
 
-\subsection{Coordinate-Free Definition}
+\subsection*{Coordinate-Free Definition}
 The operator $R(X, Y) = \nabla_X \nabla_Y - \nabla_Y \nabla_X - \nabla_{[X, Y]}$ measures this failure. The $\nabla_{[X,Y]}$ term is crucial to ensure that the operator is a \textbf{tensor}—that is, its value at a point $p$ depends only on the vectors $X_p, Y_p, Z_p$ at that point, not on how they are extended to vector fields.
 
 \begin{definition}[Riemann Curvature Tensor]
@@ -3018,7 +3208,7 @@ The operator $R(X, Y) = \nabla_X \nabla_Y - \nabla_Y \nabla_X - \nabla_{[X, Y]}$
 
 The curvature tensor $R$ is the fundamental measure of a manifold's intrinsic curvature. A manifold is called \textbf{flat} (locally indistinguishable from Euclidean space) if and only if its Riemann tensor is zero everywhere.
 
-\subsection{Component Expression}
+\subsection*{Component Expression}
 We can find the components of $R$ by evaluating it on a local coordinate basis $\{\partial_j = \frac{\partial}{\partial x^j}\}$.
 
 First, recall that for a coordinate basis, the Lie bracket is zero: $[\partial_k, \partial_j] = 0$. This simplifies the definition significantly:
@@ -3050,7 +3240,7 @@ By comparing the components of $\partial_i$ in our two results, we arrive at the
 R^i_{l k j} = \partial_k \Gamma^i_{l j} - \partial_j \Gamma^i_{l k} + \Gamma^i_{k m} \Gamma^m_{l j} - \Gamma^i_{j m} \Gamma^m_{l k}
 \]
 
-\subsection{Properties and Symmetries}
+\subsection*{Properties and Symmetries}
 The Riemann tensor possesses several fundamental symmetries, which can be expressed in both coordinate-free and component forms.
 
 \begin{enumerate}
@@ -3082,7 +3272,18 @@ If we lower the first index using the metric $g_{i l}$ to create the $(0,4)$ ten
 \end{enumerate}
 These symmetries drastically reduce the number of independent components of the curvature tensor. In an $n$-dimensional manifold, there are only $\frac{n^2(n^2-1)}{12}$ independent components.
 
+\section{References}
 
+\begin{enumerate}[label={[\arabic*]}]
+    \item Manfredo P. do Carmo, \textit{Differential Geometry of Curves and Surfaces}.
+    \item Manfredo P. do Carmo, \textit{Differential Forms and Applications}.
+    \item Barrett O'Neill, \textit{Elementary Differential Geometry}.
+\end{enumerate}
+
+\subsection*{Online Resources}
+\begin{itemize}
+    \item Shiping Liu's Differential Geometry Lecture Notes and Videos: \url{http://staff.ustc.edu.cn/~spliu/Teach_DG2017.html}
+\end{itemize}
 
 \end{document}
 
